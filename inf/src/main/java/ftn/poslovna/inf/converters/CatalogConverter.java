@@ -1,11 +1,13 @@
 package ftn.poslovna.inf.converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ftn.poslovna.inf.domain.Catalog;
 import ftn.poslovna.inf.dto.CatalogDTO;
 import ftn.poslovna.inf.repository.GroupRepository;
 
+@Component
 public class CatalogConverter {
 	
 	@Autowired

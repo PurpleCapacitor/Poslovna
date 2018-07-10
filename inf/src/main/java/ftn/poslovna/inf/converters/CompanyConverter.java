@@ -1,8 +1,11 @@
 package ftn.poslovna.inf.converters;
 
+import org.springframework.stereotype.Component;
+
 import ftn.poslovna.inf.domain.Company;
 import ftn.poslovna.inf.dto.CompanyDTO;
 
+@Component
 public class CompanyConverter {
 
 	public CompanyDTO entityToDto(Company entity) {

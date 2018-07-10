@@ -1,12 +1,14 @@
 package ftn.poslovna.inf.converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ftn.poslovna.inf.domain.DeliveryNoteItem;
 import ftn.poslovna.inf.dto.DeliveryNoteItemDTO;
 import ftn.poslovna.inf.repository.CatalogRepository;
 import ftn.poslovna.inf.repository.DeliveryNoteRepository;
 
+@Component
 public class DeliveryNoteItemConverter {
 
 	@Autowired

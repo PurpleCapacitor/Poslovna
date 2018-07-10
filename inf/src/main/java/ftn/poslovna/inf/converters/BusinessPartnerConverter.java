@@ -1,12 +1,14 @@
 package ftn.poslovna.inf.converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ftn.poslovna.inf.domain.BusinessPartner;
 import ftn.poslovna.inf.domain.PartnerType;
 import ftn.poslovna.inf.dto.BusinessPartnerDTO;
 import ftn.poslovna.inf.repository.CompanyRepository;
 
+@Component
 public class BusinessPartnerConverter {
 	
 	@Autowired
