@@ -5,21 +5,19 @@ import java.util.List;
 
 public class TaxDTO {
 
-	private String taxId;
+	private long taxId;
 	private String taxName;
 	private boolean valid;
-	private List<String> groups = new ArrayList<String>();
-	private List<String> taxRates = new ArrayList<String>();
 
 	public TaxDTO() {
 
 	}
 
-	public String getTaxId() {
+	public long getTaxId() {
 		return taxId;
 	}
 
-	public void setTaxId(String taxId) {
+	public void setTaxId(long taxId) {
 		this.taxId = taxId;
 	}
 
@@ -39,20 +37,6 @@ public class TaxDTO {
 		this.valid = valid;
 	}
 
-	public List<String> getGroups() {
-		return groups;
-	}
 
-	public void setGroups(List<String> groups) {
-		this.groups = groups;
-	}
-
-	public List<String> getTaxRates() {
-		return taxRates;
-	}
-
-	public void setTaxRates(List<String> taxRates) {
-		this.taxRates = taxRates;
-	}
 
 }

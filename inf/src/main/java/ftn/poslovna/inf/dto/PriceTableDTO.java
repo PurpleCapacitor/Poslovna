@@ -8,8 +8,7 @@ public class PriceTableDTO {
 
 	private int PriceTableNum;
 	private Date implicationDate;
-	private String companyId;
-	private List<String> priceTableItems = new ArrayList<String>();
+	private long companyId;
 	
 	public PriceTableDTO() {
 		
@@ -31,21 +30,14 @@ public class PriceTableDTO {
 		this.implicationDate = implicationDate;
 	}
 
-	public String getCompanyId() {
+	public long getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(String companyId) {
+	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
 
-	public List<String> getPriceTableItems() {
-		return priceTableItems;
-	}
-
-	public void setPriceTableItems(List<String> priceTableItems) {
-		this.priceTableItems = priceTableItems;
-	}
 	
 	
 	

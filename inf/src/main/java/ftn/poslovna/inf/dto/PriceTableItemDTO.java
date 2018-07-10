@@ -2,20 +2,20 @@ package ftn.poslovna.inf.dto;
 
 public class PriceTableItemDTO {
 
-	private String priceTableId;
+	private long priceTableId;
 	private float itemPrice;
 	private String itemName;
-	private String catalogId;
+	private long catalogId;
 
 	public PriceTableItemDTO() {
 
 	}
 
-	public String getPriceTableId() {
+	public long getPriceTableId() {
 		return priceTableId;
 	}
 
-	public void setPriceTableId(String priceTableId) {
+	public void setPriceTableId(long priceTableId) {
 		this.priceTableId = priceTableId;
 	}
 
@@ -35,12 +35,13 @@ public class PriceTableItemDTO {
 		this.itemName = itemName;
 	}
 
-	public String getCatalogId() {
+	public long getCatalogId() {
 		return catalogId;
 	}
 
-	public void setCatalogId(String catalogId) {
+	public void setCatalogId(long catalogId) {
 		this.catalogId = catalogId;
 	}
+
 
 }

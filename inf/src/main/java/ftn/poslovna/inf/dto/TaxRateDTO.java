@@ -6,7 +6,7 @@ public class TaxRateDTO {
 
 	private float taxRate;
 	private Date implicationDate;
-	private String taxId;
+	private long taxId;
 
 	public TaxRateDTO() {
 
@@ -28,12 +28,13 @@ public class TaxRateDTO {
 		this.implicationDate = implicationDate;
 	}
 
-	public String getTaxId() {
+	public long getTaxId() {
 		return taxId;
 	}
 
-	public void setTaxId(String taxId) {
+	public void setTaxId(long taxId) {
 		this.taxId = taxId;
 	}
+
 
 }
