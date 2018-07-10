@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.InvoiceConverter;
 import ftn.poslovna.inf.domain.Invoice;
 import ftn.poslovna.inf.dto.InvoiceDTO;
 import ftn.poslovna.inf.repository.InvoiceRepository;
 
+@Service
 public class InvoiceService {
 	
 	@Autowired

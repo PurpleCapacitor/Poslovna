@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.CompanyConverter;
 import ftn.poslovna.inf.domain.Company;
 import ftn.poslovna.inf.dto.CompanyDTO;
 import ftn.poslovna.inf.repository.CompanyRepository;
 
+@Service
 public class CompanyService {
 
 	@Autowired

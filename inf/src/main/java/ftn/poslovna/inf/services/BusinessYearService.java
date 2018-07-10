@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.BusinessYearConverter;
 import ftn.poslovna.inf.domain.BusinessYear;
 import ftn.poslovna.inf.dto.BusinessYearDTO;
 import ftn.poslovna.inf.repository.BusinessYearRepository;
 
+@Service
 public class BusinessYearService {
 
 	@Autowired

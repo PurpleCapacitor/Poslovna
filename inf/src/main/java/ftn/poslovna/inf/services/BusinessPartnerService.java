@@ -16,23 +16,23 @@ import ftn.poslovna.inf.repository.BusinessPartnerRepository;
 public class BusinessPartnerService {
 
 	@Autowired
-	BusinessPartnerRepository BusinessPartnerRepository;
+	BusinessPartnerRepository businessPartnerRepository;
 	
 	@Autowired
-	BusinessPartnerConverter BusinessPartnerConverter;
+	BusinessPartnerConverter businessPartnerConverter;
 	
 	public List<BusinessPartner> findAll() {
-		return BusinessPartnerRepository.findAll();
+		return businessPartnerRepository.findAll();
 	}
 	
 	public BusinessPartner findOne(Long id) {
-		Optional<BusinessPartner> inv = BusinessPartnerRepository.findById(id);
+		Optional<BusinessPartner> inv = businessPartnerRepository.findById(id);
 		return inv.get();
 	}
 	
 	public BusinessPartner saveBusinessPartner(BusinessPartnerDTO dto) {
-		BusinessPartner inv = BusinessPartnerConverter.DtoToEntity(dto);
-		return BusinessPartnerRepository.save(inv);
+		BusinessPartner inv = businessPartnerConverter.DtoToEntity(dto);
+		return businessPartnerRepository.save(inv);
 	}
 
 	public BusinessPartner deleteBusinessPartner(Long id) {
@@ -41,7 +41,7 @@ public class BusinessPartnerService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		BusinessPartnerRepository.delete(i);
+		businessPartnerRepository.delete(i);
 		return i;
 	}
 	

@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.CatalogConverter;
 import ftn.poslovna.inf.domain.Catalog;
 import ftn.poslovna.inf.dto.CatalogDTO;
 import ftn.poslovna.inf.repository.CatalogRepository;
 
+@Service
 public class CatalogService {
 
 	@Autowired

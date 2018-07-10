@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.DeliveryNoteConverter;
 import ftn.poslovna.inf.domain.DeliveryNote;
 import ftn.poslovna.inf.dto.DeliveryNoteDTO;
 import ftn.poslovna.inf.repository.DeliveryNoteRepository;
 
+@Service
 public class DeliveryNoteService {
 
 	@Autowired
