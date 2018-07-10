@@ -2,8 +2,8 @@ package ftn.poslovna.inf.dto;
 
 public class InvoiceItemDTO {
 
-	private String catalogId;
-	private String invoiceId;
+	private long catalogId;
+	private long invoiceId;
 	private String name;
 	private int amount; // kolicina
 	private float price; // cena
@@ -14,24 +14,24 @@ public class InvoiceItemDTO {
 	private int taxRate; // stopa pdva u procentima
 	private float tax; // iznos poreza - Osnovica PDV * Stopa PDV / 100
 	private float totalAmount; // prodajna vrednost: Vrednost – Iznos rabata + Iznos poreza
-	
+
 	public InvoiceItemDTO() {
-		
+
 	}
 
-	public String getCatalogId() {
+	public long getCatalogId() {
 		return catalogId;
 	}
 
-	public void setCatalogId(String catalogId) {
+	public void setCatalogId(long catalogId) {
 		this.catalogId = catalogId;
 	}
 
-	public String getInvoiceId() {
+	public long getInvoiceId() {
 		return invoiceId;
 	}
 
-	public void setInvoiceId(String invoiceId) {
+	public void setInvoiceId(long invoiceId) {
 		this.invoiceId = invoiceId;
 	}
 
@@ -114,7 +114,5 @@ public class InvoiceItemDTO {
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	
-	
 
 }
