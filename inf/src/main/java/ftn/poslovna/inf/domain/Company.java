@@ -1,5 +1,6 @@
 package ftn.poslovna.inf.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import ftn.poslovna.inf.domain.Group;
 
 @Entity
 public class Company {
@@ -25,19 +24,19 @@ public class Company {
 	
 	@Column
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<BusinessYear> businessYear;
+	private Set<BusinessYear> businessYear = new HashSet<BusinessYear>();
 	
 	@Column
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<Group> groups;
+	private Set<Group> groups = new HashSet<Group>();
 	
 	@Column
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<BusinessPartner> businessPartners;
+	private Set<BusinessPartner> businessPartners = new HashSet<BusinessPartner>();
 	
 	@Column
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<PriceTable> priceTables;
+	private Set<PriceTable> priceTables = new HashSet<PriceTable>();
 	
 	public Company() {
 		

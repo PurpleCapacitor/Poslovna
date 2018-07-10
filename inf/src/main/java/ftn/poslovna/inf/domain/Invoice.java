@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Invoice {
@@ -70,7 +71,8 @@ public class Invoice {
 	@JoinColumn(name = "businessPartner_id")
 	private BusinessPartner businessPartner;
 	
-	@Column
+	@OneToOne(mappedBy = "invoice", 
+            fetch = FetchType.LAZY)
 	private DeliveryNote deliveryNote;
 	
 	public Invoice() {

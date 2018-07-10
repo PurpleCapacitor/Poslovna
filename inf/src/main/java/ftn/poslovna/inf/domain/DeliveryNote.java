@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class DeliveryNote {
@@ -37,7 +38,8 @@ public class DeliveryNote {
 	@OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<DeliveryNoteItem> deliveryNoteItems = new HashSet<DeliveryNoteItem>();
 	
-	@Column
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_id")
 	private Invoice invoice;
 	
 	public DeliveryNote() {
