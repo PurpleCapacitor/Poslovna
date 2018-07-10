@@ -1,5 +1,6 @@
 package ftn.poslovna.inf.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.PriceTableConverter;
 import ftn.poslovna.inf.domain.PriceTable;
+import ftn.poslovna.inf.domain.PriceTableItem;
+import ftn.poslovna.inf.dto.CopyDTO;
 import ftn.poslovna.inf.dto.PriceTableDTO;
+import ftn.poslovna.inf.repository.PriceTableItemRepository;
 import ftn.poslovna.inf.repository.PriceTableRepository;
 
 @Service
@@ -19,6 +23,9 @@ public class PriceTableService {
 	
 	@Autowired
 	PriceTableConverter priceTableConverter;
+	
+	@Autowired
+	PriceTableItemRepository priceTableItemRepository;
 	
 	public List<PriceTable> findAll() {
 		return priceTableRepository.findAll();
@@ -42,6 +49,31 @@ public class PriceTableService {
 		}
 		priceTableRepository.delete(i);
 		return i;
+	}
+
+	public PriceTable copy(PriceTable priceTable,CopyDTO copyDTO) {
+		PriceTable copyPT = new PriceTable();
+		copyPT.setCompany(priceTable.getCompany());
+		Date today = new Date();
+		copyPT.setImplicationDate(today);
+		copyPT.setPriceTableNum(priceTable.getPriceTableNum());
+		copyPT = priceTableRepository.save(copyPT);
+		for(PriceTableItem item : priceTable.getPriceTableItems()){
+			PriceTableItem newItem = new PriceTableItem();
+			newItem.setCatalog(item.getCatalog());
+			newItem.setItemName(item.getItemName());
+			float newPrice=item.getItemPrice();
+			if(copyDTO.isIncrease()){
+				newPrice=newPrice+(newPrice*copyDTO.getProcenat())/100;
+			}
+			else{
+				newPrice=newPrice-(newPrice*copyDTO.getProcenat())/100;
+			}
+			newItem.setItemPrice(newPrice);
+			newItem.setPriceTable(copyPT);
+			priceTableItemRepository.save(newItem);
+		}
+		return copyPT;
 	}
 
 }

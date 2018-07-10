@@ -33,7 +33,7 @@ public class Order {
 	
 	@Column
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<DeliveryNote> deliveryNote = new HashSet<DeliveryNote>();;
+	private Set<DeliveryNote> deliveryNote = new HashSet<DeliveryNote>();
 	
 	@Column
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

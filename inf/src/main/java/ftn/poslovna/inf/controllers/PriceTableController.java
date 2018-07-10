@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.PriceTableConverter;
 import ftn.poslovna.inf.domain.PriceTable;
+import ftn.poslovna.inf.dto.CopyDTO;
 import ftn.poslovna.inf.dto.PriceTableDTO;
 import ftn.poslovna.inf.services.PriceTableService;
 
@@ -58,12 +59,19 @@ public class PriceTableController {
 	public ResponseEntity<PriceTableDTO> delete(@PathVariable Long id) {
 		PriceTable deleted = priceTableService.delete(id);
 		return new ResponseEntity<>(priceTableConverter.entityToDto(deleted), HttpStatus.OK);
-	}
+	}	
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<PriceTableDTO> edit(@RequestBody PriceTableDTO priceTableDTO) {
 		PriceTable edited = priceTableService.save(priceTableDTO);
 		return new ResponseEntity<>(priceTableConverter.entityToDto(edited), HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/copy/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<PriceTableDTO> copy(@RequestBody CopyDTO copyDTO, @PathVariable Long id) {
+		PriceTable priceTable = priceTableService.findOne(id);
+		PriceTable copied = priceTableService.copy(priceTable,copyDTO);
+		return new ResponseEntity<>(priceTableConverter.entityToDto(copied), HttpStatus.OK);
 	}
 
 }
