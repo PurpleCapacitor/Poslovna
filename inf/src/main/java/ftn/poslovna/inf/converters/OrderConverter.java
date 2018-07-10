@@ -1,43 +1,39 @@
 package ftn.poslovna.inf.converters;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ftn.poslovna.inf.domain.InvoiceItem;
-import ftn.poslovna.inf.dto.InvoiceItemDTO;
+import ftn.poslovna.inf.domain.Order;
+import ftn.poslovna.inf.dto.OrderDTO;
+import ftn.poslovna.inf.repository.BusinessPartnerRepository;
+import ftn.poslovna.inf.repository.BusinessYearRepository;
+import ftn.poslovna.inf.repository.OrderRepository;
 
 @Component
 public class OrderConverter {
 	
-	private ModelMapper mapper = new ModelMapper();
+	@Autowired
+	OrderRepository orderRepository;
+	
+	@Autowired
+	BusinessPartnerRepository businessPartnerRepository;
 
-	public InvoiceItemDTO entityToDto(InvoiceItem entity) {
-		InvoiceItemDTO dto;
-
-		try {
-			
-			dto = mapper.map(entity, InvoiceItemDTO.class);
-			dto.setCatalogId(entity.getCatalog().getId());
-			dto.setInvoiceId(entity.getInvoice().getId());
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			return null;
-		}
+	@Autowired
+	BusinessYearRepository businessYearRepository;
+	
+	public OrderDTO entityToDto(Order entity) {
+		OrderDTO dto = new OrderDTO();
+		dto.setBusinessPartnerId(entity.getBusinessPartner().getId());
+		dto.setBusinessYearId(entity.getBusinessYear().getId());
 
 		return dto;
 	}
 
-	public InvoiceItem DtoToEntity(InvoiceItemDTO dto) {
-		InvoiceItem entity;
-
-		try {
-			entity = mapper.map(dto, InvoiceItem.class);
-			entity.setCatalog(catalogRepository.findById(dto.getCatalogId()).get());
-			entity.setInvoice(invoiceRepository.findById(dto.getInvoiceId()).get());
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			return null;
-		}
+	public Order DtoToEntity(OrderDTO dto) {
+		Order entity = new Order();
+		
+		entity.setBusinessPartner(businessPartnerRepository.findById(dto.getBusinessPartnerId()).get());
+		entity.setBusinessYear(businessYearRepository.findById(dto.getBusinessYearId()).get());
 		
 		return entity;
 	}

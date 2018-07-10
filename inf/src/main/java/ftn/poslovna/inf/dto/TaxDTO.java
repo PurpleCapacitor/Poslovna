@@ -1,11 +1,8 @@
 package ftn.poslovna.inf.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TaxDTO {
 
-	private long taxId;
+	private String taxId;
 	private String taxName;
 	private boolean valid;
 
@@ -13,11 +10,11 @@ public class TaxDTO {
 
 	}
 
-	public long getTaxId() {
+	public String getTaxId() {
 		return taxId;
 	}
 
-	public void setTaxId(long taxId) {
+	public void setTaxId(String taxId) {
 		this.taxId = taxId;
 	}
 
@@ -36,7 +33,5 @@ public class TaxDTO {
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
-
-
 
 }
