@@ -4,9 +4,24 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Partner view</title>
+<title>Company view</title>
 <script>
-
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/company/getCompanies"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newRow = '<tr>'
+						+'<td>'+data[i].name+'</td>'
+						+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
+						+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+						+'</tr>'	
+					}
+					$("#inputCompany").prop("selectedIndex", -1);
+					
+		});		
+	});
 </script>
 </head>
 <body>	

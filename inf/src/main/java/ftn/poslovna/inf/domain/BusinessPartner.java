@@ -32,16 +32,28 @@ public class BusinessPartner {
 	private Company company;
 	
 	@Column
-	@OneToMany(mappedBy = "businessPartner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Invoice> invoices = new HashSet<Invoice>();
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Invoice> buyerInvoices = new HashSet<Invoice>();
 	
 	@Column
-	@OneToMany(mappedBy = "businessPartner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Order> orders = new HashSet<Order>();
+	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Invoice> sellerInvoices = new HashSet<Invoice>();
+	
+	@Column
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Order> buyerOrders = new HashSet<Order>();
+	
+	@Column
+	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Order> sellerOrders = new HashSet<Order>();
 	
 	@Column 
-	@OneToMany(mappedBy = "businessPartner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<DeliveryNote> deliveryNotes = new HashSet<DeliveryNote>();
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<DeliveryNote> buyerDeliveryNotes = new HashSet<DeliveryNote>();
+	
+	@Column 
+	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<DeliveryNote> sellerDeliveryNotes = new HashSet<DeliveryNote>();
 	
 	public BusinessPartner() {
 		
@@ -79,29 +91,56 @@ public class BusinessPartner {
 		this.company = company;
 	}
 
-	public Set<Invoice> getInvoices() {
-		return invoices;
+	public Set<Invoice> getBuyerInvoices() {
+		return buyerInvoices;
 	}
 
-	public void setInvoices(Set<Invoice> invoices) {
-		this.invoices = invoices;
+	public void setBuyerInvoices(Set<Invoice> buyerInvoices) {
+		this.buyerInvoices = buyerInvoices;
 	}
 
-	public Set<Order> getOrders() {
-		return orders;
+	public Set<Invoice> getSellerInvoices() {
+		return sellerInvoices;
 	}
 
-	public void setOrders(Set<Order> orders) {
-		this.orders = orders;
+	public void setSellerInvoices(Set<Invoice> sellerInvoices) {
+		this.sellerInvoices = sellerInvoices;
 	}
 
-	public Set<DeliveryNote> getDeliveryNotes() {
-		return deliveryNotes;
+	public Set<Order> getBuyerOrders() {
+		return buyerOrders;
 	}
 
-	public void setDeliveryNotes(Set<DeliveryNote> deliveryNotes) {
-		this.deliveryNotes = deliveryNotes;
+	public void setBuyerOrders(Set<Order> buyerOrders) {
+		this.buyerOrders = buyerOrders;
 	}
+
+	public Set<Order> getSellerOrders() {
+		return sellerOrders;
+	}
+
+	public void setSellerOrders(Set<Order> sellerOrders) {
+		this.sellerOrders = sellerOrders;
+	}
+
+	public Set<DeliveryNote> getBuyerDeliveryNotes() {
+		return buyerDeliveryNotes;
+	}
+
+	public void setBuyerDeliveryNotes(Set<DeliveryNote> buyerDeliveryNotes) {
+		this.buyerDeliveryNotes = buyerDeliveryNotes;
+	}
+
+	public Set<DeliveryNote> getSellerDeliveryNotes() {
+		return sellerDeliveryNotes;
+	}
+
+	public void setSellerDeliveryNotes(Set<DeliveryNote> sellerDeliveryNotes) {
+		this.sellerDeliveryNotes = sellerDeliveryNotes;
+	}
+	
+
+	
 	
 	
 	
