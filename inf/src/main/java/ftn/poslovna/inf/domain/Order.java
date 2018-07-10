@@ -28,12 +28,12 @@ public class Order {
 	private BusinessYear businessYear;
 	
 	@ManyToOne
-	@JoinColumn(name = "businessPartner_id")
-	private BusinessPartner businessPartner;
+	@JoinColumn(name = "buyer_id")
+	private BusinessPartner buyer;
 	
-	@Column
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<DeliveryNote> deliveryNote = new HashSet<DeliveryNote>();
+	@ManyToOne
+	@JoinColumn(name = "seller_id")
+	private BusinessPartner seller;	
 	
 	@Column
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -59,21 +59,21 @@ public class Order {
 		this.businessYear = businessYear;
 	}
 
-	public BusinessPartner getBusinessPartner() {
-		return businessPartner;
+	public BusinessPartner getBuyer() {
+		return buyer;
 	}
 
-	public void setBusinessPartner(BusinessPartner businessPartner) {
-		this.businessPartner = businessPartner;
+	public void setBuyer(BusinessPartner buyer) {
+		this.buyer = buyer;
 	}
 
-	public Set<DeliveryNote> getDeliveryNote() {
-		return deliveryNote;
+	public BusinessPartner getSeller() {
+		return seller;
 	}
 
-	public void setDeliveryNote(Set<DeliveryNote> deliveryNote) {
-		this.deliveryNote = deliveryNote;
-	}
+	public void setSeller(BusinessPartner seller) {
+		this.seller = seller;
+	}	
 
 	public Set<OrderItem> getOrdetItems() {
 		return ordetItems;

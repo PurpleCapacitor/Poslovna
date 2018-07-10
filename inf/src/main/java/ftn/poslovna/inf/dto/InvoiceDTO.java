@@ -28,7 +28,8 @@ public class InvoiceDTO {
 	private String accountNumExtra;
 	private String invoiceType;	
 	private long businessYearId;
-	private long businessPartnerId;
+	private long buyerId;
+	private long sellerId;
 	private long deliveryNoteId;
 	
 	public InvoiceDTO(){
@@ -37,7 +38,7 @@ public class InvoiceDTO {
 	
 	public InvoiceDTO(long id, int invoiceNum, Date invoiceDate, Date currencyDate, Date accountingDate,
 			float goodsTotal, float discount, float tax, float totalAmount, String accountNum, String accountNumExtra,
-			String invoiceType, long businessYearId, long businessPartnerId, long deliveryNoteId) {
+			String invoiceType, long businessYearId, long buyerId, long sellerId, long deliveryNoteId) {
 		super();
 		this.id = id;
 		this.invoiceNum = invoiceNum;
@@ -52,7 +53,8 @@ public class InvoiceDTO {
 		this.accountNumExtra = accountNumExtra;
 		this.invoiceType = invoiceType;
 		this.businessYearId = businessYearId;
-		this.businessPartnerId = businessPartnerId;
+		this.buyerId = buyerId;
+		this.sellerId = sellerId;
 		this.deliveryNoteId = deliveryNoteId;
 	}
 	public long getId() {
@@ -132,12 +134,18 @@ public class InvoiceDTO {
 	}
 	public void setBusinessYearId(long businessYearId) {
 		this.businessYearId = businessYearId;
+	}	
+	public long getBuyerId() {
+		return buyerId;
 	}
-	public long getBusinessPartnerId() {
-		return businessPartnerId;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
 	}
-	public void setBusinessPartnerId(long businessPartnerId) {
-		this.businessPartnerId = businessPartnerId;
+	public long getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
 	}
 	public long getDeliveryNoteId() {
 		return deliveryNoteId;

@@ -4,7 +4,8 @@ package ftn.poslovna.inf.dto;
 public class OrderDTO {
 
 	private long businessYearId;
-	private long businessPartnerId;
+	private long buyerId;
+	private long sellerId;
 
 	public OrderDTO() {
 
@@ -18,14 +19,21 @@ public class OrderDTO {
 		this.businessYearId = businessYearId;
 	}
 
-	public long getBusinessPartnerId() {
-		return businessPartnerId;
+	public long getBuyerId() {
+		return buyerId;
 	}
 
-	public void setBusinessPartnerId(long businessPartnerId) {
-		this.businessPartnerId = businessPartnerId;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
 	}
 
+	public long getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
+	}	
 	
 
 }

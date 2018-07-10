@@ -78,4 +78,13 @@ public class InvoiceController {
 		return new ResponseEntity<>(invoiceConverter.entityToDto(generated), HttpStatus.OK);		
 	}
 	
+	@RequestMapping(value = "/export/{id}" , method = RequestMethod.POST)
+	public ResponseEntity<InvoiceDTO> export(@PathVariable Long id) {
+		Invoice invoice = invoiceService.findOne(id);
+		Invoice exported = invoiceService.export(invoice);
+		return new ResponseEntity<>(invoiceConverter.entityToDto(exported), HttpStatus.OK);		
+	}
+	
+	
+	
 }

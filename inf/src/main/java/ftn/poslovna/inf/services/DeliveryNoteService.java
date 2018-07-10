@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.DeliveryNoteConverter;
 import ftn.poslovna.inf.domain.DeliveryNote;
+import ftn.poslovna.inf.domain.DeliveryNoteItem;
+import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.InvoiceItem;
 import ftn.poslovna.inf.dto.DeliveryNoteDTO;
+import ftn.poslovna.inf.repository.DeliveryNoteItemRepository;
 import ftn.poslovna.inf.repository.DeliveryNoteRepository;
 
 @Service
@@ -16,6 +20,9 @@ public class DeliveryNoteService {
 
 	@Autowired
 	DeliveryNoteRepository deliveryNoteRepository;
+	
+	@Autowired
+	DeliveryNoteItemRepository deliveryNoteItemRepository;
 	
 	@Autowired
 	DeliveryNoteConverter deliveryNoteConverter;
@@ -42,6 +49,25 @@ public class DeliveryNoteService {
 		}
 		deliveryNoteRepository.delete(i);
 		return i;
+	}
+
+	public DeliveryNote generate(Invoice invoice) {
+		DeliveryNote dn = new DeliveryNote();
+		dn.setBuyer(invoice.getBuyer());
+		dn.setSeller(invoice.getSeller());
+		dn.setBusinessYear(invoice.getBusinessYear());
+		dn.setInvoice(invoice);
+		deliveryNoteRepository.save(dn);
+		for(InvoiceItem item : invoice.getInvoiceItems()){
+			DeliveryNoteItem dni = new DeliveryNoteItem();
+			dni.setAmount(item.getAmount());
+			dni.setCatalog(item.getCatalog());
+			dni.setDeliveryNote(dn);
+			dni.setName(item.getName());
+			dni.setPrice(item.getTotalAmount());
+			deliveryNoteItemRepository.save(dni);
+		}
+		return dn;
 	}
 	
 }

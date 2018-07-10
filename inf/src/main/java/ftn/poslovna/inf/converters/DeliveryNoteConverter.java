@@ -28,20 +28,20 @@ public class DeliveryNoteConverter {
 	public DeliveryNoteDTO entityToDto(DeliveryNote entity) {
 		DeliveryNoteDTO dto = new DeliveryNoteDTO();
 		dto.setId(entity.getId());	
-		dto.setBusinessPartnerId(entity.getBusinessPartner().getId());
+		dto.setBuyerId(entity.getBuyer().getId());
+		dto.setSellerId(entity.getSeller().getId());
 		dto.setBusinessYearId(entity.getBusinessYear().getId());
-		dto.setInvoiceId(entity.getInvoice().getId());
-		dto.setOrderId(entity.getOrder().getId());		
+		dto.setInvoiceId(entity.getInvoice().getId());	
 		return dto;
 	}
 
 	public DeliveryNote DtoToEntity(DeliveryNoteDTO dto) {
 		DeliveryNote entity = new DeliveryNote();
 		entity.setId(dto.getId());
-		entity.setBusinessPartner(businessPartnerRepository.findById(dto.getBusinessPartnerId()).get());
+		entity.setBuyer(businessPartnerRepository.findById(dto.getBuyerId()).get());
+		entity.setSeller(businessPartnerRepository.findById(dto.getSellerId()).get());
 		entity.setBusinessYear(businessYearRepository.findById(dto.getBusinessYearId()).get());
 		entity.setInvoice(invoiceRepository.findById(dto.getInvoiceId()).get());
-		entity.setOrder(orderRepository.findById(dto.getOrderId()).get());
 		return entity;
 	}
 	

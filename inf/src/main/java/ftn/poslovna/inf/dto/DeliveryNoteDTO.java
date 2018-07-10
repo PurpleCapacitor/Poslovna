@@ -4,21 +4,21 @@ package ftn.poslovna.inf.dto;
 public class DeliveryNoteDTO {
 	
 	private long id;
-	private long businessPartnerId;
+	private long buyerId;
+	private long sellerId;
 	private long businessYearId;
-	private long orderId;	
 	private long invoiceId;
 	
 	public DeliveryNoteDTO(){
 		
 	}
 	
-	public DeliveryNoteDTO(long id, long businessPartnerId, long businessYearId, long orderId, long invoiceId) {
+	public DeliveryNoteDTO(long id, long buyerId, long sellerId, long businessYearId, long invoiceId) {
 		super();
 		this.id = id;
-		this.businessPartnerId = businessPartnerId;
+		this.buyerId = buyerId;
+		this.sellerId = sellerId;
 		this.businessYearId = businessYearId;
-		this.orderId = orderId;
 		this.invoiceId = invoiceId;
 	}
 
@@ -28,23 +28,23 @@ public class DeliveryNoteDTO {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getBusinessPartnerId() {
-		return businessPartnerId;
+	public long getBuyerId() {
+		return buyerId;
 	}
-	public void setBusinessPartnerId(long businessPartnerId) {
-		this.businessPartnerId = businessPartnerId;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
+	}
+	public long getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
 	}
 	public long getBusinessYearId() {
 		return businessYearId;
 	}
 	public void setBusinessYearId(long businessYearId) {
 		this.businessYearId = businessYearId;
-	}
-	public long getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
 	}
 	public long getInvoiceId() {
 		return invoiceId;

@@ -15,47 +15,64 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Invoice {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@XmlElement
 	@Column
 	private int invoiceNum;
 	
+	@XmlElement
 	@Column
 	private Date invoiceDate;
 	
+	@XmlElement
 	@Column
 	private Date currencyDate;
 	
+	@XmlElement
 	@Column
 	private Date accountingDate;
 	
+	@XmlElement
 	@Column
 	private float goodsTotal;
 	
+	@XmlElement
 	@Column
 	private float discount;
 	
+	@XmlElement
 	@Column
 	private float tax;
 	
+	@XmlElement
 	@Column
 	private float totalAmount;
 	
+	@XmlElement
 	@Column
 	private String accountNum;
 	
+	@XmlElement
 	@Column
 	private String accountNumExtra;
 	
+	@XmlElement
 	@Column
 	private InvoiceType invoiceType;
 	
+	@XmlElementWrapper(name="invoiceItems")
+	@XmlElement(name="invoiceItem")
 	@Column
 	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InvoiceItem> invoiceItems = new HashSet<InvoiceItem>();
@@ -65,8 +82,12 @@ public class Invoice {
 	private BusinessYear businessYear;
 	
 	@ManyToOne
-	@JoinColumn(name = "businessPartner_id")
-	private BusinessPartner businessPartner;
+	@JoinColumn(name = "buyer_id")
+	private BusinessPartner buyer;
+	
+	@ManyToOne
+	@JoinColumn(name = "seller_id")
+	private BusinessPartner seller;
 	
 	@OneToOne(mappedBy = "invoice", 
             fetch = FetchType.LAZY)
@@ -187,13 +208,21 @@ public class Invoice {
 	public void setBusinessYear(BusinessYear businessYear) {
 		this.businessYear = businessYear;
 	}
-
-	public BusinessPartner getBusinessPartner() {
-		return businessPartner;
+	
+	public BusinessPartner getBuyer() {
+		return buyer;
 	}
 
-	public void setBusinessPartner(BusinessPartner businessPartner) {
-		this.businessPartner = businessPartner;
+	public void setBuyer(BusinessPartner buyer) {
+		this.buyer = buyer;
+	}
+
+	public BusinessPartner getSeller() {
+		return seller;
+	}
+
+	public void setSeller(BusinessPartner seller) {
+		this.seller = seller;
 	}
 
 	public DeliveryNote getDeliveryNote() {

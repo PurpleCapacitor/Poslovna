@@ -23,16 +23,16 @@ public class DeliveryNote {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "businessPartner_id")
-	private BusinessPartner businessPartner;
+	@JoinColumn(name = "buyer_id")
+	private BusinessPartner buyer;
+	
+	@ManyToOne
+	@JoinColumn(name = "seller_id")
+	private BusinessPartner seller;
 	
 	@ManyToOne
 	@JoinColumn(name = "businessYear_id")
-	private BusinessYear businessYear;
-	
-	@ManyToOne
-	@JoinColumn(name = "order_id")
-	private Order order;
+	private BusinessYear businessYear;	
 	
 	@Column
 	@OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -54,12 +54,20 @@ public class DeliveryNote {
 		this.id = id;
 	}
 
-	public BusinessPartner getBusinessPartner() {
-		return businessPartner;
+	public BusinessPartner getBuyer() {
+		return buyer;
 	}
 
-	public void setBusinessPartner(BusinessPartner businessPartner) {
-		this.businessPartner = businessPartner;
+	public void setBuyer(BusinessPartner buyer) {
+		this.buyer = buyer;
+	}
+
+	public BusinessPartner getSeller() {
+		return seller;
+	}
+
+	public void setSeller(BusinessPartner seller) {
+		this.seller = seller;
 	}
 
 	public BusinessYear getBusinessYear() {
@@ -68,14 +76,6 @@ public class DeliveryNote {
 
 	public void setBusinessYear(BusinessYear businessYear) {
 		this.businessYear = businessYear;
-	}
-
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
 	}
 
 	public Set<DeliveryNoteItem> getDeliveryNoteItems() {

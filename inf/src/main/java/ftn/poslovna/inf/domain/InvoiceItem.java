@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlElement;
 
 @Entity
 public class InvoiceItem {
@@ -23,33 +24,43 @@ public class InvoiceItem {
 	@JoinColumn(name = "invoice_id")
 	private Invoice invoice;
 	
+	@XmlElement
 	@Column
 	private String name; //opis
 	
+	@XmlElement
 	@Column
 	private int amount; //kolicina
 	
+	@XmlElement
 	@Column
 	private float price; //cena
 	
+	@XmlElement
 	@Column
 	private float discount; //iznos rabata - Vrednost * Procenat rabata / 100
 	
+	@XmlElement
 	@Column
 	private int discountPercentage; //rabat u % 
 	
+	@XmlElement
 	@Column
 	private float value; //vrednost = kolicina * cena
 	
+	@XmlElement
 	@Column
 	private float itemBase; //osnovica pdv-a = Vrednost – Iznos rabata
 	
+	@XmlElement
 	@Column
 	private int taxRate; //stopa pdva u procentima
 	
+	@XmlElement
 	@Column
 	private float tax; //iznos poreza - Osnovica PDV * Stopa PDV / 100
 	
+	@XmlElement
 	@Column
 	private float totalAmount; //prodajna vrednost: Vrednost – Iznos rabata + Iznos poreza
 	

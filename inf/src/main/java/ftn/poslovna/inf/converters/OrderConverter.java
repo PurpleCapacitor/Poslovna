@@ -23,7 +23,8 @@ public class OrderConverter {
 	
 	public OrderDTO entityToDto(Order entity) {
 		OrderDTO dto = new OrderDTO();
-		dto.setBusinessPartnerId(entity.getBusinessPartner().getId());
+		dto.setBuyerId(entity.getBuyer().getId());
+		dto.setSellerId(entity.getSeller().getId());
 		dto.setBusinessYearId(entity.getBusinessYear().getId());
 
 		return dto;
@@ -32,7 +33,8 @@ public class OrderConverter {
 	public Order DtoToEntity(OrderDTO dto) {
 		Order entity = new Order();
 		
-		entity.setBusinessPartner(businessPartnerRepository.findById(dto.getBusinessPartnerId()).get());
+		entity.setBuyer(businessPartnerRepository.findById(dto.getBuyerId()).get());
+		entity.setSeller(businessPartnerRepository.findById(dto.getSellerId()).get());
 		entity.setBusinessYear(businessYearRepository.findById(dto.getBusinessYearId()).get());
 		
 		return entity;

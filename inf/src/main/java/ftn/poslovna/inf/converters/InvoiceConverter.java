@@ -29,7 +29,8 @@ public class InvoiceConverter {
 		dto.setAccountingDate(entity.getAccountingDate());
 		dto.setAccountNum(entity.getAccountNum());
 		dto.setAccountNumExtra(entity.getAccountNumExtra());
-		dto.setBusinessPartnerId(entity.getBusinessPartner().getId());
+		dto.setBuyerId(entity.getBuyer().getId());
+		dto.setSellerId(entity.getSeller().getId());
 		dto.setBusinessYearId(entity.getBusinessYear().getId());
 		dto.setCurrencyDate(entity.getCurrencyDate());
 		dto.setDeliveryNoteId(entity.getDeliveryNote().getId());
@@ -49,7 +50,8 @@ public class InvoiceConverter {
 		entity.setAccountingDate(dto.getAccountingDate());
 		entity.setAccountNum(dto.getAccountNum());
 		entity.setAccountNumExtra(dto.getAccountNumExtra());
-		entity.setBusinessPartner(businessPartnerRepository.findById(dto.getBusinessPartnerId()).get());
+		entity.setBuyer(businessPartnerRepository.findById(dto.getBuyerId()).get());
+		entity.setSeller(businessPartnerRepository.findById(dto.getSellerId()).get());
 		entity.setBusinessYear(businessYearRepository.findById(dto.getBusinessYearId()).get());
 		entity.setCurrencyDate(dto.getCurrencyDate());
 		entity.setDeliveryNote(deliveryNoteRepository.findById(dto.getDeliveryNoteId()).get());

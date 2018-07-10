@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.swing.text.AbstractDocument.Content;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +65,9 @@ public class InvoiceService {
 		newInvoice.setAccountingDate(today);
 		newInvoice.setCurrencyDate(today);
 		newInvoice.setInvoiceDate(today);
+		newInvoice.setBusinessYear(order.getBusinessYear());
+		newInvoice.setBuyer(order.getBuyer());
+		newInvoice.setSeller(order.getSeller());
 		newInvoice.setAccountNum(order.getBusinessYear().getCompany().getAccountNum());
 		newInvoice.setAccountNumExtra(order.getBusinessYear().getCompany().getAccountNumExtra());
 		newInvoice.setInvoiceType(InvoiceType.formating);
@@ -103,8 +111,17 @@ public class InvoiceService {
 			newInvoice.setTax(newInvoice.getTax()+newInvoiceItem.getTax());
 			newInvoice.setTotalAmount(newInvoice.getTotalAmount()+newInvoiceItem.getTotalAmount()); //sumirati sve na kraju
 		}
+		newInvoice.setInvoiceType(InvoiceType.calculated);
 		newInvoice=invoiceRepository.save(newInvoice);
 		return newInvoice;
+	}
+
+	public Invoice export(Invoice invoice) throws JAXBException {
+		JAXBContext jc = JAXBContext.newInstance(Content.class);
+		Marshaller marshaller = jc.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		marshaller.marshal(invoice, System.out);
+		return invoice;
 	}
 
 }
