@@ -23,6 +23,12 @@ public class Company {
 	private String name;
 	
 	@Column
+	private String accountNum;
+	
+	@Column
+	private String accountNumExtra;
+	
+	@Column
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<BusinessYear> businessYear = new HashSet<BusinessYear>();
 	
@@ -89,6 +95,24 @@ public class Company {
 	public void setPriceTables(Set<PriceTable> priceTables) {
 		this.priceTables = priceTables;
 	}
+
+	public String getAccountNum() {
+		return accountNum;
+	}
+
+	public void setAccountNum(String accountNum) {
+		this.accountNum = accountNum;
+	}
+
+	public String getAccountNumExtra() {
+		return accountNumExtra;
+	}
+
+	public void setAccountNumExtra(String accountNumExtra) {
+		this.accountNumExtra = accountNumExtra;
+	}
+	
+	
 	
 	
 }

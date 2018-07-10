@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.InvoiceConverter;
 import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.dto.InvoiceDTO;
 import ftn.poslovna.inf.services.InvoiceService;
+import ftn.poslovna.inf.services.OrderService;
 
 @Controller
 @RequestMapping(value="/invoice")
@@ -23,6 +25,9 @@ public class InvoiceController {
 
 	@Autowired
 	private InvoiceService invoiceService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@Autowired
 	private InvoiceConverter invoiceConverter;
@@ -64,6 +69,13 @@ public class InvoiceController {
 	public ResponseEntity<InvoiceDTO> edit(@RequestBody InvoiceDTO invoiceDTO) {
 		Invoice edited = invoiceService.saveInvoice(invoiceDTO);
 		return new ResponseEntity<>(invoiceConverter.entityToDto(edited), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/generate/{id}" , method = RequestMethod.POST)
+	public ResponseEntity<InvoiceDTO> generate(@PathVariable Long id) {
+		Order order = orderService.findOne(id);
+		Invoice generated = invoiceService.generate(order);
+		return new ResponseEntity<>(invoiceConverter.entityToDto(generated), HttpStatus.OK);		
 	}
 	
 }

@@ -1,13 +1,20 @@
 package ftn.poslovna.inf.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.poslovna.inf.converters.InvoiceConverter;
 import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.InvoiceItem;
+import ftn.poslovna.inf.domain.InvoiceType;
+import ftn.poslovna.inf.domain.Order;
+import ftn.poslovna.inf.domain.OrderItem;
+import ftn.poslovna.inf.domain.PriceTableItem;
 import ftn.poslovna.inf.dto.InvoiceDTO;
 import ftn.poslovna.inf.repository.InvoiceRepository;
 
@@ -42,6 +49,62 @@ public class InvoiceService {
 		}
 		invoiceRepository.delete(i);
 		return i;
+	}
+
+	public Invoice generate(Order order) {
+		Set<OrderItem> items = order.getOrdetItems();
+		Invoice newInvoice = new Invoice();
+		newInvoice=invoiceRepository.save(newInvoice);
+		newInvoice.setInvoiceNum(newInvoice.getId().intValue());
+		Date today = new Date();
+		newInvoice.setAccountingDate(today);
+		newInvoice.setCurrencyDate(today);
+		newInvoice.setInvoiceDate(today);
+		newInvoice.setAccountNum(order.getBusinessYear().getCompany().getAccountNum());
+		newInvoice.setAccountNumExtra(order.getBusinessYear().getCompany().getAccountNumExtra());
+		newInvoice.setInvoiceType(InvoiceType.formating);
+		newInvoice=invoiceRepository.save(newInvoice);
+		newInvoice.setGoodsTotal(0); //pocetni sumovi
+		newInvoice.setDiscount(0); //pocetni sumovi
+		newInvoice.setTax(0); //pocetni sumovi
+		newInvoice.setTotalAmount(0); //pocetni sumovi
+		for(OrderItem item : items){
+			InvoiceItem newInvoiceItem = new InvoiceItem();
+			newInvoiceItem.setCatalog(item.getCatalog());
+			newInvoiceItem.setInvoice(newInvoice);
+			newInvoiceItem.setName(item.getName());
+			newInvoiceItem.setAmount(item.getAmount());
+			for(PriceTableItem pti : item.getCatalog().getPriceTableItems()){
+				if(pti.getItemName().equals(item.getName())){
+					newInvoiceItem.setPrice(pti.getItemPrice()); //jedinicna cena
+					break;
+				}
+			}
+			float value = newInvoiceItem.getAmount()*newInvoiceItem.getPrice(); //vrednost = cena * kolicina
+			newInvoiceItem.setValue(value);
+			newInvoiceItem.setDiscountPercentage(0);
+			if(newInvoiceItem.getAmount()>=5){
+				newInvoiceItem.setDiscountPercentage(10);
+			}
+			if(newInvoiceItem.getAmount()>=20){
+				newInvoiceItem.setDiscountPercentage(20);
+			}
+			float discount = newInvoiceItem.getValue()*newInvoiceItem.getDiscountPercentage()/100; //iznos rabata = vrednost * rabat procenat / 100
+			newInvoiceItem.setDiscount(discount);
+			float itemBase = newInvoiceItem.getValue()-newInvoiceItem.getDiscount(); //osnovica PDV = vrednost - iznos rabata
+			newInvoiceItem.setItemBase(itemBase);
+			newInvoiceItem.setTaxRate(item.getCatalog().getGroup().getTax().getActiveTaxRate().getTaxRate());
+			float tax = newInvoiceItem.getItemBase()*newInvoiceItem.getTaxRate()/100; // iznos PDV = osnovicaPDV * PDV/100
+			newInvoiceItem.setTax(tax);
+			float totalAmount = itemBase+tax; // ukupan iznos = osnovica PDV + iznos PDV
+			newInvoiceItem.setTotalAmount(totalAmount);
+			newInvoice.setGoodsTotal(newInvoice.getGoodsTotal()+newInvoiceItem.getValue());
+			newInvoice.setDiscount(newInvoice.getDiscount()+newInvoiceItem.getDiscount());
+			newInvoice.setTax(newInvoice.getTax()+newInvoiceItem.getTax());
+			newInvoice.setTotalAmount(newInvoice.getTotalAmount()+newInvoiceItem.getTotalAmount()); //sumirati sve na kraju
+		}
+		newInvoice=invoiceRepository.save(newInvoice);
+		return newInvoice;
 	}
 
 }

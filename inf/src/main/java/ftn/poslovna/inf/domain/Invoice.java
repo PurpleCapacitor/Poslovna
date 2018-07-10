@@ -27,9 +27,6 @@ public class Invoice {
 	private int invoiceNum;
 	
 	@Column
-	private String type;
-	
-	@Column
 	private Date invoiceDate;
 	
 	@Column
@@ -93,14 +90,6 @@ public class Invoice {
 
 	public void setInvoiceNum(int invoiceNum) {
 		this.invoiceNum = invoiceNum;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public Date getInvoiceDate() {

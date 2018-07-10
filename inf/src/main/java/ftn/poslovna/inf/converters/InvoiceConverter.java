@@ -40,7 +40,6 @@ public class InvoiceConverter {
 		dto.setInvoiceType(entity.getInvoiceType().toString());
 		dto.setTax(entity.getTax());
 		dto.setTotalAmount(entity.getTotalAmount());
-		dto.setType(entity.getType());
 		return dto;
 	}
 
@@ -61,7 +60,6 @@ public class InvoiceConverter {
 		entity.setInvoiceType(InvoiceType.valueOf(dto.getInvoiceType()));
 		entity.setTax(dto.getTax());
 		entity.setTotalAmount(dto.getTotalAmount());
-		entity.setType(dto.getType());
 		return entity;
 	}
 

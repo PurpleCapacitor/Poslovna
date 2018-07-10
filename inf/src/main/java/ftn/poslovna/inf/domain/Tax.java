@@ -89,6 +89,20 @@ public class Tax {
 		this.taxRates = taxRates;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public TaxRate getActiveTaxRate(){
+		TaxRate returnTaxRate = new TaxRate();
+		Date oldDate = new Date();
+		oldDate.setYear(1900);
+		returnTaxRate.setImplicationDate(oldDate);
+		for(TaxRate taxRate : taxRates){
+			if(taxRate.getImplicationDate().after(oldDate)){
+				returnTaxRate=taxRate;
+			}
+		}
+		return returnTaxRate; 
+	}
+	
 	
 
 }

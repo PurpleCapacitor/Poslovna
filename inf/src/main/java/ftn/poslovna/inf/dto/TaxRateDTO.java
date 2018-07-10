@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class TaxRateDTO {
 
-	private float taxRate;
+	private int taxRate;
 	private Date implicationDate;
 	private long taxId;
 
@@ -12,11 +12,11 @@ public class TaxRateDTO {
 
 	}
 
-	public float getTaxRate() {
+	public int getTaxRate() {
 		return taxRate;
 	}
 
-	public void setTaxRate(float taxRate) {
+	public void setTaxRate(int taxRate) {
 		this.taxRate = taxRate;
 	}
 

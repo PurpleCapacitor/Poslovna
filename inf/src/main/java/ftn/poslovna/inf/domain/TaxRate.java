@@ -18,7 +18,7 @@ public class TaxRate {
 	private Long id;
 	
 	@Column
-	private float taxRate;
+	private int taxRate;
 	
 	@Column
 	private Date implicationDate;
@@ -39,11 +39,11 @@ public class TaxRate {
 		this.id = id;
 	}
 
-	public float getTaxRate() {
+	public int getTaxRate() {
 		return taxRate;
 	}
 
-	public void setTaxRate(float taxRate) {
+	public void setTaxRate(int taxRate) {
 		this.taxRate = taxRate;
 	}
 

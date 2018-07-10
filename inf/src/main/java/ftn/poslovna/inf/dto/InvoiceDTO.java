@@ -17,7 +17,6 @@ public class InvoiceDTO {
 
 	private long id;	
 	private int invoiceNum;
-	private String type;
 	private Date invoiceDate;
 	private Date currencyDate;
 	private Date accountingDate;
@@ -36,13 +35,12 @@ public class InvoiceDTO {
 		
 	}
 	
-	public InvoiceDTO(long id, int invoiceNum, String type, Date invoiceDate, Date currencyDate, Date accountingDate,
+	public InvoiceDTO(long id, int invoiceNum, Date invoiceDate, Date currencyDate, Date accountingDate,
 			float goodsTotal, float discount, float tax, float totalAmount, String accountNum, String accountNumExtra,
 			String invoiceType, long businessYearId, long businessPartnerId, long deliveryNoteId) {
 		super();
 		this.id = id;
 		this.invoiceNum = invoiceNum;
-		this.type = type;
 		this.invoiceDate = invoiceDate;
 		this.currencyDate = currencyDate;
 		this.accountingDate = accountingDate;
@@ -68,12 +66,6 @@ public class InvoiceDTO {
 	}
 	public void setInvoiceNum(int invoiceNum) {
 		this.invoiceNum = invoiceNum;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	public Date getInvoiceDate() {
 		return invoiceDate;
