@@ -6,7 +6,45 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create year</title>
 <script>
-
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/company/getCompanies"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputCompany").append(newOption);	
+					}
+					$("#inputCompany").prop("selectedIndex", -1);
+					
+		});
+		
+	});
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
+		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			yearNumber:$("#inputYear").val(),
+			finished:false,
+			companyId:companyId,
+		});
+		$.ajax({
+			url: "/businessYear",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/yearView.html";
+			}
+		});
+	});
 </script>
 </head>
 <body>	
@@ -61,10 +99,7 @@
 				   </div>
 				   <div class="form-group row">
 				    	<label for="inputCompany" class="col-sm-2 col-form-label">Kompanija: </label>
-					    <select class="ml-4">
-						  <option value="test4">Test4</option>
-						  <option value="test5">test5</option>
-						  <option value="test6">test6</option>
+					    <select class="ml-4" id="inputCompany">
 						</select>
 				   </div>
 				   <div class="form-group row">

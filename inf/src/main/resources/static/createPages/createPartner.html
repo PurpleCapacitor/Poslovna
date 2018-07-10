@@ -38,12 +38,12 @@
 			tip="both";
 		}
 		
-		var companyId=$("#inputCompany option:selected").attr("id");
+		var tempCompanyId=$("#inputCompany option:selected").attr("id");
 		
 		var formData = JSON.stringify({
 			name:$("#inputName").val(),
 			type:tip,
-			companyId:companyId,
+			companyId:tempCompanyId,
 		});
 		$.ajax({
 			url: "/businessPartner",

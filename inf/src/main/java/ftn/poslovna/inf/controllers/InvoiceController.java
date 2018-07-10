@@ -3,6 +3,8 @@ package ftn.poslovna.inf.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +81,7 @@ public class InvoiceController {
 	}
 	
 	@RequestMapping(value = "/export/{id}" , method = RequestMethod.POST)
-	public ResponseEntity<InvoiceDTO> export(@PathVariable Long id) {
+	public ResponseEntity<InvoiceDTO> export(@PathVariable Long id) throws JAXBException {
 		Invoice invoice = invoiceService.findOne(id);
 		Invoice exported = invoiceService.export(invoice);
 		return new ResponseEntity<>(invoiceConverter.entityToDto(exported), HttpStatus.OK);		
