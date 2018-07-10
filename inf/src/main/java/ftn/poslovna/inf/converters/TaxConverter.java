@@ -10,6 +10,7 @@ public class TaxConverter {
 
 	public TaxDTO entityToDto(Tax entity) {
 		TaxDTO dto = new TaxDTO();
+		dto.setId(entity.getId());
 		dto.setTaxId(entity.getTaxId());
 		dto.setTaxName(entity.getTaxName());
 		dto.setValid(entity.isValid());
@@ -19,6 +20,7 @@ public class TaxConverter {
 
 	public Tax DtoToEntity(TaxDTO dto) {
 		Tax entity = new Tax();
+		entity.setId(dto.getId());
 		entity.setTaxId(dto.getTaxId());
 		entity.setTaxName(dto.getTaxName());
 		entity.setValid(dto.isValid());

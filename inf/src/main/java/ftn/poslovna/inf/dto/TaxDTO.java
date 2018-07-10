@@ -2,6 +2,7 @@ package ftn.poslovna.inf.dto;
 
 public class TaxDTO {
 
+	private long id;
 	private String taxId;
 	private String taxName;
 	private boolean valid;
@@ -32,6 +33,14 @@ public class TaxDTO {
 
 	public void setValid(boolean valid) {
 		this.valid = valid;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

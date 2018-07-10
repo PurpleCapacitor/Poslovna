@@ -6,19 +6,17 @@ public class GroupDTO {
 	private String groupName;
 	private long companyId;
 	private long taxId;
-	private long catalogId; // 1 grupa 1 katalog
 	
 	public GroupDTO(){
 		
 	}
 	
-	public GroupDTO(long id, String groupName, long companyId, long taxId, long catalogId) {
+	public GroupDTO(long id, String groupName, long companyId, long taxId) {
 		super();
 		this.id = id;
 		this.groupName = groupName;
 		this.companyId = companyId;
 		this.taxId = taxId;
-		this.catalogId = catalogId;
 	}
 	public long getId() {
 		return id;
@@ -44,13 +42,5 @@ public class GroupDTO {
 	public void setTaxId(long taxId) {
 		this.taxId = taxId;
 	}
-	public long getCatalogId() {
-		return catalogId;
-	}
-	public void setCatalogId(long catalogId) {
-		this.catalogId = catalogId;
-	}
-	
-	
-	
+
 }

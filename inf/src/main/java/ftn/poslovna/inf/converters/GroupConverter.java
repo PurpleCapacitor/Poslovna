@@ -15,8 +15,6 @@ public class GroupConverter {
 	@Autowired
 	private CompanyRepository companyRepository;
 	
-	@Autowired
-	private CatalogRepository catalogRepository;
 	
 	@Autowired
 	private TaxRepository taxRepository;
@@ -24,7 +22,6 @@ public class GroupConverter {
 	public GroupDTO entityToDto(Group entity) {
 		GroupDTO dto = new GroupDTO();
 		dto.setId(entity.getId());
-		dto.setCatalogId(entity.getCatalog().getId());
 		dto.setGroupName(entity.getGroupName());
 		dto.setTaxId(entity.getTax().getId());
 		dto.setCompanyId(entity.getCompany().getId());
@@ -36,7 +33,6 @@ public class GroupConverter {
 		entity.setId(dto.getId());
 		entity.setGroupName(dto.getGroupName());
 		entity.setCompany(companyRepository.findById(dto.getCompanyId()).get());
-		entity.setCatalog(catalogRepository.findById(dto.getCatalogId()).get());
 		entity.setTax(taxRepository.findById(dto.getTaxId()).get());		
 		return entity;
 	}
