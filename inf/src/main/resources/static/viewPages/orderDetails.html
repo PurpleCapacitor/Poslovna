@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../scripts/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../stylesheets/bootstrap.css">
+<title>OrderItemDetails view</title>
+<script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
+	$(document).ready(function(){	
+		id = getUrlParameter('id');
+		$.ajax({
+			url : "/order/getOrderItems/"+id
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newRow = 
+						'<tr>'
+							+'<td>'+data[i].name+'</td>'
+							+'<td>'+data[i].amount+'</td>'
+							+'<td>'+data[i].catalogId+'</td>'
+							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
+							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+						+'</tr>';	
+						$("#tableBody").append(newRow);
+					}	
+		});		
+	});
+	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault(); 
+		window.location.href = "http://localhost:8080/createPages/createOrderItem.html?id="+id;	
+	});
+	
+	
+	$(document).on("click", ".edit", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/editPages/editOrderItem.html?id="+id;	
+	});
+	
+	$(document).on("click", ".delete", function(event){
+		//ne salji get zahtev
+		event.preventDefault(); 
+		
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu stavku?");
+		if(confirmed){
+		
+			var id = $(this).attr("id")
+			//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+			tr_parent = $(this).closest("tr")
+			$.ajax({
+	        	url: "/orderItem/"+id,
+	        	type: "DELETE",
+	        	success: function(){
+					tr_parent.remove()
+		        },
+				error: function(request){
+					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+				}
+			});
+		}
+	});
+</script>
+</head>
+<body>	
+	<ul class="nav nav-tabs bg-danger">	
+		<li class="nav-item">
+			<a class="nav-link text-white" href="../index.html">Home</a>
+		</li>
+	</ul>
+		<div class="row">
+		 	<div class="col d-flex">
+				<ul class="nav flex-column bg-dark mt-3">
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="partnerView.html">Poslovni partner</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="yearView.html">Poslovna godina</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="catalogView.html">Katalog</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="companyView.html">Kompanija</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="groupView.html">Grupa</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link active text-danger" href="orderView.html">Narudzbenica</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="priceTableView.html">Cenovnik</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link  text-white" href="taxView.html">Porez</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="pdvView.html">PDV</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="invoiceView.html">Faktura</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="deliveryNoteView.html">Otpremnica</a>
+					  </li>
+				</ul>
+			</div>
+			<div class="col-6 container col-md-4">
+				<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Ime</th>
+								<th>Kolicina</th>
+								<th>Katalog</th>
+								<th>Izmeni</th>
+								<th>Ukloni</th>
+							</tr>
+						</thead>
+						<tbody id="tableBody">
+						</tbody>
+						</table>
+						<div class="form-group row">
+					    <div class="col-sm-10">
+			    			<input type="submit" value="Kreiraj Stavku" class="btn btn-danger dodaj" />
+					    </div>
+				  	</div>
+			</div>
+			<div class="col">
+			
+				
+			</div>
+		</div>
+		
+</body>
+</html>

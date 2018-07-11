@@ -13,8 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.OrderConverter;
+import ftn.poslovna.inf.converters.OrderItemConverter;
 import ftn.poslovna.inf.domain.Order;
+import ftn.poslovna.inf.domain.OrderItem;
+import ftn.poslovna.inf.domain.PriceTable;
+import ftn.poslovna.inf.domain.PriceTableItem;
 import ftn.poslovna.inf.dto.OrderDTO;
+import ftn.poslovna.inf.dto.OrderItemDTO;
+import ftn.poslovna.inf.dto.PriceTableItemDTO;
 import ftn.poslovna.inf.services.OrderService;
 
 @Controller
@@ -26,6 +32,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderConverter orderConverter;
+	
+	@Autowired
+	private OrderItemConverter orderItemConverter;
 	
 	@RequestMapping(value="getOrders", method=RequestMethod.GET)
 	public ResponseEntity<List<OrderDTO>> getOrders(){
@@ -65,5 +74,17 @@ public class OrderController {
 		Order edited = orderService.save(orderDTO);
 		return new ResponseEntity<>(orderConverter.entityToDto(edited), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="getOrderItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<OrderItemDTO>> getOrderItems(@PathVariable Long id){
+		Order order = orderService.findOne(id);
+		List<OrderItemDTO> items = new ArrayList<OrderItemDTO>();
+		for(OrderItem item : order.getOrdetItems()){
+			OrderItemDTO itemDTO = orderItemConverter.entityToDto(item);
+			items.add(itemDTO);
+		}
+		return new ResponseEntity<>(items, HttpStatus.OK);		
+	}
+	
 
 }
