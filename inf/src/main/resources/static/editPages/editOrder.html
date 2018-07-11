@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../scripts/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../stylesheets/bootstrap.css">
+<title>Edit Order</title>
+<script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var idd = getUrlParameter('id');
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/businessPartner/getBusinessPartners"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						if(data[i].type=="buyer"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+								$("#inputBuyer").append(newOption);	
+						}else if(data[i].type=="seller"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputSeller").append(newOption);	
+						}else if(data[i].type=="both"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputSeller").append(newOption);
+							$("#inputBuyer").append(newOption);	
+						}
+					}
+					$("#inputBuyer").prop("selectedIndex", -1);
+					$("#inputSeller").prop("selectedIndex", -1);
+					
+		});
+		
+		$.ajax({
+			url : "/businessYear/getBusinessYears"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].yearNumber+'</option>'
+							$("#inputYear").append(newOption);	
+					}
+					$("#inputYear").prop("selectedIndex", -1);
+					
+		});
+		
+		$.ajax({
+			url : "/order/"+idd,
+		}).then(
+				function(data) {
+					$('#inputYear').val(data.yearNumber);
+					$('#inputBuyer').val(data.buyerName);
+					$('#inputSeller').val(data.sellerName);
+					
+		});
+	});
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+
+		var tempYearId=$("#inputYear option:selected").attr("id");
+		var tempBuyerId=$("#inputBuyer option:selected").attr("id");
+		var tempSellerId=$("#inputSeller option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			businessYearId:tempYearId,
+			buyerId:tempBuyerId,
+			sellerId:tempSellerId,
+		});
+		$.ajax({
+			url: "/order",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/orderView.html";
+			}
+		});
+	});
+</script>
+</head>
+<body>	
+	<ul class="nav nav-tabs bg-danger">	
+		<li class="nav-item">
+			<a class="nav-link text-white" href="../index.html">Home</a>
+		</li>
+	</ul>
+		<div class="row">
+		 	<div class="col d-flex">
+				<ul class="nav flex-column bg-dark mt-3">
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createPartner.html">Poslovni partner</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createYear.html">Poslovna godina</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCatalog.html">Katalog</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCompany.html">Kompanija</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createGroup.html">Grupa</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link active text-danger" href="#">Narudzbenica</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPriceTable.html">Cenovnik</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createTax.html">Porez</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPDV.html">PDV</a>
+					  </li>
+
+				</ul>
+			</div>
+			<div class="col-6 container col-md-4 mt-5">
+				<h1>Izmeni narudzbenicu</h1>
+				<br/>
+				<br/>
+				<form>
+				   <div class="form-group row">
+				    	<label for="inputYear" class="col-sm-2 col-form-label">Godina: </label>
+					    <select class="ml-4" id="inputYear">
+						</select>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputBuyer" class="col-sm-2 col-form-label">Kupac: </label>
+					    <select class="ml-4" id="inputBuyer">
+						</select>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputSeller" class="col-sm-2 col-form-label">Prodavac: </label>
+					    <select class="ml-4" id="inputSeller">
+						</select>
+				   </div>
+				   <div class="form-group row">
+					    <div class="col-sm-10">
+			    			<input type="submit" value="Izmeni narudzbenicu" class="btn btn-danger dodaj" />
+					    </div>
+				  	</div>
+				  </form>
+			</div>
+			<div class="col">
+			
+				
+			</div>
+		</div>
+		
+</body>
+</html>

@@ -60,7 +60,7 @@ public class OrderItemController {
 		return new ResponseEntity<>(orderItemConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<OrderItemDTO> edit(@RequestBody OrderItemDTO orderItemDTO) {
 		OrderItem edited = orderItemService.save(orderItemDTO);
 		return new ResponseEntity<>(orderItemConverter.entityToDto(edited), HttpStatus.OK);

@@ -39,6 +39,16 @@
 		event.preventDefault();
 		var name =  $("#inputName").val();
 		var catalog=$("#inputName option:selected").attr("id");
+		
+		if(catalog == null) {
+			alert("Izaberite katalog.");
+			return;
+		}
+		
+		if(!validate()) {
+			alert("Popunite sva polja!");
+			return;
+		}
 		var formData = JSON.stringify({
 			catalogId:catalog,
 			name:name,
@@ -56,6 +66,15 @@
 		});
 		
 	});
+	
+	
+	function validate() {
+		if(($("#inputAmount").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	
