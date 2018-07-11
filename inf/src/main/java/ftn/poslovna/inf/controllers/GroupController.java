@@ -60,7 +60,7 @@ public class GroupController {
 		return new ResponseEntity<>(groupConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<GroupDTO> edit(@RequestBody GroupDTO groupDTO) {
 		Group edited = groupService.saveGroup(groupDTO);
 		return new ResponseEntity<>(groupConverter.entityToDto(edited), HttpStatus.OK);

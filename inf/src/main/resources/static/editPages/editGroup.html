@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../scripts/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../stylesheets/bootstrap.css">
+<title>Create group</title>
+<script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var idd = getUrlParameter('id');
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/company/getCompanies"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputCompany").append(newOption);	
+					}
+					$("#inputCompany").prop("selectedIndex", -1);
+					
+		});
+		
+		$.ajax({
+			url : "/tax/getTaxes"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].taxName+'</option>'
+							$("#inputTax").append(newOption);	
+					}
+					$("#inputTax").prop("selectedIndex", -1);
+					
+		});
+		
+		$.ajax({
+			url : "/group/"+idd,
+		}).then(
+				function(data) {
+					$('#inputName').val(data.groupName);
+					$('#inputTax').val(data.taxName);
+					$('#inputCompany').val(data.companyName);
+					
+		});
+		
+	});
+	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
+		
+		var tempTaxId=$("#inputTax option:selected").attr("id");
+		
+		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			id:idd,
+			groupName:$("#inputName").val(),
+			taxId:tempTaxId,
+			companyId:tempCompanyId,
+		});
+		$.ajax({
+			url: "/group",
+			type: 'PUT',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/groupView.html";
+			}
+		});
+	});
+	
+</script>
+</head>
+<body>	
+	<ul class="nav nav-tabs bg-danger">	
+		<li class="nav-item">
+			<a class="nav-link text-white" href="../index.html">Home</a>
+		</li>
+	</ul>
+		<div class="row">
+		 	<div class="col d-flex">
+				<ul class="nav flex-column bg-dark mt-3">
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createPartner.html">Poslovni partner</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createYear.html">Poslovna godina</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCatalog.html">Katalog</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCompany.html">Kompanija</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link active text-danger" href="#">Grupa</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createOrder.html">Narudzbenica</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPriceTable.html">Cenovnik</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createTax.html">Porez</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPDV.html">PDV</a>
+					  </li>
+
+				</ul>
+			</div>
+			<div class="col-6 container col-md-4 mt-5">
+				<h1>Kreiraj grupu</h1>
+				<br/>
+				<br/>
+				<form>
+					<div class="form-group row">
+				    	<label for="inputName" class="col-sm-2 col-form-label">Ime: </label>
+					    <div class="col-sm-10">
+					      <input type="text" class="ml-2" id="inputName" placeholder="Ime">
+					    </div>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputTax" class="col-sm-2 col-form-label">Porez: </label>
+					    <select class="ml-4" id="inputTax">
+						</select>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputCompany" class="col-sm-2 col-form-label">Kompanija: </label>
+					    <select class="ml-4" id="inputCompany">
+						</select>
+				   </div>
+				   <div class="form-group row">
+					    <div class="col-sm-10">
+			    			<input type="submit" value="Izmeni grupu" class="btn btn-danger dodaj" />
+					    </div>
+				  	</div>
+				  </form>
+			</div>
+			<div class="col">
+			
+				
+			</div>
+		</div>
+		
+</body>
+</html>

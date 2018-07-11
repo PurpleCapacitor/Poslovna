@@ -27,6 +27,7 @@ public class GroupConverter {
 		dto.setCompanyId(entity.getCompany().getId());
 		dto.setCompanyName(entity.getCompany().getName());
 		dto.setTaxRate(entity.getTax().getActiveTaxRate().getTaxRate());
+		dto.setTaxName(entity.getTax().getTaxName());
 		return dto;
 	}
 
@@ -35,7 +36,7 @@ public class GroupConverter {
 		entity.setId(dto.getId());
 		entity.setGroupName(dto.getGroupName());
 		entity.setCompany(companyRepository.findById(dto.getCompanyId()).get());
-		entity.setTax(taxRepository.findById(dto.getTaxId()).get());		
+		entity.setTax(taxRepository.findById(dto.getTaxId()).get());	
 		return entity;
 	}
 
