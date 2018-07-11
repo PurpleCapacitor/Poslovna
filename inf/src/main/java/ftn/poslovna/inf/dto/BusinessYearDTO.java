@@ -7,17 +7,19 @@ public class BusinessYearDTO {
 	private int yearNumber;
 	private boolean finished;
 	private long companyId;
+	private String companyName;
 	
 	public BusinessYearDTO(){
 		
 	}
 
-	public BusinessYearDTO(long id, int yearNumber, boolean finished, long companyId) {
+	public BusinessYearDTO(long id, int yearNumber, boolean finished, long companyId, String companyName) {
 		super();
 		this.id = id;
 		this.yearNumber = yearNumber;
 		this.finished = finished;
 		this.companyId = companyId;
+		this.setCompanyName(companyName);
 	}
 
 	public long getId() {
@@ -50,6 +52,14 @@ public class BusinessYearDTO {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 	

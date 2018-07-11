@@ -18,7 +18,8 @@ public class BusinessYearConverter {
 		dto.setCompanyId(entity.getCompany().getId());
 		dto.setId(entity.getId());
 		dto.setFinished(entity.isFinished());
-		dto.setYearNumber(entity.getYearNumber());		
+		dto.setYearNumber(entity.getYearNumber());	
+		dto.setCompanyName(entity.getCompany().getName());
 		return dto;
 	}
 

@@ -5,16 +5,19 @@ public class CatalogDTO {
 	
 	private long id;
 	private long groupId;
+	private String groupName;
 	
 	public CatalogDTO(){
 		
 	}
 	
-	public CatalogDTO(long id, long groupId) {
+	public CatalogDTO(long id, long groupId,String groupName) {
 		super();
 		this.id = id;
 		this.groupId = groupId;
+		this.groupName	= groupName;
 	}
+	
 	public long getId() {
 		return id;
 	}
@@ -26,6 +29,12 @@ public class CatalogDTO {
 	}
 	public void setGroupId(long groupId) {
 		this.groupId = groupId;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
 	

@@ -17,6 +17,7 @@ public class CatalogConverter {
 		CatalogDTO dto = new CatalogDTO();
 		dto.setId(entity.getId());	
 		dto.setGroupId(entity.getGroup().getId());
+		dto.setGroupName(entity.getGroup().getGroupName());
 		return dto;
 	}
 

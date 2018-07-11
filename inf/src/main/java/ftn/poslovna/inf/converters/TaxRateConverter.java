@@ -19,6 +19,7 @@ public class TaxRateConverter {
 		dto.setImplicationDate(entity.getImplicationDate());
 		dto.setTaxId(entity.getTax().getId());
 		dto.setTaxRate(entity.getTaxRate());
+		dto.setTaxName(entity.getTax().getTaxName());
 
 		return dto;
 	}
