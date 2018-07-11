@@ -20,6 +20,7 @@
 							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
 							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
 							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+							+'<td><button class="btn btn-danger copy" id="'+data[i].id+'">Kopiraj</button></td>'
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
@@ -29,7 +30,7 @@
 	$(document).on("click", ".details", function(event){
 		event.preventDefault(); 
 		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/editPages/priceTableDetails.html?id="+id;	
+		window.location.href = "http://localhost:8080/viewPages/priceTableDetails.html?id="+id;	
 	});
 	
 	
@@ -39,11 +40,17 @@
 		window.location.href = "http://localhost:8080/editPages/editPriceTable.html?id="+id;	
 	});
 	
+	$(document).on("click", ".copy", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/createPages/copyPriceTable.html?id="+id;	
+	});
+	
 	$(document).on("click", ".delete", function(event){
 		//ne salji get zahtev
 		event.preventDefault(); 
 		
-		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu kompaniju?");
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj cenovnik?");
 		if(confirmed){
 		
 			var id = $(this).attr("id")
@@ -118,6 +125,7 @@
 								<th>Detaljnije</th>
 								<th>Izmeni</th>
 								<th>Ukloni</th>
+								<th>Kopiraj</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

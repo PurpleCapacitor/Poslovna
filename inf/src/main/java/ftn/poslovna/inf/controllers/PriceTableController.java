@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.PriceTableConverter;
+import ftn.poslovna.inf.converters.PriceTableItemConverter;
 import ftn.poslovna.inf.domain.PriceTable;
+import ftn.poslovna.inf.domain.PriceTableItem;
 import ftn.poslovna.inf.dto.CopyDTO;
 import ftn.poslovna.inf.dto.PriceTableDTO;
+import ftn.poslovna.inf.dto.PriceTableItemDTO;
 import ftn.poslovna.inf.services.PriceTableService;
 
 @Controller
@@ -27,6 +30,9 @@ public class PriceTableController {
 	
 	@Autowired
 	private PriceTableConverter priceTableConverter;
+	
+	@Autowired
+	private PriceTableItemConverter priceTableItemConverter;
 	
 	@RequestMapping(value="getPriceTables", method=RequestMethod.GET)
 	public ResponseEntity<List<PriceTableDTO>> getPriceTables(){
@@ -74,5 +80,18 @@ public class PriceTableController {
 		PriceTable copied = priceTableService.copy(priceTable,copyDTO);
 		return new ResponseEntity<>(priceTableConverter.entityToDto(copied), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="getPriceTableItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<PriceTableItemDTO>> getPriceTableItems(@PathVariable Long id){
+		PriceTable priceTable = priceTableService.findOne(id);
+		List<PriceTableItemDTO> items = new ArrayList<PriceTableItemDTO>();
+		for(PriceTableItem item : priceTable.getPriceTableItems()){
+			PriceTableItemDTO itemDTO = priceTableItemConverter.entityToDto(item);
+			items.add(itemDTO);
+		}
+		return new ResponseEntity<>(items, HttpStatus.OK);		
+	}
+	
+	
 
 }

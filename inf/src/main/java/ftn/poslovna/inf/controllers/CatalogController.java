@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.CatalogConverter;
 import ftn.poslovna.inf.domain.Catalog;
+import ftn.poslovna.inf.domain.Group;
+import ftn.poslovna.inf.domain.PriceTable;
 import ftn.poslovna.inf.dto.CatalogDTO;
 import ftn.poslovna.inf.services.CatalogService;
+import ftn.poslovna.inf.services.PriceTableService;
 
 @Controller
 @RequestMapping(value="/catalog")
@@ -26,6 +29,9 @@ public class CatalogController {
 	
 	@Autowired
 	private CatalogConverter catalogConverter;
+	
+	@Autowired
+	private PriceTableService priceTableService;
 	
 	@RequestMapping(value="getCatalogs", method=RequestMethod.GET)
 	public ResponseEntity<List<CatalogDTO>> getCatalogs(){
@@ -64,6 +70,16 @@ public class CatalogController {
 	public ResponseEntity<CatalogDTO> edit(@RequestBody CatalogDTO catalogDTO) {
 		Catalog edited = catalogService.saveCatalog(catalogDTO);
 		return new ResponseEntity<>(catalogConverter.entityToDto(edited), HttpStatus.OK);
-	}
+	}	
+	
+	@RequestMapping(value="getCatalogsOfCompany/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<CatalogDTO>> getCatalogsOfCompany(@PathVariable Long id){		
+		PriceTable priceTable = priceTableService.findOne(id);
+		List<CatalogDTO> catalogsDTO = new ArrayList<CatalogDTO>();
+		for(Group group : priceTable.getCompany().getGroups()){
+			catalogsDTO.add(catalogConverter.entityToDto(group.getCatalog()));
+		}
+		return new ResponseEntity<>(catalogsDTO, HttpStatus.OK);		
+	}	
 	
 }

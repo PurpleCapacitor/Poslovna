@@ -4,9 +4,77 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Partner view</title>
+<title>PriceTableDetails view</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
 	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
+	$(document).ready(function(){	
+		id = getUrlParameter('id');
+		$.ajax({
+			url : "/priceTable/getPriceTableItems/"+id
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newRow = 
+						'<tr>'
+							+'<td>'+data[i].itemName+'</td>'
+							+'<td>'+data[i].itemPrice+'</td>'
+							+'<td>'+data[i].catalogId+'</td>'
+							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
+							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+						+'</tr>';	
+						$("#tableBody").append(newRow);
+					}	
+		});		
+	});
+	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault(); 
+		window.location.href = "http://localhost:8080/createPages/createPriceTableItem.html?id="+id;	
+	});
+	
+	
+	$(document).on("click", ".edit", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/editPages/editPriceTable.html?id="+id;	
+	});
+	
+	$(document).on("click", ".delete", function(event){
+		//ne salji get zahtev
+		event.preventDefault(); 
+		
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu stavku?");
+		if(confirmed){
+		
+			var id = $(this).attr("id")
+			//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+			tr_parent = $(this).closest("tr")
+			$.ajax({
+	        	url: "/priceTable/"+id,
+	        	type: "DELETE",
+	        	success: function(){
+					tr_parent.remove()
+		        },
+				error: function(request){
+					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+				}
+			});
+		}
+	});
 </script>
 </head>
 <body>	

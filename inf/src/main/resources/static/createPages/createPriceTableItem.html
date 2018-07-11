@@ -4,13 +4,62 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Create price table</title>
+<title>Create price table item</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
 	$(document).ready(function(){	
-		
+		id = getUrlParameter('id');
+		$.ajax({
+			url : "/catalog/getCatalogsOfCompany/"+id //id je od cenovnika pa cemo izvuci kompaniju
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].id+'</option>'
+							$("#inputCatalog").append(newOption);	
+					}
+					$("#inputCatalog").prop("selectedIndex", -1);
+		});	
 	});
 	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
+
+		var tempCatalogId=$("#inputCatalog option:selected").attr("id");
 		
+		var formData = JSON.stringify({
+			priceTableId:id,
+			itemName:$("#inputName").val(),
+			itemPrice:$("#inputPrice").val(),
+			catalogId:tempCatalogId
+		});
+		$.ajax({
+			url: "/priceTableItem",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/priceTableDetails.html?id="+id;
+			}
+		});
 	});
 </script>
 </head>
@@ -73,11 +122,6 @@
 				   <div class="form-group row">
 				    	<label for="inputCatalog" class="col-sm-2 col-form-label">Katalog: </label>
 					    <select class="ml-4" id="inputCatalog">
-						</select>
-				   </div>
-				   <div class="form-group row">
-				    	<label for="inputPriceTable" class="col-sm-2 col-form-label">Cenovnik: </label>
-					    <select class="ml-4" id="inputPriceTable">
 						</select>
 				   </div>
 				   <div class="form-group row">
