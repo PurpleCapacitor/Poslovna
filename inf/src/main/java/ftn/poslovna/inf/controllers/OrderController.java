@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.OrderConverter;
 import ftn.poslovna.inf.converters.OrderItemConverter;
+import ftn.poslovna.inf.domain.Company;
 import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.domain.OrderItem;
 import ftn.poslovna.inf.domain.PriceTable;
 import ftn.poslovna.inf.domain.PriceTableItem;
+import ftn.poslovna.inf.dto.ItemDTO;
 import ftn.poslovna.inf.dto.OrderDTO;
 import ftn.poslovna.inf.dto.OrderItemDTO;
-import ftn.poslovna.inf.dto.PriceTableItemDTO;
 import ftn.poslovna.inf.services.OrderService;
 
 @Controller
@@ -82,6 +83,22 @@ public class OrderController {
 		for(OrderItem item : order.getOrdetItems()){
 			OrderItemDTO itemDTO = orderItemConverter.entityToDto(item);
 			items.add(itemDTO);
+		}
+		return new ResponseEntity<>(items, HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value="getPriceItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<ItemDTO>> getPriceItems(@PathVariable Long id){
+		Order order = orderService.findOne(id);
+		List<ItemDTO> items = new ArrayList<ItemDTO>();
+		Company company = order.getSeller().getCompany();
+		for(PriceTable pt : company.getPriceTables()){
+			for(PriceTableItem pti: pt.getPriceTableItems()){
+				ItemDTO item = new ItemDTO();
+				item.setCatalogId(pti.getCatalog().getId());
+				item.setItemName(pti.getItemName());
+				items.add(item);
+			}
 		}
 		return new ResponseEntity<>(items, HttpStatus.OK);		
 	}

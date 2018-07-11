@@ -6,12 +6,54 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create orderItem</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
 	$(document).ready(function(){	
+		id=getUrlParameter("id");
+		$.ajax({
+			url : "/order/getPriceItems/"+id
+		}).then(	
+				function(data) {
+			for (i = 0; i < data.length; i++) {
+				newOption = '<option id="'+data[i].catalogId+'">'+data[i].itemName+'</option>'
+				$("#inputName").append(newOption);					
+			}			
+			$("#inputName").prop("selectedIndex", -1);
+		});
 		
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-
+		var name =  $("#inputName").val();
+		var catalog=$("#inputName option:selected").attr("id");
+		var formData = JSON.stringify({
+			catalogId:catalog,
+			name:name,
+			amount:$("#inputAmount").val(),
+			orderId:id
+		});
+		$.ajax({
+			url: "/orderItem",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/orderDetails.html?id="+id;
+			}
+		});
 		
 	});
 </script>
