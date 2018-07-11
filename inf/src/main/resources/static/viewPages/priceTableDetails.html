@@ -49,8 +49,8 @@
 	
 	$(document).on("click", ".edit", function(event){
 		event.preventDefault(); 
-		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/editPages/editPriceTable.html?id="+id;	
+		var idItem = $(this).attr("id");
+		window.location.href = "http://localhost:8080/editPages/editPriceTableItem.html?id="+id+"&idItem="+idItem;	
 	});
 	
 	$(document).on("click", ".delete", function(event){

@@ -23,12 +23,6 @@
 	$(document).on("click", ".kopiraj", function(event){
 		var id = getUrlParameter('id');
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 
 		var increase=$("#inputIncrease").val();
 		var upit;
@@ -37,6 +31,11 @@
 		}
 		else{
 			upit=false;
+		}
+		
+		if(!validate()) {
+			alert("Popunite sva polja!");
+			return;
 		}
 		
 		var formData = JSON.stringify({
@@ -54,6 +53,14 @@
 		});
 		
 	});
+	
+	function validate() {
+		if(($("#inputPerc").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

@@ -36,15 +36,16 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 
 		var tempCatalogId=$("#inputCatalog option:selected").attr("id");
-		
+		if(tempCatalogId == null) {
+			alert("Izaberite katalog.");
+			return;
+		}
+		if(!validate()) {
+			alert("Popunite sva polja!");
+			return;
+		}
 		var formData = JSON.stringify({
 			priceTableId:id,
 			itemName:$("#inputName").val(),
@@ -61,6 +62,15 @@
 			}
 		});
 	});
+	
+	
+	function validate() {
+		if(($("#inputName").val() == "") || ($("#inputPrice").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

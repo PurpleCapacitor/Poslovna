@@ -60,7 +60,7 @@ public class PriceTableItemController {
 		return new ResponseEntity<>(priceTableItemConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<PriceTableItemDTO> edit(@RequestBody PriceTableItemDTO priceTableItemDTO) {
 		PriceTableItem edited = priceTableItemService.save(priceTableItemDTO);
 		return new ResponseEntity<>(priceTableItemConverter.entityToDto(edited), HttpStatus.OK);
