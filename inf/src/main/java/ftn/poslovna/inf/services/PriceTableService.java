@@ -61,7 +61,6 @@ public class PriceTableService {
 		for(PriceTableItem item : priceTable.getPriceTableItems()){
 			PriceTableItem newItem = new PriceTableItem();			
 			newItem.setCatalog(item.getCatalog());
-			item.setCatalog(null);
 			newItem.setItemName(item.getItemName());
 			float newPrice=item.getItemPrice();
 			if(copyDTO.isIncrease()){
@@ -73,8 +72,9 @@ public class PriceTableService {
 			newItem.setItemPrice(newPrice);
 			newItem.setPriceTable(copyPT);
 			priceTableItemRepository.save(newItem);
-			priceTableItemRepository.save(item);
+			priceTableItemRepository.delete(item);
 		}
+		priceTableRepository.delete(priceTable);
 		return copyPT;
 	}
 

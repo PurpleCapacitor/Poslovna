@@ -4,9 +4,54 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Create price table</title>
+<title>Copy price table</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
 	$(document).on("click", ".kopiraj", function(event){
+		var id = getUrlParameter('id');
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
+
+		var increase=$("#inputIncrease").val();
+		var upit;
+		if(increase=="povecanje"){
+			upit=true;
+		}
+		else{
+			upit=false;
+		}
+		
+		var formData = JSON.stringify({
+			increase:upit,
+			procenat:$("#inputPerc").val()
+		});
+		$.ajax({
+			url: "/priceTable/copy/"+id,
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/priceTableView.html";
+			}
+		});
 		
 	});
 </script>
@@ -51,13 +96,13 @@
 				</ul>
 			</div>
 			<div class="col-6 container col-md-4 mt-5">
-				<h1>Kreiraj cenovnik</h1>
+				<h1>Kopiraj cenovnik</h1>
 				<br/>
 				<br/>
 				<form>
 				   <div class="form-group row">
-				    	<label for="inputCompany" class="col-sm-2 col-form-label">Operacija: </label>
-					    <select class="ml-4" id="inputCompany">
+				    	<label for="inputIncrease" class="col-sm-2 col-form-label">Operacija: </label>
+					    <select class="ml-4" id="inputIncrease">
 					    	<option value="smanjenje">Smanjenje</option>
 						    <option value="povecanje">Povecanje</option>
 						</select>
@@ -65,7 +110,7 @@
 				   <div class="form-group row">
 				    	<label for="inputPerc" class="col-sm-2 col-form-label">Procenat: </label>
 					    <div class="col-sm-10">
-					      <input type="number" class="ml-2 mt-3" id="inputPerc" placeholder="%">
+					      <input type="number" class="ml-2" id="inputPerc" placeholder="%">
 					    </div>
 				   </div>
 				   <div class="form-group row">

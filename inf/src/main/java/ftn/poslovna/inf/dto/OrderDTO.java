@@ -5,6 +5,7 @@ public class OrderDTO {
 
 	private long id;
 	private long businessYearId;
+	private int yearNumber;
 	private long buyerId;
 	private long sellerId;
 
@@ -42,6 +43,14 @@ public class OrderDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getYearNumber() {
+		return yearNumber;
+	}
+
+	public void setYearNumber(int yearNumber) {
+		this.yearNumber = yearNumber;
 	}	
 	
 

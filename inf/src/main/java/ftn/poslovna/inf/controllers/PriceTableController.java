@@ -74,7 +74,7 @@ public class PriceTableController {
 		return new ResponseEntity<>(priceTableConverter.entityToDto(edited), HttpStatus.OK);
 	}	
 	
-	@RequestMapping(value = "/copy/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
 	public ResponseEntity<PriceTableDTO> copy(@RequestBody CopyDTO copyDTO, @PathVariable Long id) {
 		PriceTable priceTable = priceTableService.findOne(id);
 		PriceTable copied = priceTableService.copy(priceTable,copyDTO);

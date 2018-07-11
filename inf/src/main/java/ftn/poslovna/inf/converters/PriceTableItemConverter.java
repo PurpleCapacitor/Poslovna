@@ -21,7 +21,9 @@ public class PriceTableItemConverter {
 	public PriceTableItemDTO entityToDto(PriceTableItem entity) {		
 		PriceTableItemDTO dto = new PriceTableItemDTO();
 		dto.setId(entity.getId());
-		dto.setCatalogId(entity.getCatalog().getId());
+		if(entity.getCatalog()!=null){
+			dto.setCatalogId(entity.getCatalog().getId());
+		}
 		dto.setItemName(entity.getItemName());
 		dto.setItemPrice(entity.getItemPrice());
 		dto.setPriceTableId(entity.getPriceTable().getId());
