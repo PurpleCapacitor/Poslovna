@@ -8,7 +8,7 @@
 <script>
 	$(document).ready(function(){	
 		$.ajax({
-			url : "/taxRate/getTaxes"
+			url : "/tax/getTaxes"
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
@@ -35,7 +35,7 @@
 		//ne salji get zahtev
 		event.preventDefault(); 
 		
-		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu kompaniju?");
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu taksu?");
 		if(confirmed){
 		
 			var id = $(this).attr("id")

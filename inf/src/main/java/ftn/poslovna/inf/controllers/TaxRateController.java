@@ -60,7 +60,7 @@ public class TaxRateController {
 		return new ResponseEntity<>(taxRateConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<TaxRateDTO> edit(@RequestBody TaxRateDTO taxRateDTO) {
 		TaxRate edited = taxRateService.save(taxRateDTO);
 		return new ResponseEntity<>(taxRateConverter.entityToDto(edited), HttpStatus.OK);
