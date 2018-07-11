@@ -4,9 +4,75 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Partner view</title>
+<title>Invoice view</title>
 <script>
-
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/invoice/getInvoices"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newRow = 
+						'<tr>'
+							+'<td>'+data[i].invoiceNum+'</td>'
+							+'<td>'+data[i].invoiceType+'</td>'
+							+'<td>'+data[i].invoiceDate+'</td>'
+							+'<td>'+data[i].currencyDate+'</td>'
+							+'<td>'+data[i].discount+'</td>'
+							+'<td>'+data[i].tax+'</td>'
+							+'<td>'+data[i].totalAmount+'</td>'
+							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
+							+'<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>'
+							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+						+'</tr>';	
+						$("#tableBody").append(newRow);
+					}	
+		});		
+	});
+	
+	$(document).on("click", ".details", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/viewPages/invoiceDetails.html?id="+id;	
+	});
+	
+	$(document).on("click", ".export", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		$.ajax({
+        	url: "/invoice/export/"+id,
+        	type: "POST",
+        	success: function(){
+				alert("Uspesno exportovanje!");
+	        },
+			error: function(request){
+				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+			}
+		});
+	});
+	
+	$(document).on("click", ".delete", function(event){
+		//ne salji get zahtev
+		event.preventDefault(); 
+		
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu fakturu?");
+		if(confirmed){
+		
+			var id = $(this).attr("id")
+			//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+			tr_parent = $(this).closest("tr")
+			$.ajax({
+	        	url: "/invoice/"+id,
+	        	type: "DELETE",
+	        	success: function(){
+					tr_parent.remove()
+		        },
+				error: function(request){
+					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+				}
+			});
+		}
+	});
 </script>
 </head>
 <body>	
@@ -54,7 +120,7 @@
 
 				</ul>
 			</div>
-			<div class="col-6 container col-md-4">
+			<div class="col-6 container col-md-6">
 				<table class="table">
 						<thead class="thead-dark">
 							<tr>
@@ -66,7 +132,7 @@
 								<th>Porez</th>
 								<th>Ukupno</th>
 								<th>Detaljnije</th>
-								<th>Izmeni</th>
+								<th>Export</th>
 								<th>Ukloni</th>
 							</tr>
 						</thead>

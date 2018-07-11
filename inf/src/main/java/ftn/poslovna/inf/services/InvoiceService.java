@@ -21,6 +21,7 @@ import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.domain.OrderItem;
 import ftn.poslovna.inf.domain.PriceTableItem;
 import ftn.poslovna.inf.dto.InvoiceDTO;
+import ftn.poslovna.inf.repository.InvoiceItemRepository;
 import ftn.poslovna.inf.repository.InvoiceRepository;
 
 @Service
@@ -28,6 +29,9 @@ public class InvoiceService {
 	
 	@Autowired
 	InvoiceRepository invoiceRepository;
+	
+	@Autowired
+	InvoiceItemRepository invoiceItemRepository;
 	
 	@Autowired
 	InvoiceConverter invoiceConverter;
@@ -110,6 +114,7 @@ public class InvoiceService {
 			newInvoice.setDiscount(newInvoice.getDiscount()+newInvoiceItem.getDiscount());
 			newInvoice.setTax(newInvoice.getTax()+newInvoiceItem.getTax());
 			newInvoice.setTotalAmount(newInvoice.getTotalAmount()+newInvoiceItem.getTotalAmount()); //sumirati sve na kraju
+			invoiceItemRepository.save(newInvoiceItem);
 		}
 		newInvoice.setInvoiceType(InvoiceType.calculated);
 		newInvoice=invoiceRepository.save(newInvoice);

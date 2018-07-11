@@ -20,10 +20,30 @@
 							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
 							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
 							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+							+'<td><button class="btn btn-danger invoicing" id="'+data[i].id+'">Fakturisi</button></td>'
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
 		});		
+	});
+	
+	$(document).on("click", ".invoicing", function(event){
+		event.preventDefault();
+		var confirmed = confirm("Da li ste sigurni da zelite fakturisete ovu narudzbenicu?");
+		if(confirmed){
+			var id = $(this).attr("id");
+			$.ajax({
+	        	url: "/invoice/generate/"+id,
+	        	type: "POST",
+	        	success: function(){
+					alert("Uspesno fakturisanje!")
+					window.location.href = "http://localhost:8080/viewPages/invoiceView.html";						
+		        },
+				error: function(request){
+					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+				}
+			});
+		}
 	});
 	
 	$(document).on("click", ".details", function(event){
@@ -117,6 +137,7 @@
 								<th>Detaljnije</th>
 								<th>Izmeni</th>
 								<th>Ukloni</th>
+								<th>Fakturisi</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
