@@ -60,7 +60,7 @@ public class BusinessPartnerController {
 		return new ResponseEntity<>(businessPartnerConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<BusinessPartnerDTO> edit(@RequestBody BusinessPartnerDTO businessPartnerDTO) {
 		BusinessPartner edited = businessPartnerService.saveBusinessPartner(businessPartnerDTO);
 		return new ResponseEntity<>(businessPartnerConverter.entityToDto(edited), HttpStatus.OK);
