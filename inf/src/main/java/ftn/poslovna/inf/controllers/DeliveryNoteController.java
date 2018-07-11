@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.DeliveryNoteConverter;
+import ftn.poslovna.inf.converters.DeliveryNoteItemConverter;
 import ftn.poslovna.inf.domain.DeliveryNote;
+import ftn.poslovna.inf.domain.DeliveryNoteItem;
 import ftn.poslovna.inf.domain.Invoice;
-import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.dto.DeliveryNoteDTO;
-import ftn.poslovna.inf.dto.InvoiceDTO;
+import ftn.poslovna.inf.dto.DeliveryNoteItemDTO;
 import ftn.poslovna.inf.services.DeliveryNoteService;
 import ftn.poslovna.inf.services.InvoiceService;
 
@@ -30,6 +31,9 @@ public class DeliveryNoteController {
 	
 	@Autowired
 	private DeliveryNoteConverter deliveryNoteConverter;
+	
+	@Autowired
+	private DeliveryNoteItemConverter deliveryNoteItemConverter;
 	
 	@Autowired
 	private InvoiceService invoiceService;
@@ -79,5 +83,16 @@ public class DeliveryNoteController {
 		DeliveryNote generated = deliveryNoteService.generate(invoice);
 		return new ResponseEntity<>(deliveryNoteConverter.entityToDto(generated), HttpStatus.OK);		
 	}
+	
+	@RequestMapping(value="getDeliveryNoteItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<DeliveryNoteItemDTO>> getDeliveryNoteItems(@PathVariable Long id){
+		DeliveryNote deliveryNote = deliveryNoteService.findOne(id);
+		List<DeliveryNoteItemDTO> deliveryNoteItemsDTO = new ArrayList<DeliveryNoteItemDTO>();
+		for(DeliveryNoteItem deliveryNoteItem : deliveryNote.getDeliveryNoteItems()){
+			deliveryNoteItemsDTO.add(deliveryNoteItemConverter.entityToDto(deliveryNoteItem));
+		}
+		return new ResponseEntity<>(deliveryNoteItemsDTO, HttpStatus.OK);		
+	}		
+	
 	
 }

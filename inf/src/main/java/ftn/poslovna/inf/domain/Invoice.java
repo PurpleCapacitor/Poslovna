@@ -18,8 +18,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @XmlRootElement
@@ -29,55 +29,42 @@ public class Invoice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@XmlElement
 	@Column
 	private int invoiceNum;
 	
-	@XmlElement
 	@Column
 	@Temporal(TemporalType.DATE)
 	private Date invoiceDate;
 	
-	@XmlElement
 	@Column
 	@Temporal(TemporalType.DATE)
 	private Date currencyDate;
 	
-	@XmlElement
 	@Column
 	@Temporal(TemporalType.DATE)
 	private Date accountingDate;
 	
-	@XmlElement
 	@Column
 	private float goodsTotal;
 	
-	@XmlElement
 	@Column
 	private float discount;
 	
-	@XmlElement
 	@Column
 	private float tax;
 	
-	@XmlElement
 	@Column
 	private float totalAmount;
 	
-	@XmlElement
 	@Column
 	private String accountNum;
 	
-	@XmlElement
 	@Column
 	private String accountNumExtra;
 	
-	@XmlElement
 	@Column
 	private InvoiceType invoiceType;
-	
-	@XmlElementWrapper(name="invoiceItems")
-	@XmlElement(name="invoiceItem")
+		
 	@Column
 	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InvoiceItem> invoiceItems = new HashSet<InvoiceItem>();
@@ -106,6 +93,7 @@ public class Invoice {
 		return id;
 	}
 
+	@XmlElement
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -113,7 +101,8 @@ public class Invoice {
 	public int getInvoiceNum() {
 		return invoiceNum;
 	}
-
+	
+	@XmlElement
 	public void setInvoiceNum(int invoiceNum) {
 		this.invoiceNum = invoiceNum;
 	}
@@ -122,6 +111,7 @@ public class Invoice {
 		return invoiceDate;
 	}
 
+	@XmlElement
 	public void setInvoiceDate(Date invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
@@ -130,6 +120,7 @@ public class Invoice {
 		return currencyDate;
 	}
 
+	@XmlElement
 	public void setCurrencyDate(Date currencyDate) {
 		this.currencyDate = currencyDate;
 	}
@@ -138,6 +129,7 @@ public class Invoice {
 		return accountingDate;
 	}
 
+	@XmlElement
 	public void setAccountingDate(Date accountingDate) {
 		this.accountingDate = accountingDate;
 	}
@@ -146,6 +138,7 @@ public class Invoice {
 		return goodsTotal;
 	}
 
+	@XmlElement
 	public void setGoodsTotal(float goodsTotal) {
 		this.goodsTotal = goodsTotal;
 	}
@@ -154,6 +147,7 @@ public class Invoice {
 		return discount;
 	}
 
+	@XmlElement
 	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
@@ -162,6 +156,7 @@ public class Invoice {
 		return tax;
 	}
 
+	@XmlElement
 	public void setTax(float tax) {
 		this.tax = tax;
 	}
@@ -170,6 +165,7 @@ public class Invoice {
 		return totalAmount;
 	}
 
+	@XmlElement
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
@@ -178,6 +174,7 @@ public class Invoice {
 		return accountNum;
 	}
 
+	@XmlElement
 	public void setAccountNum(String accountNum) {
 		this.accountNum = accountNum;
 	}
@@ -186,6 +183,7 @@ public class Invoice {
 		return accountNumExtra;
 	}
 
+	@XmlElement
 	public void setAccountNumExtra(String accountNumExtra) {
 		this.accountNumExtra = accountNumExtra;
 	}
@@ -194,14 +192,16 @@ public class Invoice {
 		return invoiceType;
 	}
 
+	@XmlElement
 	public void setInvoiceType(InvoiceType invoiceType) {
 		this.invoiceType = invoiceType;
 	}
-
+	
 	public Set<InvoiceItem> getInvoiceItems() {
 		return invoiceItems;
 	}
 
+	@XmlElement(name="invoiceItem")
 	public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
 		this.invoiceItems = invoiceItems;
 	}
@@ -210,6 +210,7 @@ public class Invoice {
 		return businessYear;
 	}
 
+	@XmlTransient
 	public void setBusinessYear(BusinessYear businessYear) {
 		this.businessYear = businessYear;
 	}
@@ -218,6 +219,7 @@ public class Invoice {
 		return buyer;
 	}
 
+	@XmlTransient
 	public void setBuyer(BusinessPartner buyer) {
 		this.buyer = buyer;
 	}
@@ -226,6 +228,7 @@ public class Invoice {
 		return seller;
 	}
 
+	@XmlTransient
 	public void setSeller(BusinessPartner seller) {
 		this.seller = seller;
 	}
@@ -234,6 +237,7 @@ public class Invoice {
 		return deliveryNote;
 	}
 
+	@XmlTransient
 	public void setDeliveryNote(DeliveryNote deliveryNote) {
 		this.deliveryNote = deliveryNote;
 	}

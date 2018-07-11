@@ -4,31 +4,40 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Partner view</title>
+<title>DeliveryNoteDetails view</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
 	$(document).ready(function(){	
+		id = getUrlParameter('id');
 		$.ajax({
-			url : "/deliveryNote/getDeliveryNotes"
+			url : "/deliveryNote/getDeliveryNoteItems/"+id
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
 						newRow = 
 						'<tr>'
-							+'<td>'+data[i].buyerName+'</td>'
-							+'<td>'+data[i].sellerName+'</td>'
-							+'<td>'+data[i].yearNumber+'</td>'
-							+'<td>'+data[i].invoiceId+'</td>'
-							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
+							+'<td>'+data[i].name+'</td>'
+							+'<td>'+data[i].catalogId+'</td>'
+							+'<td>'+data[i].amount+'</td>'
+							+'<td>'+data[i].price+'</td>'
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
 		});		
-	});
-	
-	$(document).on("click", ".details", function(event){
-		event.preventDefault(); 
-		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/viewPages/deliveryNoteDetails.html?id="+id;	
 	});
 </script>
 </head>
@@ -57,7 +66,7 @@
 					    <a class="nav-link text-white" href="groupView.html">Grupa</a>
 					  </li>
 					   <li class="nav-item">
-					    <a class="nav-link text-white" href="orderView.html">Narudzbenica</a>
+					    <a class="nav-link active text-danger" href="orderView.html">Narudzbenica</a>
 					  </li>
 					   <li class="nav-item">
 					    <a class="nav-link text-white" href="priceTableView.html">Cenovnik</a>
@@ -72,25 +81,23 @@
 					    <a class="nav-link text-white" href="invoiceView.html">Faktura</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link active text-danger" href="deliveryNoteView.html">Otpremnica</a>
+					    <a class="nav-link text-white" href="deliveryNoteView.html">Otpremnica</a>
 					  </li>
-
 				</ul>
 			</div>
 			<div class="col-6 container col-md-4">
 				<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>Kupac</th>
-								<th>Prodavac</th>
-								<th>Godina</th>
-								<th>Faktura</th>
-								<th>Detaljnije</th>
+								<th>Ime</th>
+								<th>Katalog</th>								
+								<th>Kolicina</th>
+								<th>Cena</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
 						</tbody>
-						</table>
+				</table>
 			</div>
 			<div class="col">
 			

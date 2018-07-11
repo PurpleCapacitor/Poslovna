@@ -5,8 +5,11 @@ public class DeliveryNoteDTO {
 	
 	private long id;
 	private long buyerId;
+	private String buyerName;
 	private long sellerId;
+	private String sellerName;
 	private long businessYearId;
+	private int yearNumber;
 	private long invoiceId;
 	
 	public DeliveryNoteDTO(){
@@ -22,6 +25,18 @@ public class DeliveryNoteDTO {
 		this.invoiceId = invoiceId;
 	}
 
+	public String getBuyerName() {
+		return buyerName;
+	}
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
+	}
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
 	public long getId() {
 		return id;
 	}
@@ -51,6 +66,14 @@ public class DeliveryNoteDTO {
 	}
 	public void setInvoiceId(long invoiceId) {
 		this.invoiceId = invoiceId;
+	}
+
+	public int getYearNumber() {
+		return yearNumber;
+	}
+
+	public void setYearNumber(int yearNumber) {
+		this.yearNumber = yearNumber;
 	}
 	
 	

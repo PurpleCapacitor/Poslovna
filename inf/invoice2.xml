@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<invoice>
+    <accountNum>123</accountNum>
+    <accountNumExtra>321</accountNumExtra>
+    <accountingDate>2018-07-11T00:00:00+02:00</accountingDate>
+    <currencyDate>2018-07-11T00:00:00+02:00</currencyDate>
+    <discount>135.5</discount>
+    <goodsTotal>826.0</goodsTotal>
+    <id>2</id>
+    <invoiceDate>2018-07-11T00:00:00+02:00</invoiceDate>
+    <invoiceItem>
+        <amount>23</amount>
+        <discount>105.8</discount>
+        <discountPercentage>20</discountPercentage>
+        <id>1</id>
+        <itemBase>423.2</itemBase>
+        <name>jos neki</name>
+        <price>23.0</price>
+        <tax>0.0</tax>
+        <taxRate>0</taxRate>
+        <totalAmount>423.2</totalAmount>
+        <value>529.0</value>
+    </invoiceItem>
+    <invoiceItem>
+        <amount>15</amount>
+        <discount>29.7</discount>
+        <discountPercentage>10</discountPercentage>
+        <id>2</id>
+        <itemBase>267.3</itemBase>
+        <name>opa</name>
+        <price>19.8</price>
+        <tax>0.0</tax>
+        <taxRate>0</taxRate>
+        <totalAmount>267.3</totalAmount>
+        <value>297.0</value>
+    </invoiceItem>
+    <invoiceNum>2</invoiceNum>
+    <invoiceType>calculated</invoiceType>
+    <tax>0.0</tax>
+    <totalAmount>690.5</totalAmount>
+</invoice>

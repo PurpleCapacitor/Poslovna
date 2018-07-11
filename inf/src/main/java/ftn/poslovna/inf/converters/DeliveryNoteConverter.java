@@ -32,6 +32,9 @@ public class DeliveryNoteConverter {
 		dto.setSellerId(entity.getSeller().getId());
 		dto.setBusinessYearId(entity.getBusinessYear().getId());
 		dto.setInvoiceId(entity.getInvoice().getId());	
+		dto.setBuyerName(entity.getBuyer().getName());
+		dto.setSellerName(entity.getSeller().getName());
+		dto.setYearNumber(entity.getBusinessYear().getYearNumber());
 		return dto;
 	}
 

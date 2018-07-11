@@ -1,11 +1,11 @@
 package ftn.poslovna.inf.services;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.swing.text.AbstractDocument.Content;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -122,10 +122,12 @@ public class InvoiceService {
 	}
 
 	public Invoice export(Invoice invoice) throws JAXBException {
-		JAXBContext jc = JAXBContext.newInstance(Content.class);
+		JAXBContext jc = JAXBContext.newInstance(Invoice.class);
 		Marshaller marshaller = jc.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(invoice, System.out);
+		String fileName="invoice"+invoice.getId()+".xml";				
+		marshaller.marshal(invoice, new File(fileName));
 		return invoice;
 	}
 

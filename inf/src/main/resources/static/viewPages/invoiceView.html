@@ -23,6 +23,7 @@
 							+'<td>'+data[i].totalAmount+'</td>'
 							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
 							+'<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>'
+							+'<td><button class="btn btn-danger generate" id="'+data[i].id+'">Generisi</button></td>'
 							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
 						+'</tr>';	
 						$("#tableBody").append(newRow);
@@ -34,6 +35,21 @@
 		event.preventDefault(); 
 		var id = $(this).attr("id");
 		window.location.href = "http://localhost:8080/viewPages/invoiceDetails.html?id="+id;	
+	});
+	
+	$(document).on("click", ".generate", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		$.ajax({
+        	url: "/deliveryNote/generate/"+id,
+        	type: "POST",
+        	success: function(){
+				alert("Uspesno generisanje otpremnice!");
+	        },
+			error: function(request){
+				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+			}
+		});
 	});
 	
 	$(document).on("click", ".export", function(event){
@@ -133,6 +149,7 @@
 								<th>Ukupno</th>
 								<th>Detaljnije</th>
 								<th>Export</th>
+								<th>Otpremnica</th>
 								<th>Ukloni</th>
 							</tr>
 						</thead>

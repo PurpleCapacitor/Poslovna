@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement
 public class InvoiceItem {
 	
 	@Id
@@ -24,43 +27,33 @@ public class InvoiceItem {
 	@JoinColumn(name = "invoice_id")
 	private Invoice invoice;
 	
-	@XmlElement
 	@Column
 	private String name; //opis
 	
-	@XmlElement
 	@Column
 	private int amount; //kolicina
 	
-	@XmlElement
 	@Column
 	private float price; //cena
 	
-	@XmlElement
 	@Column
 	private float discount; //iznos rabata - Vrednost * Procenat rabata / 100
 	
-	@XmlElement
 	@Column
 	private int discountPercentage; //rabat u % 
 	
-	@XmlElement
 	@Column
 	private float value; //vrednost = kolicina * cena
 	
-	@XmlElement
 	@Column
 	private float itemBase; //osnovica pdv-a = Vrednost – Iznos rabata
 	
-	@XmlElement
 	@Column
 	private int taxRate; //stopa pdva u procentima
 	
-	@XmlElement
 	@Column
 	private float tax; //iznos poreza - Osnovica PDV * Stopa PDV / 100
 	
-	@XmlElement
 	@Column
 	private float totalAmount; //prodajna vrednost: Vrednost – Iznos rabata + Iznos poreza
 	
@@ -72,6 +65,7 @@ public class InvoiceItem {
 		return id;
 	}
 
+	@XmlElement
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -80,6 +74,7 @@ public class InvoiceItem {
 		return catalog;
 	}
 
+	@XmlTransient
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
 	}
@@ -88,6 +83,7 @@ public class InvoiceItem {
 		return invoice;
 	}
 
+	@XmlTransient
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
@@ -96,6 +92,7 @@ public class InvoiceItem {
 		return name;
 	}
 
+	@XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -104,6 +101,7 @@ public class InvoiceItem {
 		return amount;
 	}
 
+	@XmlElement
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
@@ -112,6 +110,7 @@ public class InvoiceItem {
 		return price;
 	}
 
+	@XmlElement
 	public void setPrice(float price) {
 		this.price = price;
 	}
@@ -120,6 +119,7 @@ public class InvoiceItem {
 		return discount;
 	}
 
+	@XmlElement
 	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
@@ -128,6 +128,7 @@ public class InvoiceItem {
 		return discountPercentage;
 	}
 
+	@XmlElement
 	public void setDiscountPercentage(int discountPercentage) {
 		this.discountPercentage = discountPercentage;
 	}
@@ -136,6 +137,7 @@ public class InvoiceItem {
 		return value;
 	}
 
+	@XmlElement
 	public void setValue(float value) {
 		this.value = value;
 	}
@@ -144,6 +146,7 @@ public class InvoiceItem {
 		return itemBase;
 	}
 
+	@XmlElement
 	public void setItemBase(float itemBase) {
 		this.itemBase = itemBase;
 	}
@@ -152,6 +155,7 @@ public class InvoiceItem {
 		return taxRate;
 	}
 
+	@XmlElement
 	public void setTaxRate(int taxRate) {
 		this.taxRate = taxRate;
 	}
@@ -160,6 +164,7 @@ public class InvoiceItem {
 		return tax;
 	}
 
+	@XmlElement
 	public void setTax(float tax) {
 		this.tax = tax;
 	}
@@ -168,6 +173,7 @@ public class InvoiceItem {
 		return totalAmount;
 	}
 
+	@XmlElement
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
