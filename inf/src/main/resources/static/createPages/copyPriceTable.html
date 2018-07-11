@@ -6,44 +6,8 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create price table</title>
 <script>
-	$(document).ready(function(){	
-		$.ajax({
-			url : "/company/getCompanies"
-		}).then(
-				function(data) {
-					for (i = 0; i < data.length; i++) {
-						newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
-							$("#inputCompany").append(newOption);	
-					}
-					$("#inputCompany").prop("selectedIndex", -1);
-					
-		});
-	});
-	$(document).on("click", ".dodaj", function(event){
-		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
-
-		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+	$(document).on("click", ".kopiraj", function(event){
 		
-		var formData = JSON.stringify({
-			priceTableNum:$("#inputNo").val(),
-			implicationDate:$("#inputDate").val(),
-			companyId:tempCompanyId,
-		});
-		$.ajax({
-			url: "/priceTable",
-			type: 'POST',
-			data: formData,
-			contentType: "application/json",
-			success: function(){
-				window.location.href = "http://localhost:8080/viewPages/priceTableView.html";
-			}
-		});
 	});
 </script>
 </head>
@@ -92,25 +56,21 @@
 				<br/>
 				<form>
 				   <div class="form-group row">
-				    	<label for="inputNo" class="col-sm-2 col-form-label">Redni broj: </label>
-					    <div class="col-sm-10">
-					      <input type="number" class="ml-2 mt-3" id="inputNo" placeholder="Redni broj">
-					    </div>
-				   </div>
-				   <div class="form-group row">
-				    	<label for="inputCompany" class="col-sm-2 col-form-label">Kompanija: </label>
+				    	<label for="inputCompany" class="col-sm-2 col-form-label">Operacija: </label>
 					    <select class="ml-4" id="inputCompany">
+					    	<option value="smanjenje">Smanjenje</option>
+						    <option value="povecanje">Povecanje</option>
 						</select>
 				   </div>
 				   <div class="form-group row">
-					    <label for="inputDate" class="col-sm-2 col-form-label">Datum: </label>
+				    	<label for="inputPerc" class="col-sm-2 col-form-label">Procenat: </label>
 					    <div class="col-sm-10">
-					      <input type="date" class="ml-2" id="inputDate">
+					      <input type="number" class="ml-2 mt-3" id="inputPerc" placeholder="%">
 					    </div>
-					</div>
+				   </div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj cenovnik" class="btn btn-danger dodaj" />
+			    			<input type="submit" value="Kopiraj" class="btn btn-danger kopiraj" />
 					    </div>
 				  	</div>
 				  </form>
