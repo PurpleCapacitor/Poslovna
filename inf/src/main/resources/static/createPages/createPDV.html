@@ -6,7 +6,46 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create PDV</title>
 <script>
-
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/tax/getTaxes"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].taxName+'</option>'
+							$("#inputTax").append(newOption);	
+					}
+					$("#inputTax").prop("selectedIndex", -1);
+					
+		});
+		
+	});
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
+		
+		var tempTaxId=$("#inputTax option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			taxRate:$("#inputPerc").val(),
+			implicationDate:$("#inputDate").val(),
+			taxId:tempTaxId,
+		});
+		$.ajax({
+			url: "/taxRate",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/partnerView.html";
+			}
+		});
+	});
 </script>
 </head>
 <body>	
@@ -55,16 +94,13 @@
 				<form>
 					<div class="form-group row">
 				    	<label for="inputPerc" class="col-sm-2 col-form-label">Procenat: </label>
-					    <div class="col-sm-10">
-					      <input type="number" step="0.01" class="ml-2" id="inputPerc" placeholder="Procenat">
+					    <div class="col-sm-2">
+					      <input type="number" class="ml-2" id="inputPerc" placeholder="%" min="0" max="100">
 					    </div>
 				   </div>
 				  <div class="form-group row">
 				    	<label for="inputTax" class="col-sm-2 col-form-label">Porezi: </label>
-					    <select class="ml-4">
-						  <option value="test4">Test4</option>
-						  <option value="test5">test5</option>
-						  <option value="test6">test6</option>
+					    <select class="ml-4" id="inputTax">
 						</select>
 				   </div>
 				   <div class="form-group row">
@@ -75,7 +111,7 @@
 					</div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj PDV" class="btn btn-danger" />
+			    			<input type="submit" value="Kreiraj PDV" class="btn btn-danger dodaj" />
 					    </div>
 				  	</div>
 				  </form>
