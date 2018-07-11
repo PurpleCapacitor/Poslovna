@@ -22,13 +22,15 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
+		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		if(tempCompanyId == null) {
+			alert("Izaberite kompaniju.");
 			return;
 		}
-		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		if(!validate()) {
+			alert("Godina ne sme biti prazna i ne sme biti manja od trenutne!");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			yearNumber:$("#inputYear").val(),
@@ -45,6 +47,14 @@
 			}
 		});
 	});
+	
+	function validate() {
+		if(($("#inputYear").val() == "") || ($("#inputYear").val() < 2018)) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

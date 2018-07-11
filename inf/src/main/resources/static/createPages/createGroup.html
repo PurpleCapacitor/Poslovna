@@ -35,16 +35,25 @@
 	
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
+
 		
 		var tempTaxId=$("#inputTax option:selected").attr("id");
 		
 		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		if(tempCompanyId == null) {
+			alert("Izaberite kompaniju.");
+			return;
+		}
+		
+		if(tempTaxId == null) {
+			alert("Izaberite porez.");
+			return;
+		}
+		
+		if(!validate()) {
+			alert("Popunite ime!");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			groupName:$("#inputName").val(),
@@ -61,6 +70,14 @@
 			}
 		});
 	});
+	
+	function validate() {
+		if(($("#inputName").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 	
 </script>
 </head>

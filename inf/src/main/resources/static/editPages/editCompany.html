@@ -36,10 +36,8 @@
 		
 		$(document).on("click", ".dodaj", function(event){
 			event.preventDefault();
-			function validate() {
-			    return true;
-			}
 			if(!validate()) {
+				alert("Popunite sva polja.");
 				return;
 			}
 			var formData = JSON.stringify({
@@ -58,6 +56,13 @@
 				}
 			});
 		});
+		function validate() {
+			if(($("#inputName").val() == "") || ($("#inputAccNo").val() == "") || ($("#inputReccNo").val() == "")) {
+				return false;
+			}
+			return true;
+			
+		};
 </script>
 </head>
 <body>	

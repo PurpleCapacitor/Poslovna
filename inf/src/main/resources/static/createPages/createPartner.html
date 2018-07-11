@@ -23,12 +23,7 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
+		
 		var tip;
 		
 		if($("#inputType").val()=="kupac"){
@@ -40,6 +35,14 @@
 		}
 		
 		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		if(tempCompanyId == null) {
+			alert("Izaberite kompaniju.");
+			return;
+		}
+		if(!validate()) {
+			alert("Popunite ime!");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			name:$("#inputName").val(),
@@ -56,6 +59,14 @@
 			}
 		});
 	});
+	
+	function validate() {
+		if(($("#inputCompany").val() == "") || ($("#inputName").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

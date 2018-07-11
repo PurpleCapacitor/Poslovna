@@ -21,14 +21,17 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 
 		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		if(tempCompanyId == null) {
+			alert("Izaberite kompaniju.");
+			return;
+		}
+		if(!validate()) {
+			alert("Popunite sva polja.");
+			return;
+		}
+		
 		
 		var formData = JSON.stringify({
 			priceTableNum:$("#inputNo").val(),
@@ -45,6 +48,14 @@
 			}
 		});
 	});
+	
+	function validate() {
+		if(($("#inputNo").val() == "") || ($("#inputDate").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

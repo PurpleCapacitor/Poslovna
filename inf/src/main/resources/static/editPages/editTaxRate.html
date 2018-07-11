@@ -52,14 +52,12 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 		
 		var tempTaxId=$("#inputTax option:selected").attr("id");
+		if(!validate()) {
+			alert("Popunite sva polja!");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			id:idd,
@@ -77,6 +75,14 @@
 			}
 		});
 	});
+	
+	function validate() {
+		if(($("#inputPerc").val() == "") || ($("#inputDate").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
 </script>
 </head>
 <body>	

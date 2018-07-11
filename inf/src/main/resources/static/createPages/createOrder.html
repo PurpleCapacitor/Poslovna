@@ -43,16 +43,25 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 
 		var tempYearId=$("#inputYear option:selected").attr("id");
 		var tempBuyerId=$("#inputBuyer option:selected").attr("id");
 		var tempSellerId=$("#inputSeller option:selected").attr("id");
+		
+		if(tempYearId == null) {
+			alert("Izaberite godinu.");
+			return;
+		}
+		
+		if(tempBuyerId == null) {
+			alert("Izaberite kupca.");
+			return;
+		}
+		
+		if(tempSellerId == null) {
+			alert("Izaberite prodavca.");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			businessYearId:tempYearId,

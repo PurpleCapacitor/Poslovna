@@ -22,14 +22,12 @@
 	});
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
-		function validate() {
-		    return true;
-		}
-		if(!validate()) {
-			return;
-		}
 
 		var tempGroupId=$("#inputGroup option:selected").attr("id");
+		if(tempGroupId == null) {
+			alert("Izaberite grupu.");
+			return;
+		}
 		
 		var formData = JSON.stringify({
 			groupId:tempGroupId,
