@@ -28,6 +28,8 @@ public class OrderConverter {
 		dto.setSellerId(entity.getSeller().getId());
 		dto.setBusinessYearId(entity.getBusinessYear().getId());
 		dto.setYearNumber(entity.getBusinessYear().getYearNumber());
+		dto.setBuyerName(entity.getBuyer().getName());
+		dto.setSellerName(entity.getSeller().getName());
 
 		return dto;
 	}

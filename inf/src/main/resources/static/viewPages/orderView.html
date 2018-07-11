@@ -14,9 +14,10 @@
 					for (i = 0; i < data.length; i++) {
 						newRow = 
 						'<tr>'
-							+'<td>'+data[i].name+'</td>'
-							+'<td>'+data[i].type+'</td>'
-							+'<td>'+data[i].companyName+'</td>'
+							+'<td>'+data[i].yearNumber+'</td>'
+							+'<td>'+data[i].buyerName+'</td>'
+							+'<td>'+data[i].sellerName+'</td>'
+							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
 							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
 							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
 						+'</tr>';	
@@ -25,10 +26,16 @@
 		});		
 	});
 	
+	$(document).on("click", ".details", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/viewPages/orderDetails.html?id="+id;	
+	});
+	
 	$(document).on("click", ".edit", function(event){
 		event.preventDefault(); 
 		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/editPages/editPartner.html?id="+id;	
+		window.location.href = "http://localhost:8080/editPages/editOrder.html?id="+id;	
 	});
 	
 	$(document).on("click", ".delete", function(event){
@@ -42,7 +49,7 @@
 			//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
 			tr_parent = $(this).closest("tr")
 			$.ajax({
-	        	url: "/businessPartner/"+id,
+	        	url: "/order/"+id,
 	        	type: "DELETE",
 	        	success: function(){
 					tr_parent.remove()
@@ -105,7 +112,8 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>Godina</th>
-								<th>Partner</th>
+								<th>Kupac</th>
+								<th>Prodavac</th>
 								<th>Detaljnije</th>
 								<th>Izmeni</th>
 								<th>Ukloni</th>

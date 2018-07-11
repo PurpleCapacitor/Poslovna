@@ -7,10 +7,28 @@ public class OrderDTO {
 	private long businessYearId;
 	private int yearNumber;
 	private long buyerId;
+	private String buyerName;
 	private long sellerId;
+	private String sellerName;
 
 	public OrderDTO() {
 
+	}
+	
+	public String getBuyerName() {
+		return buyerName;
+	}
+
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
+	}
+
+	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
 	}
 
 	public long getBusinessYearId() {
