@@ -93,7 +93,7 @@ public class Tax {
 	public TaxRate getActiveTaxRate(){
 		TaxRate returnTaxRate = new TaxRate();
 		Date oldDate = new Date();
-		oldDate.setYear(1900);
+		oldDate.setYear(0);
 		returnTaxRate.setImplicationDate(oldDate);
 		returnTaxRate.setTaxRate(0);
 		for(TaxRate taxRate : taxRates){
