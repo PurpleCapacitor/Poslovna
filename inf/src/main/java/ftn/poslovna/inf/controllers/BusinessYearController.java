@@ -61,7 +61,7 @@ public class BusinessYearController {
 		return new ResponseEntity<>(businessYearConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<BusinessYearDTO> edit(@RequestBody BusinessYearDTO businessYearDTO) {
 		BusinessYear edited = businessYearService.saveBusinessYear(businessYearDTO);
 		return new ResponseEntity<>(businessYearConverter.entityToDto(edited), HttpStatus.OK);

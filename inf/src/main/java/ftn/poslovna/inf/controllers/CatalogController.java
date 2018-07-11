@@ -60,7 +60,7 @@ public class CatalogController {
 		return new ResponseEntity<>(catalogConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<CatalogDTO> edit(@RequestBody CatalogDTO catalogDTO) {
 		Catalog edited = catalogService.saveCatalog(catalogDTO);
 		return new ResponseEntity<>(catalogConverter.entityToDto(edited), HttpStatus.OK);
