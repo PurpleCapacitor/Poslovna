@@ -29,6 +29,11 @@
 		window.location.href = "http://localhost:8080/editPages/editCatalog.html?id="+id;	
 	});
 	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault(); 
+		window.location.href = "http://localhost:8080/createPages/createCatalog.html";	
+	});
+	
 	$(document).on("click", ".delete", function(event){
 		//ne salji get zahtev
 		event.preventDefault(); 
@@ -110,6 +115,11 @@
 						<tbody id="tableBody">
 						</tbody>
 						</table>
+						<div class="form-group row">
+						    <div class="col-sm-10">
+				    			<input type="submit" value="Kreiraj katalog" class="btn btn-danger dodaj" />
+						    </div>
+				  		</div>
 			</div>
 			<div class="col">
 			

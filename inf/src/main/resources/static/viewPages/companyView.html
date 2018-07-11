@@ -23,6 +23,11 @@
 		});		
 	});
 	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault(); 
+		window.location.href = "http://localhost:8080/createPages/createCompany.html";	
+	});
+	
 	$(document).on("click", ".edit", function(event){
 		event.preventDefault(); 
 		var id = $(this).attr("id");
@@ -110,6 +115,11 @@
 						<tbody id="tableBody">
 						</tbody>
 						</table>
+						<div class="form-group row">
+						    <div class="col-sm-10">
+				    			<input type="submit" value="Kreiraj kompaniju" class="btn btn-danger dodaj" />
+						    </div>
+				  		</div>
 			</div>
 			<div class="col">
 			
