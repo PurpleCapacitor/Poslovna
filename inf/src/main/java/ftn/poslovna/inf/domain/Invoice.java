@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,14 +35,17 @@ public class Invoice {
 	
 	@XmlElement
 	@Column
+	@Temporal(TemporalType.DATE)
 	private Date invoiceDate;
 	
 	@XmlElement
 	@Column
+	@Temporal(TemporalType.DATE)
 	private Date currencyDate;
 	
 	@XmlElement
 	@Column
+	@Temporal(TemporalType.DATE)
 	private Date accountingDate;
 	
 	@XmlElement
