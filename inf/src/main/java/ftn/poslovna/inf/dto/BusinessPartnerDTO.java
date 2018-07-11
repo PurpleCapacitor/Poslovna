@@ -7,17 +7,19 @@ public class BusinessPartnerDTO {
 	private String name;
 	private String type;
 	private long companyId;
+	private String companyName;
 	
 	public BusinessPartnerDTO(){
 		
 	}
 
-	public BusinessPartnerDTO(long id, String name, String type, long companyId) {
+	public BusinessPartnerDTO(long id, String name, String type, long companyId, String companyName) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.companyId = companyId;
+		this.companyName = companyName;
 	}
 
 	public long getId() {
@@ -50,6 +52,14 @@ public class BusinessPartnerDTO {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 	

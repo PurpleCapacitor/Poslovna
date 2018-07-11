@@ -20,6 +20,7 @@ public class BusinessPartnerConverter {
 		dto.setId(entity.getId());
 		dto.setName(entity.getName());	
 		dto.setType(entity.getType().toString());
+		dto.setCompanyName(entity.getCompany().getName());
 		return dto;
 	}
 

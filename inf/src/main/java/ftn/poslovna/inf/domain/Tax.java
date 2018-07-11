@@ -95,11 +95,16 @@ public class Tax {
 		Date oldDate = new Date();
 		oldDate.setYear(1900);
 		returnTaxRate.setImplicationDate(oldDate);
+		returnTaxRate.setTaxRate(0);
 		for(TaxRate taxRate : taxRates){
+			System.out.println("Stari datum : "+oldDate.toString());
+			System.out.println("Novi datum : "+taxRate.getImplicationDate().toString());
 			if(taxRate.getImplicationDate().after(oldDate)){
+				System.out.println("uspeo sam");
 				returnTaxRate=taxRate;
 			}
 		}
+		System.out.println("Da vidimo koji datum na kraju imamo : "+returnTaxRate.getImplicationDate().toString());
 		return returnTaxRate; 
 	}
 	

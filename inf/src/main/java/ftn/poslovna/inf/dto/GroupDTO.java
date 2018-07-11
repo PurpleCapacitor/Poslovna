@@ -5,19 +5,40 @@ public class GroupDTO {
 	private long id;
 	private String groupName;
 	private long companyId;
+	private String companyName;
 	private long taxId;
+	private int taxRate;
 	
 	public GroupDTO(){
 		
 	}
 	
-	public GroupDTO(long id, String groupName, long companyId, long taxId) {
+	public GroupDTO(long id, String groupName, long companyId, String companyName, long taxId, int taxRate) {
 		super();
 		this.id = id;
 		this.groupName = groupName;
 		this.companyId = companyId;
+		this.companyName = companyName;
 		this.taxId = taxId;
+		this.taxRate = taxRate;
 	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public int getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(int taxRate) {
+		this.taxRate = taxRate;
+	}
+
 	public long getId() {
 		return id;
 	}
