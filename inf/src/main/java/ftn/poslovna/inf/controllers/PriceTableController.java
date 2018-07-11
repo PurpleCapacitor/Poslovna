@@ -41,6 +41,7 @@ public class PriceTableController {
 	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<PriceTableDTO> addPriceTable(@RequestBody PriceTableDTO priceTableDTO){
 			
+		System.out.println("Ovo je redni broj: " + priceTableDTO.getPriceTableNum());
 		PriceTable newPriceTable = priceTableService.save(priceTableDTO);
 		return new ResponseEntity<>(priceTableConverter.entityToDto(newPriceTable), HttpStatus.OK);
 	}

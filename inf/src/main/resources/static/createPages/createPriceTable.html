@@ -6,7 +6,45 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create price table</title>
 <script>
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/company/getCompanies"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputCompany").append(newOption);	
+					}
+					$("#inputCompany").prop("selectedIndex", -1);
+					
+		});
+	});
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
 
+		var tempCompanyId=$("#inputCompany option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			PriceTableNum:$("#inputNo").val(),
+			implicationDate:$("#inputDate").val(),
+			companyId:tempCompanyId,
+		});
+		$.ajax({
+			url: "/priceTable",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/priceTableView.html";
+			}
+		});
+	});
 </script>
 </head>
 <body>	
@@ -56,28 +94,23 @@
 				   <div class="form-group row">
 				    	<label for="inputNo" class="col-sm-2 col-form-label">Redni broj: </label>
 					    <div class="col-sm-10">
-					      <input type="number" class="ml-2" id="inputName" placeholder="Redni broj">
+					      <input type="number" class="ml-2 mt-3" id="inputNo" placeholder="Redni broj">
 					    </div>
 				   </div>
 				   <div class="form-group row">
 				    	<label for="inputCompany" class="col-sm-2 col-form-label">Kompanija: </label>
-					    <select class="ml-4">
-						  <option value="test4">Test4</option>
-						  <option value="test5">test5</option>
-						  <option value="test6">test6</option>
+					    <select class="ml-4" id="inputCompany">
 						</select>
 				   </div>
-				  	<div class="form-group row">
-				    	<label for="inputItem" class="col-sm-2 col-form-label">Stavke: </label>
-					    <div class="form-group row">
+				   <div class="form-group row">
+					    <label for="inputDate" class="col-sm-2 col-form-label">Datum</label>
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj stavku" class="btn btn-danger" />
+					      <input type="date" class="ml-2" id="inputDate">
 					    </div>
-				  	</div>
-				   </div>
+					</div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj cenovnik" class="btn btn-danger" />
+			    			<input type="submit" value="Kreiraj cenovnik" class="btn btn-danger dodaj" />
 					    </div>
 				  	</div>
 				  </form>

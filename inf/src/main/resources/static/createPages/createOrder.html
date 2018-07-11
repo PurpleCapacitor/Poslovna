@@ -6,7 +6,69 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create partner</title>
 <script>
+	$(document).ready(function(){	
+		$.ajax({
+			url : "/businessPartner/getBusinessPartners"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						if(data[i].type=="buyer"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+								$("#inputBuyer").append(newOption);	
+						}else if(data[i].type=="seller"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputSeller").append(newOption);	
+						}else if(data[i].type=="both"){
+							newOption = '<option id='+data[i].id+'>'+data[i].name+'</option>'
+							$("#inputSeller").append(newOption);
+							$("#inputBuyer").append(newOption);	
+						}
+					}
+					$("#inputBuyer").prop("selectedIndex", -1);
+					$("#inputSeller").prop("selectedIndex", -1);
+					
+		});
+		
+		$.ajax({
+			url : "/businessYear/getBusinessYears"
+		}).then(
+				function(data) {
+					for (i = 0; i < data.length; i++) {
+						newOption = '<option id='+data[i].id+'>'+data[i].yearNumber+'</option>'
+							$("#inputYear").append(newOption);	
+					}
+					$("#inputYear").prop("selectedIndex", -1);
+					
+		});
+	});
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		function validate() {
+		    return true;
+		}
+		if(!validate()) {
+			return;
+		}
 
+		var tempYearId=$("#inputYear option:selected").attr("id");
+		var tempBuyerId=$("#inputBuyer option:selected").attr("id");
+		var tempSellerId=$("#inputSeller option:selected").attr("id");
+		
+		var formData = JSON.stringify({
+			businessYearId:tempYearId,
+			buyerId:tempBuyerId,
+			sellerId:tempSellerId,
+		});
+		$.ajax({
+			url: "/order",
+			type: 'POST',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/orderView.html";
+			}
+		});
+	});
 </script>
 </head>
 <body>	
@@ -53,33 +115,24 @@
 				<br/>
 				<br/>
 				<form>
-					<div class="form-group row">
-				    	<label for="inputItem" class="col-sm-2 col-form-label">Stavke: </label>
-					    <div class="form-group row">
-					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj stavku" class="btn btn-danger" />
-					    </div>
-				  	</div>
-				   </div>
 				   <div class="form-group row">
 				    	<label for="inputYear" class="col-sm-2 col-form-label">Godina: </label>
-					    <select class="ml-4">
-						  <option value="test1">Test1</option>
-						  <option value="test2">test2</option>
-						  <option value="test3">test3</option>
+					    <select class="ml-4" id="inputYear">
 						</select>
 				   </div>
 				   <div class="form-group row">
-				    	<label for="inputCompany" class="col-sm-2 col-form-label">Partner: </label>
-					    <select class="ml-4">
-						  <option value="test4">Test4</option>
-						  <option value="test5">test5</option>
-						  <option value="test6">test6</option>
+				    	<label for="inputBuyer" class="col-sm-2 col-form-label">Kupac: </label>
+					    <select class="ml-4" id="inputBuyer">
+						</select>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputSeller" class="col-sm-2 col-form-label">Prodavac: </label>
+					    <select class="ml-4" id="inputSeller">
 						</select>
 				   </div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj partnera" class="btn btn-danger" />
+			    			<input type="submit" value="Kreiraj narudzbenicu" class="btn btn-danger dodaj" />
 					    </div>
 				  	</div>
 				  </form>
