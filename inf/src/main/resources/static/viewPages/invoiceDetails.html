@@ -4,72 +4,62 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Order view</title>
+<title>Invoice view</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
 	$(document).ready(function(){	
+		id = getUrlParameter('id');
 		$.ajax({
-			url : "/order/getOrders"
+			url : "/invoice/getInvoiceItems/"+id;
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
 						newRow = 
 						'<tr>'
-							+'<td>'+data[i].yearNumber+'</td>'
-							+'<td>'+data[i].buyerName+'</td>'
-							+'<td>'+data[i].sellerName+'</td>'
-							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
-							+'<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>'
+							+'<td>'+data[i].catalogId+'</td>'
+							+'<td>'+data[i].name+'</td>'
+							+'<td>'+data[i].amount+'</td>'
+							+'<td>'+data[i].price+'</td>'
+							+'<td>'+data[i].discount+'</td>'
+							+'<td>'+data[i].discountPercentage+'</td>'
+							+'<td>'+data[i].value+'</td>'
+							+'<td>'+data[i].itemBase+'</td>'
+							+'<td>'+data[i].taxRate+'</td>'
+							+'<td>'+data[i].tax+'</td>'
+							+'<td>'+data[i].totalAmount+'</td>'
 							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
-							+'<td><button class="btn btn-danger invoicing" id="'+data[i].id+'">Fakturisi</button></td>'
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
 		});		
 	});
 	
-	$(document).on("click", ".invoicing", function(event){
-		event.preventDefault();
-		var confirmed = confirm("Da li ste sigurni da zelite fakturisete ovu narudzbenicu?");
-		if(confirmed){
-			var id = $(this).attr("id");
-			$.ajax({
-	        	url: "/invoice/generate/"+id,
-	        	type: "POST",
-	        	success: function(){
-					alert("Uspesno fakturisanje!")
-					window.location.href = "http://localhost:8080/viewPages/invoiceView.html";						
-		        },
-				error: function(request){
-					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
-				}
-			});
-		}
-	});
-	
-	$(document).on("click", ".details", function(event){
-		event.preventDefault(); 
-		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/viewPages/orderDetails.html?id="+id;	
-	});
-	
-	$(document).on("click", ".edit", function(event){
-		event.preventDefault(); 
-		var id = $(this).attr("id");
-		window.location.href = "http://localhost:8080/editPages/editOrder.html?id="+id;	
-	});
-	
 	$(document).on("click", ".delete", function(event){
 		//ne salji get zahtev
 		event.preventDefault(); 
 		
-		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu kompaniju?");
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu fakturu?");
 		if(confirmed){
 		
 			var id = $(this).attr("id")
 			//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
 			tr_parent = $(this).closest("tr")
 			$.ajax({
-	        	url: "/order/"+id,
+	        	url: "/invoice/"+id,
 	        	type: "DELETE",
 	        	success: function(){
 					tr_parent.remove()
@@ -107,7 +97,7 @@
 					    <a class="nav-link text-white" href="groupView.html">Grupa</a>
 					  </li>
 					   <li class="nav-item">
-					    <a class="nav-link active text-danger" href="orderView.html">Narudzbenica</a>
+					    <a class="nav-link text-white" href="orderView.html">Narudzbenica</a>
 					  </li>
 					   <li class="nav-item">
 					    <a class="nav-link text-white" href="priceTableView.html">Cenovnik</a>
@@ -119,7 +109,7 @@
 					    <a class="nav-link text-white" href="pdvView.html">PDV</a>
 					  </li>
 					   <li class="nav-item">
-					    <a class="nav-link text-white" href="invoiceView.html">Faktura</a>
+					    <a class="nav-link active text-danger" href="invoiceView.html">Faktura</a>
 					  </li>
 					  <li class="nav-item">
 					    <a class="nav-link text-white" href="deliveryNoteView.html">Otpremnica</a>
@@ -131,13 +121,18 @@
 				<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>Godina</th>
-								<th>Kupac</th>
-								<th>Prodavac</th>
-								<th>Detaljnije</th>
-								<th>Izmeni</th>
+								<th>Katalog</th>
+								<th>Ime</th>
+								<th>Kolicina</th>
+								<th>Cena</th>
+								<th>Popust</th>
+								<th>Popust u %</th>
+								<th>Vrednost</th>
+								<th>Osnovica pdv-a</th>
+								<th>Stopa pdv-a u %</th>
+								<th>Porez</th>
+								<th>Prodajna vrednost</th>
 								<th>Ukloni</th>
-								<th>Fakturisi</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.InvoiceConverter;
+import ftn.poslovna.inf.converters.InvoiceItemConverter;
 import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.InvoiceItem;
 import ftn.poslovna.inf.domain.Order;
+import ftn.poslovna.inf.domain.OrderItem;
 import ftn.poslovna.inf.dto.InvoiceDTO;
+import ftn.poslovna.inf.dto.InvoiceItemDTO;
+import ftn.poslovna.inf.dto.OrderItemDTO;
 import ftn.poslovna.inf.services.InvoiceService;
 import ftn.poslovna.inf.services.OrderService;
 
@@ -33,6 +38,9 @@ public class InvoiceController {
 	
 	@Autowired
 	private InvoiceConverter invoiceConverter;
+	
+	@Autowired
+	private InvoiceItemConverter invoiceItemConverter;
 	
 	@RequestMapping(value="getInvoices", method=RequestMethod.GET)
 	public ResponseEntity<List<InvoiceDTO>> getInvoices(){
@@ -87,6 +95,15 @@ public class InvoiceController {
 		return new ResponseEntity<>(invoiceConverter.entityToDto(exported), HttpStatus.OK);		
 	}
 	
-	
+	@RequestMapping(value="getInvoiceItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<InvoiceItemDTO>> getInvoiceItems(@PathVariable Long id){
+		Invoice invoice = invoiceService.findOne(id);
+		List<InvoiceItemDTO> items = new ArrayList<InvoiceItemDTO>();
+		for(InvoiceItem item : invoice.getInvoiceItems()){
+			InvoiceItemDTO itemDTO = invoiceItemConverter.entityToDto(item);
+			items.add(itemDTO);
+		}
+		return new ResponseEntity<>(items, HttpStatus.OK);		
+	}
 	
 }
