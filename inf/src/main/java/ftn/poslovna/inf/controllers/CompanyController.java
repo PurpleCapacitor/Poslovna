@@ -60,7 +60,7 @@ public class CompanyController {
 		return new ResponseEntity<>(companyConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<CompanyDTO> edit(@RequestBody CompanyDTO companyDTO) {
 		Company edited = companyService.saveCompany(companyDTO);
 		return new ResponseEntity<>(companyConverter.entityToDto(edited), HttpStatus.OK);
