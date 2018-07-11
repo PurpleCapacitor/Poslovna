@@ -2,6 +2,7 @@ package ftn.poslovna.inf.dto;
 
 public class OrderItemDTO {
 
+	private long id;
 	private long catalogId;
 	private String name;
 	private int amount;
@@ -41,6 +42,14 @@ public class OrderItemDTO {
 
 	public void setOrderId(long orderId) {
 		this.orderId = orderId;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

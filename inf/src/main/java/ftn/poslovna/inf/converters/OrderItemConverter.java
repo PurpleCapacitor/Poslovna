@@ -20,6 +20,7 @@ public class OrderItemConverter {
 	
 	public OrderItemDTO entityToDto(OrderItem entity) {
 		OrderItemDTO dto = new OrderItemDTO();
+		dto.setId(entity.getId());
 		dto.setAmount(entity.getAmount());
 		dto.setCatalogId(entity.getCatalog().getId());
 		dto.setName(entity.getName());
@@ -30,7 +31,7 @@ public class OrderItemConverter {
 
 	public OrderItem DtoToEntity(OrderItemDTO dto) {
 		OrderItem entity = new OrderItem();
-		
+		entity.setId(dto.getId());
 		entity.setAmount(dto.getAmount());
 		entity.setCatalog(catalogRepository.findById(dto.getCatalogId()).get());
 		entity.setName(dto.getName());

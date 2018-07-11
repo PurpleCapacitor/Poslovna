@@ -2,6 +2,7 @@ package ftn.poslovna.inf.dto;
 
 public class InvoiceItemDTO {
 
+	private long id;
 	private long catalogId;
 	private long invoiceId;
 	private String name;
@@ -113,6 +114,14 @@ public class InvoiceItemDTO {
 
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

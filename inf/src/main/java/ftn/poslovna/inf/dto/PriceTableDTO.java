@@ -1,25 +1,17 @@
 package ftn.poslovna.inf.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class PriceTableDTO {
 
-	private int PriceTableNum;
+	private long id;
+	private int priceTableNum;
 	private Date implicationDate;
 	private long companyId;
+	private String companyName;
 	
 	public PriceTableDTO() {
 		
-	}
-
-	public int getPriceTableNum() {
-		return PriceTableNum;
-	}
-
-	public void setPriceTableNum(int priceTableNum) {
-		PriceTableNum = priceTableNum;
 	}
 
 	public Date getImplicationDate() {
@@ -36,6 +28,30 @@ public class PriceTableDTO {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public int getPriceTableNum() {
+		return priceTableNum;
+	}
+
+	public void setPriceTableNum(int priceTableNum) {
+		this.priceTableNum = priceTableNum;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	

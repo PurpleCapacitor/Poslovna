@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class TaxRateDTO {
 
+	private long id;
 	private int taxRate;
 	private Date implicationDate;
 	private long taxId;
@@ -43,6 +44,14 @@ public class TaxRateDTO {
 
 	public void setTaxName(String taxName) {
 		this.taxName = taxName;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 

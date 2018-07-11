@@ -3,6 +3,7 @@ package ftn.poslovna.inf.dto;
 
 public class OrderDTO {
 
+	private long id;
 	private long businessYearId;
 	private long buyerId;
 	private long sellerId;
@@ -33,6 +34,14 @@ public class OrderDTO {
 
 	public void setSellerId(long sellerId) {
 		this.sellerId = sellerId;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}	
 	
 

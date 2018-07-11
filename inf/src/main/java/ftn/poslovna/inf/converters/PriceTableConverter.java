@@ -16,16 +16,18 @@ public class PriceTableConverter {
 	
 	public PriceTableDTO entityToDto(PriceTable entity) {
 		PriceTableDTO dto = new PriceTableDTO();
+		dto.setId(entity.getId());
 		dto.setCompanyId(entity.getCompany().getId());
 		dto.setImplicationDate(entity.getImplicationDate());
 		dto.setPriceTableNum(entity.getPriceTableNum());
+		dto.setCompanyName(entity.getCompany().getName());
 
 		return dto;
 	}
 
 	public PriceTable DtoToEntity(PriceTableDTO dto) {
 		PriceTable entity = new PriceTable();
-		
+		entity.setId(dto.getId());
 		entity.setCompany(companyRepository.findById(dto.getCompanyId()).get());
 		entity.setImplicationDate(dto.getImplicationDate());
 		entity.setPriceTableNum(dto.getPriceTableNum());

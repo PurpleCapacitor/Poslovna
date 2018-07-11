@@ -19,6 +19,7 @@ public class InvoiceItemConverter {
 
 	public InvoiceItemDTO entityToDto(InvoiceItem entity) {
 		InvoiceItemDTO dto = new InvoiceItemDTO();
+		dto.setId(entity.getId());
 		dto.setAmount(entity.getAmount());
 		dto.setCatalogId(entity.getCatalog().getId());
 		dto.setDiscount(entity.getDiscount());
@@ -37,7 +38,7 @@ public class InvoiceItemConverter {
 
 	public InvoiceItem DtoToEntity(InvoiceItemDTO dto) {
 		InvoiceItem entity = new InvoiceItem();
-		
+		entity.setId(dto.getId());
 		entity.setAmount(dto.getAmount());
 		entity.setCatalog(catalogRepository.findById(dto.getCatalogId()).get());
 		entity.setDiscount(dto.getDiscount());

@@ -18,8 +18,9 @@ public class PriceTableItemConverter {
 	CatalogRepository catalogRepository;
 	
 	
-	public PriceTableItemDTO entityToDto(PriceTableItem entity) {
+	public PriceTableItemDTO entityToDto(PriceTableItem entity) {		
 		PriceTableItemDTO dto = new PriceTableItemDTO();
+		dto.setId(entity.getId());
 		dto.setCatalogId(entity.getCatalog().getId());
 		dto.setItemName(entity.getItemName());
 		dto.setItemPrice(entity.getItemPrice());
@@ -30,6 +31,7 @@ public class PriceTableItemConverter {
 
 	public PriceTableItem DtoToEntity(PriceTableItemDTO dto) {
 		PriceTableItem entity = new PriceTableItem();
+		entity.setId(dto.getId());
 		entity.setCatalog(catalogRepository.findById(dto.getCatalogId()).get());
 		entity.setItemName(dto.getItemName());
 		entity.setItemPrice(dto.getItemPrice());
