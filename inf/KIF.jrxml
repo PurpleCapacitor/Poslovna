@@ -7,7 +7,7 @@
 	<field name="invoiceDate" class="java.util.Date"/>
 	<field name="buyerName" class="java.lang.String"/>
 	<field name="sellerName" class="java.lang.String"/>
-	<field name="totalAmount" class="java.lang.String"/>
+	<field name="totalAmount" class="java.lang.Float"/>
 	<field name="startDate" class="java.util.Date"/>
 	<field name="endDate" class="java.util.Date"/>
 	<background>
