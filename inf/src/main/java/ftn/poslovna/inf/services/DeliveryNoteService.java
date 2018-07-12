@@ -52,8 +52,13 @@ public class DeliveryNoteService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		deliveryNoteRepository.delete(i);
-		return i;
+		
+		if(i.getInvoice()==null && i.getDeliveryNoteItems().isEmpty()) {
+			deliveryNoteRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
 	}
 
 	public DeliveryNote generate(Invoice invoice) {

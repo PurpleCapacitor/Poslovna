@@ -57,7 +57,12 @@ public class CompanyController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<CompanyDTO> delete(@PathVariable Long id) {
 		Company deleted = companyService.deleteCompany(id);
-		return new ResponseEntity<>(companyConverter.entityToDto(deleted), HttpStatus.OK);
+		
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(companyConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

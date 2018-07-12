@@ -36,12 +36,18 @@ public class BusinessYearService {
 
 	public BusinessYear deleteBusinessYear(Long id) {
 		BusinessYear i = this.findOne(id);
+		
 		if(i == null){
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		businessYearRepository.delete(i);
-		return i;
+		
+		if(i.getInvoices().isEmpty() && i.getDeliveryNotes().isEmpty() && i.getOrders().isEmpty()) {
+			businessYearRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
 	}
 	
 }

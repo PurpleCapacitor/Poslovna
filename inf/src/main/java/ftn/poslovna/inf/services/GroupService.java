@@ -40,8 +40,15 @@ public class GroupService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		groupRepository.delete(i);
-		return i;
+		
+		if(i.getCatalog()==null) {
+			groupRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
+		
 	}
 	
 }

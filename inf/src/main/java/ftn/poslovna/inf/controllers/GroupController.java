@@ -57,7 +57,11 @@ public class GroupController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<GroupDTO> delete(@PathVariable Long id) {
 		Group deleted = groupService.deleteGroup(id);
-		return new ResponseEntity<>(groupConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(groupConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

@@ -40,7 +40,7 @@
 		//ne salji get zahtev
 		event.preventDefault(); 
 		
-		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovu kompaniju?");
+		var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovog partnera?");
 		if(confirmed){
 		
 			var id = $(this).attr("id")
@@ -53,7 +53,7 @@
 					tr_parent.remove()
 		        },
 				error: function(request){
-					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+					alert("Ne mozete obrisati ovu partnera jer se nalazi u nekom od entiteta!");
 				}
 			});
 		}

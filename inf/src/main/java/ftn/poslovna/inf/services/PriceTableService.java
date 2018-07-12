@@ -47,8 +47,13 @@ public class PriceTableService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		priceTableRepository.delete(i);
-		return i;
+		
+		if(i.getPriceTableItems().isEmpty()) {
+			priceTableRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
 	}
 
 	public PriceTable copy(PriceTable priceTable,CopyDTO copyDTO) {

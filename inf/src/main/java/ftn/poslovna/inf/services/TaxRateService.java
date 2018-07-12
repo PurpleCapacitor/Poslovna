@@ -40,8 +40,15 @@ public class TaxRateService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		taxRateRepository.delete(i);
-		return i;
+		
+		if(i.getTax().getGroups().isEmpty()) {
+			taxRateRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
+		
 	}
 
 }

@@ -52,8 +52,8 @@
 	        	success: function(){
 					tr_parent.remove()
 		        },
-				error: function(request){
-					//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+				error: function(){
+					alert("Ne mozete obrisati ovu godinu jer se nalazi u drugim entitetima!");
 				}
 			});
 		}

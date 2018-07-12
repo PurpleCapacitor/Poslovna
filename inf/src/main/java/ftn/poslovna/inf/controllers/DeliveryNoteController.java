@@ -68,7 +68,11 @@ public class DeliveryNoteController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<DeliveryNoteDTO> delete(@PathVariable Long id) {
 		DeliveryNote deleted = deliveryNoteService.deleteDeliveryNote(id);
-		return new ResponseEntity<>(deliveryNoteConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(deliveryNoteConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

@@ -58,7 +58,11 @@ public class BusinessYearController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<BusinessYearDTO> delete(@PathVariable Long id) {
 		BusinessYear deleted = businessYearService.deleteBusinessYear(id);
-		return new ResponseEntity<>(businessYearConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(businessYearConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

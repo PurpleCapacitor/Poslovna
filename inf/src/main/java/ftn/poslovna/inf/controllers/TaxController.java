@@ -57,7 +57,12 @@ public class TaxController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<TaxDTO> delete(@PathVariable Long id) {
 		Tax deleted = taxService.delete(id);
-		return new ResponseEntity<>(taxConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(taxConverter.entityToDto(deleted), HttpStatus.OK);
+		}
+		
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

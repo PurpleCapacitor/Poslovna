@@ -67,7 +67,11 @@ public class OrderController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<OrderDTO> delete(@PathVariable Long id) {
 		Order deleted = orderService.delete(id);
-		return new ResponseEntity<>(orderConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(orderConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

@@ -63,7 +63,11 @@ public class CatalogController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<CatalogDTO> delete(@PathVariable Long id) {
 		Catalog deleted = catalogService.deleteCatalog(id);
-		return new ResponseEntity<>(catalogConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(catalogConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

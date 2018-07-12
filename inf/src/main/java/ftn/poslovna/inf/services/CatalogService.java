@@ -40,8 +40,15 @@ public class CatalogService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		catalogRepository.delete(i);
-		return i;
+		
+		if(i.getDeliveryNoteItems().isEmpty() && i.getInvoiceItems().isEmpty() && i.getOrderItems().isEmpty() && i.getPriceTableItems().isEmpty()) {
+			catalogRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
+		
 	}
 	
 }

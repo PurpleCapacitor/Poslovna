@@ -58,8 +58,15 @@ public class InvoiceService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		invoiceRepository.delete(i);
-		return i;
+		
+		if(i.getInvoiceItems().isEmpty() && i.getDeliveryNote()==null) {
+			invoiceRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
+		
 	}
 
 	public Invoice generate(Order order) {

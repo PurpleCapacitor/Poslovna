@@ -65,7 +65,12 @@ public class PriceTableController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<PriceTableDTO> delete(@PathVariable Long id) {
 		PriceTable deleted = priceTableService.delete(id);
-		return new ResponseEntity<>(priceTableConverter.entityToDto(deleted), HttpStatus.OK);
+		
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(priceTableConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}	
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

@@ -76,7 +76,11 @@ public class InvoiceController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<InvoiceDTO> delete(@PathVariable Long id) {
 		Invoice deleted = invoiceService.deleteInvoice(id);
-		return new ResponseEntity<>(invoiceConverter.entityToDto(deleted), HttpStatus.OK);
+		if(deleted==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(invoiceConverter.entityToDto(deleted), HttpStatus.OK);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

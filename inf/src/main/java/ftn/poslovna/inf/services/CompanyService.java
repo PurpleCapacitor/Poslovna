@@ -40,8 +40,15 @@ public class CompanyService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		companyRepository.delete(i);
-		return i;
+		
+		if(i.getBusinessPartners().isEmpty() && i.getGroups().isEmpty() && i.getBusinessYear().isEmpty() && i.getPriceTables().isEmpty()) {
+			companyRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
+		
 	}
 	
 }

@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.BusinessPartnerConverter;
 import ftn.poslovna.inf.domain.BusinessPartner;
+import ftn.poslovna.inf.domain.DeliveryNote;
+import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.dto.BusinessPartnerDTO;
 import ftn.poslovna.inf.services.BusinessPartnerService;
+import ftn.poslovna.inf.services.DeliveryNoteService;
+import ftn.poslovna.inf.services.InvoiceService;
+import ftn.poslovna.inf.services.OrderService;
 
 @Controller
 @RequestMapping(value="/businessPartner")
@@ -26,6 +32,15 @@ public class BusinessPartnerController {
 	
 	@Autowired
 	private BusinessPartnerConverter businessPartnerConverter;
+	
+	@Autowired
+	private DeliveryNoteService deliveryNoteService;
+	
+	@Autowired
+	private InvoiceService invoiceService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@RequestMapping(value="getBusinessPartners", method=RequestMethod.GET)
 	public ResponseEntity<List<BusinessPartnerDTO>> getBusinessPartners(){
@@ -56,8 +71,37 @@ public class BusinessPartnerController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<BusinessPartnerDTO> delete(@PathVariable Long id) {
-		BusinessPartner deleted = businessPartnerService.deleteBusinessPartner(id);
-		return new ResponseEntity<>(businessPartnerConverter.entityToDto(deleted), HttpStatus.OK);
+		BusinessPartner businessPartner = businessPartnerService.findOne(id);
+		boolean aproved = true;
+		boolean aproved2 = true;
+		boolean aproved3 = true;
+		for(DeliveryNote dn:deliveryNoteService.findAll()) {
+			if(dn.getBuyer().getId()==businessPartner.getId() || dn.getSeller().getId()==businessPartner.getId()) {
+				aproved=false;
+				break;
+			}
+		}
+		
+		for(Invoice in:invoiceService.findAll()) {
+			if(in.getBuyer().getId()==businessPartner.getId() || in.getSeller().getId()==businessPartner.getId()) {
+				aproved2=false;
+				break;
+			}
+		}
+		
+		for(Order o:orderService.findAll()) {
+			if(o.getBuyer().getId()==businessPartner.getId() || o.getSeller().getId()==businessPartner.getId()) {
+				aproved3=false;
+				break;
+			}
+		}
+		
+		if(aproved==true && aproved2==true && aproved3==true) {
+			BusinessPartner deleted = businessPartnerService.deleteBusinessPartner(id);
+			return new ResponseEntity<>(businessPartnerConverter.entityToDto(deleted), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

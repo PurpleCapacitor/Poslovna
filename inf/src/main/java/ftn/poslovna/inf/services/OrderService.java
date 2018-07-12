@@ -40,8 +40,14 @@ public class OrderService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant");
 		}
-		orderRepository.delete(i);
-		return i;
+		
+		if(i.getOrdetItems().isEmpty()) {
+			orderRepository.delete(i);
+			return i;
+		}else {
+			return null;
+		}
+		
 	}
 
 }
