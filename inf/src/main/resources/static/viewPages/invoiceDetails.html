@@ -21,8 +21,21 @@
 	    }
 	};
 	var id;
-	$(document).ready(function(){	
+	$(document).ready(function(){
 		id = getUrlParameter('id');
+		$.ajax({
+			url : "/invoice/getInvoice/"+id
+		}).then(
+				function(data) {
+					var newInput="";
+					if(data.invoiceType=="formatting"){
+						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />'									
+					}
+					else{
+						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger disabled" />'
+					}
+					$("#dodavanje").append(newInput);	
+		});		
 		$.ajax({
 			url : "/invoice/getInvoiceItems/"+id
 		}).then(
@@ -118,8 +131,8 @@
 						</tbody>
 						</table>
 						<div class="form-group row">
-						    <div class="col-sm-10">
-				    			<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />
+						    <div class="col-sm-10" id="dodavanje">
+				    			
 						    </div>
 				  		</div>
 			</div>

@@ -47,6 +47,8 @@ public class InvoiceService {
 	
 	public Invoice saveInvoice(InvoiceDTO dto) {
 		Invoice inv = invoiceConverter.DtoToEntity(dto);
+		inv.setInvoiceDate(new Date());
+		inv.setInvoiceType(InvoiceType.formating);
 		return invoiceRepository.save(inv);
 	}
 
@@ -62,63 +64,63 @@ public class InvoiceService {
 
 	public Invoice generate(Order order) {
 		Set<OrderItem> items = order.getOrdetItems();
-		Invoice newInvoice = new Invoice();
-		newInvoice=invoiceRepository.save(newInvoice);
-		newInvoice.setInvoiceNum(newInvoice.getId().intValue());
+		Invoice invoice = new Invoice();
+		invoice=invoiceRepository.save(invoice);
+		invoice.setInvoiceNum(invoice.getId().intValue());
 		Date today = new Date();
-		newInvoice.setAccountingDate(today);
-		newInvoice.setCurrencyDate(today);
-		newInvoice.setInvoiceDate(today);
-		newInvoice.setBusinessYear(order.getBusinessYear());
-		newInvoice.setBuyer(order.getBuyer());
-		newInvoice.setSeller(order.getSeller());
-		newInvoice.setAccountNum(order.getBusinessYear().getCompany().getAccountNum());
-		newInvoice.setAccountNumExtra(order.getBusinessYear().getCompany().getAccountNumExtra());
-		newInvoice.setInvoiceType(InvoiceType.formating);
-		newInvoice=invoiceRepository.save(newInvoice);
-		newInvoice.setGoodsTotal(0); //pocetni sumovi
-		newInvoice.setDiscount(0); //pocetni sumovi
-		newInvoice.setTax(0); //pocetni sumovi
-		newInvoice.setTotalAmount(0); //pocetni sumovi
+		invoice.setAccountingDate(today);
+		invoice.setCurrencyDate(today);
+		invoice.setInvoiceDate(today);
+		invoice.setBusinessYear(order.getBusinessYear());
+		invoice.setBuyer(order.getBuyer());
+		invoice.setSeller(order.getSeller());
+		invoice.setAccountNum(order.getBusinessYear().getCompany().getAccountNum());
+		invoice.setAccountNumExtra(order.getBusinessYear().getCompany().getAccountNumExtra());
+		invoice.setInvoiceType(InvoiceType.formating);
+		invoice=invoiceRepository.save(invoice);
+		invoice.setGoodsTotal(0); //pocetni sumovi
+		invoice.setDiscount(0); //pocetni sumovi
+		invoice.setTax(0); //pocetni sumovi
+		invoice.setTotalAmount(0); //pocetni sumovi
 		for(OrderItem item : items){
-			InvoiceItem newInvoiceItem = new InvoiceItem();
-			newInvoiceItem.setCatalog(item.getCatalog());
-			newInvoiceItem.setInvoice(newInvoice);
-			newInvoiceItem.setName(item.getName());
-			newInvoiceItem.setAmount(item.getAmount());
+			InvoiceItem invoiceItem = new InvoiceItem();
+			invoiceItem.setCatalog(item.getCatalog());
+			invoiceItem.setInvoice(invoice);
+			invoiceItem.setName(item.getName());
+			invoiceItem.setAmount(item.getAmount());
 			for(PriceTableItem pti : item.getCatalog().getPriceTableItems()){
 				if(pti.getItemName().equals(item.getName())){
-					newInvoiceItem.setPrice(pti.getItemPrice()); //jedinicna cena
+					invoiceItem.setPrice(pti.getItemPrice()); //jedinicna cena
 					break;
 				}
 			}
-			float value = newInvoiceItem.getAmount()*newInvoiceItem.getPrice(); //vrednost = cena * kolicina
-			newInvoiceItem.setValue(value);
-			newInvoiceItem.setDiscountPercentage(0);
-			if(newInvoiceItem.getAmount()>=5){
-				newInvoiceItem.setDiscountPercentage(10);
+			float value = invoiceItem.getAmount()*invoiceItem.getPrice(); //vrednost = cena * kolicina
+			invoiceItem.setValue(value);
+			invoiceItem.setDiscountPercentage(0);
+			if(invoiceItem.getAmount()>=5){
+				invoiceItem.setDiscountPercentage(10);
 			}
-			if(newInvoiceItem.getAmount()>=20){
-				newInvoiceItem.setDiscountPercentage(20);
+			if(invoiceItem.getAmount()>=20){
+				invoiceItem.setDiscountPercentage(20);
 			}
-			float discount = newInvoiceItem.getValue()*newInvoiceItem.getDiscountPercentage()/100; //iznos rabata = vrednost * rabat procenat / 100
-			newInvoiceItem.setDiscount(discount);
-			float itemBase = newInvoiceItem.getValue()-newInvoiceItem.getDiscount(); //osnovica PDV = vrednost - iznos rabata
-			newInvoiceItem.setItemBase(itemBase);
-			newInvoiceItem.setTaxRate(item.getCatalog().getGroup().getTax().getActiveTaxRate().getTaxRate());
-			float tax = newInvoiceItem.getItemBase()*newInvoiceItem.getTaxRate()/100; // iznos PDV = osnovicaPDV * PDV/100
-			newInvoiceItem.setTax(tax);
+			float discount = invoiceItem.getValue()*invoiceItem.getDiscountPercentage()/100; //iznos rabata = vrednost * rabat procenat / 100
+			invoiceItem.setDiscount(discount);
+			float itemBase = invoiceItem.getValue()-invoiceItem.getDiscount(); //osnovica PDV = vrednost - iznos rabata
+			invoiceItem.setItemBase(itemBase);
+			invoiceItem.setTaxRate(item.getCatalog().getGroup().getTax().getActiveTaxRate().getTaxRate());
+			float tax = invoiceItem.getItemBase()*invoiceItem.getTaxRate()/100; // iznos PDV = osnovicaPDV * PDV/100
+			invoiceItem.setTax(tax);
 			float totalAmount = itemBase+tax; // ukupan iznos = osnovica PDV + iznos PDV
-			newInvoiceItem.setTotalAmount(totalAmount);
-			newInvoice.setGoodsTotal(newInvoice.getGoodsTotal()+newInvoiceItem.getValue());
-			newInvoice.setDiscount(newInvoice.getDiscount()+newInvoiceItem.getDiscount());
-			newInvoice.setTax(newInvoice.getTax()+newInvoiceItem.getTax());
-			newInvoice.setTotalAmount(newInvoice.getTotalAmount()+newInvoiceItem.getTotalAmount()); //sumirati sve na kraju
-			invoiceItemRepository.save(newInvoiceItem);
+			invoiceItem.setTotalAmount(totalAmount);
+			invoice.setGoodsTotal(invoice.getGoodsTotal()+invoiceItem.getValue());
+			invoice.setDiscount(invoice.getDiscount()+invoiceItem.getDiscount());
+			invoice.setTax(invoice.getTax()+invoiceItem.getTax());
+			invoice.setTotalAmount(invoice.getTotalAmount()+invoiceItem.getTotalAmount()); //sumirati sve na kraju
+			invoiceItemRepository.save(invoiceItem);
 		}
-		newInvoice.setInvoiceType(InvoiceType.calculated);
-		newInvoice=invoiceRepository.save(newInvoice);
-		return newInvoice;
+		invoice.setInvoiceType(InvoiceType.calculated);
+		invoice=invoiceRepository.save(invoice);
+		return invoice;
 	}
 
 	public Invoice export(Invoice invoice) throws JAXBException {
@@ -129,6 +131,23 @@ public class InvoiceService {
 		String fileName="invoice"+invoice.getId()+".xml";				
 		marshaller.marshal(invoice, new File(fileName));
 		return invoice;
+	}
+
+	public Invoice facture(Invoice invoice) {
+		invoice.setGoodsTotal(0); //pocetni sumovi
+		invoice.setDiscount(0); //pocetni sumovi
+		invoice.setTax(0); //pocetni sumovi
+		invoice.setTotalAmount(0); //pocetni sumovi
+		for(InvoiceItem invoiceItem : invoice.getInvoiceItems()){
+			invoice.setGoodsTotal(invoice.getGoodsTotal()+invoiceItem.getValue());
+			invoice.setDiscount(invoice.getDiscount()+invoiceItem.getDiscount());
+			invoice.setTax(invoice.getTax()+invoiceItem.getTax());
+			invoice.setTotalAmount(invoice.getTotalAmount()+invoiceItem.getTotalAmount()); //sumirati sve na kraju
+		}		
+		invoice.setAccountingDate(new Date());
+		invoice.setCurrencyDate(new Date());
+		invoice.setInvoiceType(InvoiceType.calculated);
+		return invoiceRepository.save(invoice);
 	}
 
 }

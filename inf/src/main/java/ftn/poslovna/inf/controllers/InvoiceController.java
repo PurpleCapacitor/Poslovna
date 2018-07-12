@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.converters.InvoiceConverter;
 import ftn.poslovna.inf.converters.InvoiceItemConverter;
+import ftn.poslovna.inf.domain.Company;
 import ftn.poslovna.inf.domain.Invoice;
 import ftn.poslovna.inf.domain.InvoiceItem;
 import ftn.poslovna.inf.domain.Order;
 import ftn.poslovna.inf.domain.OrderItem;
+import ftn.poslovna.inf.domain.PriceTable;
+import ftn.poslovna.inf.domain.PriceTableItem;
 import ftn.poslovna.inf.dto.InvoiceDTO;
 import ftn.poslovna.inf.dto.InvoiceItemDTO;
+import ftn.poslovna.inf.dto.ItemDTO;
 import ftn.poslovna.inf.dto.OrderItemDTO;
 import ftn.poslovna.inf.services.InvoiceService;
 import ftn.poslovna.inf.services.OrderService;
@@ -81,6 +85,13 @@ public class InvoiceController {
 		return new ResponseEntity<>(invoiceConverter.entityToDto(edited), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/facture/{id}" , method = RequestMethod.POST)
+	public ResponseEntity<InvoiceDTO> facture(@PathVariable Long id) {
+		Invoice Invoice = invoiceService.findOne(id);
+		Invoice factured = invoiceService.facture(Invoice);
+		return new ResponseEntity<>(invoiceConverter.entityToDto(factured), HttpStatus.OK);		
+	}
+	
 	@RequestMapping(value = "/generate/{id}" , method = RequestMethod.POST)
 	public ResponseEntity<InvoiceDTO> generate(@PathVariable Long id) {
 		Order order = orderService.findOne(id);
@@ -102,6 +113,22 @@ public class InvoiceController {
 		for(InvoiceItem item : invoice.getInvoiceItems()){
 			InvoiceItemDTO itemDTO = invoiceItemConverter.entityToDto(item);
 			items.add(itemDTO);
+		}
+		return new ResponseEntity<>(items, HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value="getPriceItems/{id}", method=RequestMethod.GET)
+	public ResponseEntity<List<ItemDTO>> getPriceItems(@PathVariable Long id){
+		Invoice invoice = invoiceService.findOne(id);
+		List<ItemDTO> items = new ArrayList<ItemDTO>();
+		Company company = invoice.getSeller().getCompany();
+		for(PriceTable pt : company.getPriceTables()){
+			for(PriceTableItem pti: pt.getPriceTableItems()){
+				ItemDTO item = new ItemDTO();
+				item.setCatalogId(pti.getCatalog().getId());
+				item.setItemName(pti.getItemName());
+				items.add(item);
+			}
 		}
 		return new ResponseEntity<>(items, HttpStatus.OK);		
 	}
