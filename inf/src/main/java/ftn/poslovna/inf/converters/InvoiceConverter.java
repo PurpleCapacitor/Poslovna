@@ -43,6 +43,9 @@ public class InvoiceConverter {
 		dto.setInvoiceType(entity.getInvoiceType().toString());
 		dto.setTax(entity.getTax());
 		dto.setTotalAmount(entity.getTotalAmount());
+		dto.setYearNumber(entity.getBusinessYear().getYearNumber());
+		dto.setSellerName(entity.getSeller().getName());
+		dto.setBuyerName(entity.getBuyer().getName());
 		return dto;
 	}
 

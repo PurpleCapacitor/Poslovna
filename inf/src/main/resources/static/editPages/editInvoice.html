@@ -6,6 +6,21 @@
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
 <title>Create invoice</title>
 <script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id = getUrlParameter('id');
 	$(document).ready(function(){	
 		$.ajax({
 			url : "/businessPartner/getBusinessPartners"
@@ -40,8 +55,21 @@
 					$("#inputYear").prop("selectedIndex", -1);
 					
 		});
+		
+		$.ajax({
+			url : "/invoice/"+id
+		}).then(
+				function(data) {
+					$("#inputAcc").val(data.accountNum);
+					$("#inputRecc").val(data.accountNumExtra);
+					$("#inputNo").val(data.invoiceNum);
+					$("#inputYear").val(data.yearNumber);
+					$("#inputBuyer").val(data.buyerName);
+					$("#inputSeller").val(data.sellerName);
+		});
+		
 	});
-	$(document).on("click", ".dodaj", function(event){
+	$(document).on("click", ".edit", function(event){
 		event.preventDefault();
 
 		var tempYearId=$("#inputYear option:selected").attr("id");
@@ -51,24 +79,22 @@
 		if(tempYearId == null) {
 			alert("Izaberite godinu.");
 			return;
-		}
-		
+		}		
 		if(tempBuyerId == null) {
 			alert("Izaberite kupca.");
 			return;
-		}
-		
+		}		
 		if(tempSellerId == null) {
 			alert("Izaberite prodavca.");
 			return;
 		}
-		
 		if(!validate()) {
 			alert("Popunite sva polja!");
 			return;
 		}
 		
 		var formData = JSON.stringify({
+			id:id,
 			accountNum:$("#inputAcc").val(),
 			accountNumExtra:$("#inputRecc").val(),
 			invoiceNum:$("#inputNo").val(),
@@ -79,7 +105,7 @@
 		});
 		$.ajax({
 			url: "/invoice",
-			type: 'POST',
+			type: 'PUT',
 			data: formData,
 			contentType: "application/json",
 			success: function(){
@@ -87,7 +113,6 @@
 			}
 		});
 	});
-	
 	function validate() {
 		if(($("#inputAcc").val() == "" || $("#inputRecc").val() == "" || $("#inputNo").val() == "")) {
 			return false;
@@ -139,7 +164,7 @@
 				</ul>
 			</div>
 			<div class="col-6 container col-md-4 mt-5">
-				<h1>Kreiraj fakturu</h1>
+				<h1>Izmeni fakturu</h1>
 				<br/>
 				<br/>
 				<form>
@@ -178,7 +203,7 @@
 				   </div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj fakturu" class="btn btn-danger dodaj" />
+			    			<input type="submit" value="Izmeni fakturu" class="btn btn-danger edit" />
 					    </div>
 				  	</div>
 				  </form>

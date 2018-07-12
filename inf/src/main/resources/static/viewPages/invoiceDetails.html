@@ -23,16 +23,20 @@
 	var id;
 	$(document).ready(function(){
 		id = getUrlParameter('id');
+		var editButton="";
 		$.ajax({
 			url : "/invoice/"+id,
+			async : false,
 		}).then(
 				function(data) {
 					var newInput="";
 					if(data.invoiceType=="formating"){
-						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />'									
+						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />';		
+						editButton='edit';
 					}
 					else{
-						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger disabled" />'
+						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger disabled" />';
+						editButton='disabled';
 					}
 					$("#dodavanje").append(newInput);	
 		});		
@@ -41,6 +45,12 @@
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
+						if(editButton=="edit"){
+							editButton='<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>';
+						}
+						else{
+							editButton='<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izmeni</button></td>';
+						}
 						newRow = 
 						'<tr>'
 							+'<td>'+data[i].catalogId+'</td>'
@@ -54,6 +64,7 @@
 							+'<td>'+data[i].taxRate+'</td>'
 							+'<td>'+data[i].tax+'</td>'
 							+'<td>'+data[i].totalAmount+'</td>'
+							+editButton;
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
@@ -62,6 +73,11 @@
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
 		window.location.href = "http://localhost:8080/createPages/createInvoiceItem.html?id="+id;	
+	});
+	$(document).on("click", ".edit", function(event){
+		event.preventDefault();
+		var itemId = $(this).attr("id");
+		window.location.href = "http://localhost:8080/editPages/editInvoiceItem.html?id="+id+"&itemId="+itemId;	
 	});
 </script>
 </head>
@@ -125,6 +141,7 @@
 								<th>Stopa pdv-a u %</th>
 								<th>Porez</th>
 								<th>Prodajna vrednost</th>
+								<th>Izmeni</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

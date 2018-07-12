@@ -60,7 +60,7 @@ public class InvoiceItemController {
 		return new ResponseEntity<>(invoiceItemConverter.entityToDto(deleted), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<InvoiceItemDTO> edit(@RequestBody InvoiceItemDTO invoiceItemDTO) {
 		InvoiceItem edited = invoiceItemService.saveInvoiceItem(invoiceItemDTO);
 		return new ResponseEntity<>(invoiceItemConverter.entityToDto(edited), HttpStatus.OK);

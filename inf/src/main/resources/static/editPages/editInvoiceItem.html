@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../scripts/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../stylesheets/bootstrap.css">
+<title>Create invoice item</title>
+<script>
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	var id;
+	var itemId;
+	$(document).ready(function(){	
+		id=getUrlParameter("id");
+		itemId=getUrlParameter("itemId");
+		$.ajax({
+			url : "/invoice/getPriceItems/"+id
+		}).then(	
+				function(data) {
+			for (i = 0; i < data.length; i++) {
+				newOption = '<option id="'+data[i].catalogId+'">'+data[i].itemName+'</option>'
+				$("#inputName").append(newOption);					
+			}			
+			$("#inputName").prop("selectedIndex", -1);
+		});
+		$.ajax({
+			url : "/invoiceItem/"+itemId
+		}).then(function(data){
+			$("#inputName").val(data.name);
+			$("#inputAmount").val(data.amount);
+		});
+		
+	});
+	$(document).on("click", ".edit", function(event){
+		event.preventDefault();
+		var name =  $("#inputName").val();
+		var catalog=$("#inputName option:selected").attr("id");
+		
+		if(catalog == null) {
+			alert("Izaberite katalog.");
+			return;
+		}
+		
+		if(!validate()) {
+			alert("Popunite sva polja!");
+			return;
+		}
+		var formData = JSON.stringify({
+			id:itemId,
+			catalogId:catalog,
+			name:name,
+			amount:$("#inputAmount").val(),
+			invoiceId:id
+		});
+		$.ajax({
+			url: "/invoiceItem",
+			type: 'PUT',
+			data: formData,
+			contentType: "application/json",
+			success: function(){
+				window.location.href = "http://localhost:8080/viewPages/invoiceDetails.html?id="+id;
+			}
+		});
+		
+	});
+	
+	
+	function validate() {
+		if(($("#inputAmount").val() == "")) {
+			return false;
+		}
+		return true;
+		
+	};
+</script>
+</head>
+<body>	
+	<ul class="nav nav-tabs bg-danger">	
+		<li class="nav-item">
+			<a class="nav-link text-white" href="../index.html">Home</a>
+		</li>
+	</ul>
+		<div class="row">
+		 	<div class="col d-flex">
+				<ul class="nav flex-column bg-dark mt-3">
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createPartner.html">Poslovni partner</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createYear.html">Poslovna godina</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCatalog.html">Katalog</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link text-white" href="createCompany.html">Kompanija</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createGroup.html">Grupa</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="#">Narudzbenica</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPriceTable.html">Cenovnik</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createTax.html">Porez</a>
+					  </li>
+					   <li class="nav-item">
+					    <a class="nav-link text-white" href="createPDV.html">PDV</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link active text-danger" href="createInvoice.html">Faktura</a>
+					  </li>	
+
+				</ul>
+			</div>
+			<div class="col-6 container col-md-4 mt-5">
+				<h1>Izmeni stavku</h1>
+				<br/>
+				<br/>
+				<form>
+				   <div class="form-group row">
+				    	<label for="inputAmount" class="col-sm-2 col-form-label">Kolicina: </label>
+					    <div class="col-sm-10">
+					      <input type="number" class="ml-2" id="inputAmount" placeholder="Kolicina">
+					    </div>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputName" class="col-sm-2 col-form-label">Ime: </label>
+					    <select class="ml-4" id="inputName">
+						</select>
+				   </div>
+				   <div class="form-group row">
+					    <div class="col-sm-10">
+			    			<input type="submit" value="Izmeni stavku" class="btn btn-danger edit" />
+					    </div>
+				  	</div>
+				  </form>
+			</div>
+			<div class="col">
+			
+				
+			</div>
+		</div>
+		
+</body>
+</html>
