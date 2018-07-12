@@ -43,6 +43,7 @@
 						var discount;
 						var tax;
 						var totalAmount;
+						var goodsTotal;
 						
 						if(data[i].currencyDate==null){
 							currencyDate="/";
@@ -56,7 +57,14 @@
 						}
 						else{
 							accountingDate=data[i].accountingDate;
-						}	
+						}
+						
+						if(data[i].goodsTotal==0){
+							goodsTotal="/";
+						}
+						else{
+							goodsTotal=data[i].goodsTotal;
+						}
 						
 						if(data[i].discount==0){
 							discount="/";
@@ -85,6 +93,7 @@
 							+'<td>'+data[i].invoiceDate+'</td>'
 							+'<td>'+currencyDate+'</td>'
 							+'<td>'+accountingDate+'</td>'
+							+'<td>'+goodsTotal+'</td>'
 							+'<td>'+discount+'</td>'
 							+'<td>'+tax+'</td>'
 							+'<td>'+totalAmount+'</td>'
@@ -118,7 +127,7 @@
 	});
 	
 	$(document).on("click", ".facture", function(event){
-		eevent.preventDefault(); 
+		event.preventDefault(); 
 		var id = $(this).attr("id");
 		$.ajax({
         	url: "/invoice/facture/"+id,
@@ -141,6 +150,7 @@
         	type: "POST",
         	success: function(){
 				alert("Uspesno generisanje otpremnice!");
+				window.location.href="http://localhost:8080/viewPages/invoiceView.html";
 	        },
 			error: function(request){
 				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
@@ -193,8 +203,8 @@
 			<a class="nav-link text-white" href="../index.html">Home</a>
 		</li>
 	</ul>
-		<div class="row">
-		 	<div class="col d-flex">
+		<div class="d-flex justify-content-start">
+		 	<div class="d-flex">
 				<ul class="nav flex-column bg-dark mt-3">
 					  <li class="nav-item">
 					    <a class="nav-link text-white" href="partnerView.html">Poslovni partner</a>
@@ -232,8 +242,8 @@
 
 				</ul>
 			</div>
-			<div class="col-6 container col-md-6">
-				<table class="table">
+			<div>
+				<table class="table mt-3 ml-3">
 						<thead class="thead-dark">
 							<tr>
 								<th>Broj</th>
@@ -241,9 +251,10 @@
 								<th>Datum fakture</th>
 								<th>Datum valute</th>
 								<th>Datum obracuna</th>
+								<th>Pocetna cena</th>
 								<th>Popust</th>
 								<th>Porez</th>
-								<th>Ukupno</th>
+								<th>Konacna cena</th>
 								<th>Detaljnije</th>
 								<th>Fakturisi</th>
 								<th>Export</th>
@@ -255,15 +266,11 @@
 						<tbody id="tableBody">
 						</tbody>
 						</table>
-						<div class="form-group row">
+						<div class="form-group row ml-2">
 						    <div class="col-sm-10">
 				    			<input type="submit" value="Kreiraj fakturu" class="btn btn-danger dodaj" />
 						    </div>
 				  		</div>
-			</div>
-			<div class="col">
-			
-				
 			</div>
 		</div>
 		
