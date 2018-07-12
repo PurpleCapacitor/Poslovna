@@ -1,6 +1,7 @@
 package ftn.poslovna.inf.controllers;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import ftn.poslovna.inf.domain.Invoice;
 import ftn.poslovna.inf.domain.ReportCatalog;
 import ftn.poslovna.inf.dto.CatalogReportDTO;
 import ftn.poslovna.inf.services.InvoiceService;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -36,27 +38,23 @@ public class ReportController {
 	InvoiceService invoiceService;
 	
 	@RequestMapping(value="/generateReportDate", method=RequestMethod.POST)
-	public ResponseEntity<CatalogReportDTO> generateReportDate(@RequestBody CatalogReportDTO catalogReportDTO){
+	public ResponseEntity<CatalogReportDTO> generateReportDate(@RequestBody CatalogReportDTO catalogReportDTO) throws FileNotFoundException, JRException{
 		generateCatalogReport(catalogReportDTO);
 		return new ResponseEntity<>(catalogReportDTO, HttpStatus.OK);		
 	}
 	
-	private void generateCatalogReport(CatalogReportDTO catalogReportDTO) {
-		
-			try {
-				InputStream inputStream = new FileInputStream("KIF.jrxml");
-				JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
-				JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-	
-				@SuppressWarnings("rawtypes")
-				HashMap parameters = new HashMap();
-				List<ReportCatalog> reportCatalogList = getAllReportCatalogs(catalogReportDTO);
-				JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(reportCatalogList);
-				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
-				JasperExportManager.exportReportToPdfFile(jasperPrint, "report1.pdf");
-			} catch (Exception ex) {
+	private void generateCatalogReport(CatalogReportDTO catalogReportDTO) throws FileNotFoundException, JRException {
+			InputStream inputStream = new FileInputStream("KIF.jrxml");
+			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+			@SuppressWarnings("rawtypes")
+			HashMap parameters = new HashMap();
+			List<ReportCatalog> reportCatalogList = getAllReportCatalogs(catalogReportDTO);
+			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(reportCatalogList);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "report1.pdf");
 			
-			}
 
 	}
 	
