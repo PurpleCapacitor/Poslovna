@@ -60,7 +60,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="55" splitType="Stretch">
+		<band height="62" splitType="Stretch">
 			<textField>
 				<reportElement x="430" y="0" width="50" height="20" uuid="7c4e9a6f-12d1-4681-94e4-4e25c885c47b"/>
 				<textElement verticalAlignment="Middle">
@@ -131,6 +131,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{currencyDate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="230" y="16" width="100" height="30" uuid="9f40749d-297d-4e15-a682-b47f35485579"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Faktura]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -145,7 +152,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Naziv artikla"]]></text>
+				<text><![CDATA[Naziv artikla]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="109" y="9" width="56" height="30" uuid="70578402-1dd1-4bca-9194-4c67092d2280">
@@ -208,7 +215,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Konacna cena"]]></text>
+				<text><![CDATA[Konacna cena]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -297,7 +304,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Ukupan rabat:"]]></text>
+				<text><![CDATA[Ukupan rabat:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="361" y="1" width="56" height="20" uuid="f89de077-0f51-4aba-bb50-30f5cb23e02a"/>
@@ -313,7 +320,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Ukupan porez:"]]></text>
+				<text><![CDATA[Ukupan porez:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="361" y="22" width="56" height="20" uuid="400aa289-f42f-4cc9-842a-129b199a7c90"/>
@@ -329,7 +336,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Ukupna vrednost:"]]></text>
+				<text><![CDATA[Ukupna vrednost:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="480" y="2" width="56" height="20" uuid="badb4215-085c-4e8a-8926-8ff30b1d8b6a"/>
@@ -352,7 +359,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA["Ukupno:"]]></text>
+				<text><![CDATA[Ukupno:]]></text>
 			</staticText>
 		</band>
 	</columnFooter>
