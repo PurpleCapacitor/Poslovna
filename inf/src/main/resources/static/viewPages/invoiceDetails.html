@@ -24,11 +24,11 @@
 	$(document).ready(function(){
 		id = getUrlParameter('id');
 		$.ajax({
-			url : "/invoice/getInvoice/"+id
+			url : "/invoice/"+id,
 		}).then(
 				function(data) {
 					var newInput="";
-					if(data.invoiceType=="formatting"){
+					if(data.invoiceType=="formating"){
 						newInput='<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />'									
 					}
 					else{

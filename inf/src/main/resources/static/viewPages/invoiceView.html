@@ -106,9 +106,31 @@
 		window.location.href = "http://localhost:8080/viewPages/invoiceDetails.html?id="+id;	
 	});
 	
+	$(document).on("click", ".edit", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		window.location.href = "http://localhost:8080/editPages/editInvoice.html?id="+id;	
+	});
+	
 	$(document).on("click", ".dodaj", function(event){
 		event.preventDefault();
 		window.location.href = "http://localhost:8080/createPages/createInvoice.html";	
+	});
+	
+	$(document).on("click", ".facture", function(event){
+		eevent.preventDefault(); 
+		var id = $(this).attr("id");
+		$.ajax({
+        	url: "/invoice/facture/"+id,
+        	type: "POST",
+        	success: function(){
+				alert("Uspesno fakturisanje otpremnice!");
+				window.location.href="http://localhost:8080/viewPages/invoiceView.html";
+	        },
+			error: function(request){
+				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+			}
+		});
 	});
 	
 	$(document).on("click", ".generate", function(event){
