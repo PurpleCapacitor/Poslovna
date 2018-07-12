@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.InvoiceType;
 import ftn.poslovna.inf.domain.ReportCatalog;
 import ftn.poslovna.inf.dto.CatalogReportDTO;
 import ftn.poslovna.inf.services.InvoiceService;
@@ -65,7 +66,7 @@ public class ReportController {
 		Date endingDate = catalogReportDTO.getEndingDate();
 		
 		for(Invoice inv : invoiceList) {
-			if((inv.getInvoiceDate().after(startingDate)) && (inv.getInvoiceDate().before(endingDate))) {
+			if((inv.getInvoiceDate().after(startingDate)) && (inv.getInvoiceDate().before(endingDate)) && (inv.getInvoiceType()!=InvoiceType.formating)) {
 				ReportCatalog reportCatalog = new ReportCatalog();
 				reportCatalog.setStartDate(startingDate);
 				reportCatalog.setEndDate(endingDate);
