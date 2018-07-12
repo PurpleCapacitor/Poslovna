@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script src="../scripts/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="../stylesheets/bootstrap.css">
-<title>Create partner</title>
+<title>Create invoice</title>
 <script>
 	$(document).ready(function(){	
 		$.ajax({
@@ -48,7 +48,7 @@
 		var tempBuyerId=$("#inputBuyer option:selected").attr("id");
 		var tempSellerId=$("#inputSeller option:selected").attr("id");
 		
-		if(tempYearId == null) {
+		/*if(tempYearId == null) {
 			alert("Izaberite godinu.");
 			return;
 		}
@@ -61,20 +61,23 @@
 		if(tempSellerId == null) {
 			alert("Izaberite prodavca.");
 			return;
-		}
+		}*/
 		
 		var formData = JSON.stringify({
+			accountNum:$("#inputAcc").val(),
+			accountNumExtra:$("#inputRecc").val(),
+			invoiceNum:$("#inputNo").val(),
 			businessYearId:tempYearId,
 			buyerId:tempBuyerId,
 			sellerId:tempSellerId,
 		});
 		$.ajax({
-			url: "/order",
+			url: "/invoice",
 			type: 'POST',
 			data: formData,
 			contentType: "application/json",
 			success: function(){
-				window.location.href = "http://localhost:8080/viewPages/orderView.html";
+				window.location.href = "http://localhost:8080/viewPages/invoiceView.html";
 			}
 		});
 	});
@@ -105,7 +108,7 @@
 					    <a class="nav-link text-white" href="createGroup.html">Grupa</a>
 					  </li>
 					   <li class="nav-item">
-					    <a class="nav-link active text-danger" href="#">Narudzbenica</a>
+					    <a class="nav-link text-white" href="createOrder.html">Narudzbenica</a>
 					  </li>
 					   <li class="nav-item">
 					    <a class="nav-link text-white" href="createPriceTable.html">Cenovnik</a>
@@ -122,10 +125,28 @@
 				</ul>
 			</div>
 			<div class="col-6 container col-md-4 mt-5">
-				<h1>Kreiraj narudzbenicu</h1>
+				<h1>Kreiraj fakturu</h1>
 				<br/>
 				<br/>
 				<form>
+					<div class="form-group row">
+				    	<label for="inputAcc" class="col-sm-2 col-form-label">Broj racuna: </label>
+					    <div class="col-sm-10">
+					      <input type="number" class="ml-2 mt-3" id="inputAcc" placeholder="Broj racuna">
+					    </div>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputRecc" class="col-sm-2 col-form-label">Poziv na broj: </label>
+					    <div class="col-sm-10">
+					      <input type="number" class="ml-2 mt-4" id="inputRecc" placeholder="Poziv na broj">
+					    </div>
+				   </div>
+				   <div class="form-group row">
+				    	<label for="inputNo" class="col-sm-2 col-form-label">Broj fakture: </label>
+					    <div class="col-sm-10">
+					      <input type="number" class="ml-2" id="inputNo" placeholder="Broj fakture">
+					    </div>
+				   </div>
 				   <div class="form-group row">
 				    	<label for="inputYear" class="col-sm-2 col-form-label">Godina: </label>
 					    <select class="ml-4" id="inputYear">
@@ -137,13 +158,13 @@
 						</select>
 				   </div>
 				   <div class="form-group row">
-				    	<label for="inputSeller" class="col-sm-2 col-form-label">Prodavac: </label>
+				    	<label for="inputSeller" class="col-sm-2 col-form-label">Dobavljac: </label>
 					    <select class="ml-4" id="inputSeller">
 						</select>
 				   </div>
 				   <div class="form-group row">
 					    <div class="col-sm-10">
-			    			<input type="submit" value="Kreiraj narudzbenicu" class="btn btn-danger dodaj" />
+			    			<input type="submit" value="Kreiraj fakturu" class="btn btn-danger dodaj" />
 					    </div>
 				  	</div>
 				  </form>
