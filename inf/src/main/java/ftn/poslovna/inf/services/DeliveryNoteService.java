@@ -11,9 +11,11 @@ import ftn.poslovna.inf.domain.DeliveryNote;
 import ftn.poslovna.inf.domain.DeliveryNoteItem;
 import ftn.poslovna.inf.domain.Invoice;
 import ftn.poslovna.inf.domain.InvoiceItem;
+import ftn.poslovna.inf.domain.InvoiceType;
 import ftn.poslovna.inf.dto.DeliveryNoteDTO;
 import ftn.poslovna.inf.repository.DeliveryNoteItemRepository;
 import ftn.poslovna.inf.repository.DeliveryNoteRepository;
+import ftn.poslovna.inf.repository.InvoiceRepository;
 
 @Service
 public class DeliveryNoteService {
@@ -23,6 +25,9 @@ public class DeliveryNoteService {
 	
 	@Autowired
 	DeliveryNoteItemRepository deliveryNoteItemRepository;
+	
+	@Autowired
+	InvoiceRepository invoiceRepository;
 	
 	@Autowired
 	DeliveryNoteConverter deliveryNoteConverter;
@@ -67,6 +72,8 @@ public class DeliveryNoteService {
 			dni.setPrice(item.getTotalAmount());
 			deliveryNoteItemRepository.save(dni);
 		}
+		invoice.setInvoiceType(InvoiceType.sent);
+		invoiceRepository.save(invoice);
 		return dn;
 	}
 	

@@ -46,6 +46,10 @@
 					}	
 		});		
 	});	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		window.location.href = "http://localhost:8080/createPages/createInvoiceItem.html?id="+id;	
+	});
 </script>
 </head>
 <body>	
@@ -113,6 +117,11 @@
 						<tbody id="tableBody">
 						</tbody>
 						</table>
+						<div class="form-group row">
+						    <div class="col-sm-10">
+				    			<input type="submit" value="Kreiraj stavku fakture" class="btn btn-danger dodaj" />
+						    </div>
+				  		</div>
 			</div>
 			<div class="col">
 			

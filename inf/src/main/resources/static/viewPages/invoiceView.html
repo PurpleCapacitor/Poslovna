@@ -12,19 +12,83 @@
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
+						var editButton="";
+						var generateNote="";
+						var exportXml="";
+						var deleteButton="";
+						if(data[i].invoiceType=="formating"){
+							editButton = '<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>';
+							generateNote = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Generisi</button></td>';
+							exportXml= '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Exportuj</button></td>';	
+							deleteButton = '<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>';
+						}
+						else if(data[i].invoiceType=="calculated"){
+							editButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izmeni</button></td>';
+							generateNote = '<td><button class="btn btn-danger generate" id="'+data[i].id+'">Generisi</button></td>';
+							exportXml= '<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>';	
+							deleteButton = '<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>';
+						}
+						else{
+							editButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izmeni</button></td>';
+							generateNote = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Generisi</button></td>';
+							exportXml= '<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>';	
+							deleteButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Obrisi</button></td>';
+						}
+						var currencyDate;
+						var accountingDate;
+						var discount;
+						var tax;
+						var totalAmount;
+						
+						if(data[i].currencyDate==null){
+							currencyDate="/";
+						}
+						else{
+							currencyDate=data[i].currencyDate;
+						}
+						
+						if(data[i].accountingDate==null){
+							accountingDate="/";
+						}
+						else{
+							accountingDate=data[i].accountingDate;
+						}	
+						
+						if(data[i].discount==null){
+							discount="/";
+						}
+						else{
+							discount=data[i].discount;
+						}	
+						
+						if(data[i].tax==null){
+							tax="/";
+						}
+						else{
+							tax=data[i].tax;
+						}	
+						
+						if(data[i].totalAmount==null){
+							totalAmount="/";
+						}
+						else{
+							totalAmount=data[i].totalAmount;
+						}	
 						newRow = 
 						'<tr>'
 							+'<td>'+data[i].invoiceNum+'</td>'
 							+'<td>'+data[i].invoiceType+'</td>'
 							+'<td>'+data[i].invoiceDate+'</td>'
-							+'<td>'+data[i].currencyDate+'</td>'
-							+'<td>'+data[i].discount+'</td>'
-							+'<td>'+data[i].tax+'</td>'
-							+'<td>'+data[i].totalAmount+'</td>'
+							+'<td>'+currencyDate+'</td>'
+							+'<td>'+accountingDate+'</td>'
+							+'<td>'+discount+'</td>'
+							+'<td>'+tax+'</td>'
+							+'<td>'+totalAmount+'</td>'
 							+'<td><button class="btn btn-danger details" id="'+data[i].id+'">Detaljnije</button></td>'
-							+'<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>'
-							+'<td><button class="btn btn-danger generate" id="'+data[i].id+'">Generisi</button></td>'
-							+'<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>'
+							+ exportXml
+							+ generateNote
+							+ editButton
+							+ deleteButton
 						+'</tr>';	
 						$("#tableBody").append(newRow);
 					}	
@@ -35,6 +99,11 @@
 		event.preventDefault(); 
 		var id = $(this).attr("id");
 		window.location.href = "http://localhost:8080/viewPages/invoiceDetails.html?id="+id;	
+	});
+	
+	$(document).on("click", ".dodaj", function(event){
+		event.preventDefault();
+		window.location.href = "http://localhost:8080/createPages/createInvoice.html";	
 	});
 	
 	$(document).on("click", ".generate", function(event){
@@ -142,20 +211,27 @@
 							<tr>
 								<th>Broj</th>
 								<th>Tip</th>
-								<th>Datum</th>
+								<th>Datum fakture</th>
 								<th>Datum valute</th>
+								<th>Datum obracuna</th>
 								<th>Popust</th>
 								<th>Porez</th>
 								<th>Ukupno</th>
 								<th>Detaljnije</th>
 								<th>Export</th>
 								<th>Otpremnica</th>
+								<th>Izmeni</th>
 								<th>Ukloni</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
 						</tbody>
 						</table>
+						<div class="form-group row">
+						    <div class="col-sm-10">
+				    			<input type="submit" value="Kreiraj fakturu" class="btn btn-danger dodaj" />
+						    </div>
+				  		</div>
 			</div>
 			<div class="col">
 			
