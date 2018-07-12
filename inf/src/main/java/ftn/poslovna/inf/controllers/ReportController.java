@@ -12,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.poslovna.inf.domain.Invoice;
+import ftn.poslovna.inf.domain.InvoiceItem;
+import ftn.poslovna.inf.domain.InvoiceReport;
 import ftn.poslovna.inf.domain.InvoiceType;
 import ftn.poslovna.inf.domain.ReportCatalog;
 import ftn.poslovna.inf.dto.CatalogReportDTO;
@@ -44,6 +47,12 @@ public class ReportController {
 		return new ResponseEntity<>(catalogReportDTO, HttpStatus.OK);		
 	}
 	
+	@RequestMapping(value="/generateInvoiceReport/{id}", method=RequestMethod.POST)
+	public ResponseEntity<CatalogReportDTO> generateInvoiceReport(@PathVariable Long id) throws FileNotFoundException, JRException{
+		generateInvoiceReportMethod(id);
+		return new ResponseEntity<>(HttpStatus.OK);		
+	}
+	
 	private void generateCatalogReport(CatalogReportDTO catalogReportDTO) throws FileNotFoundException, JRException {
 			InputStream inputStream = new FileInputStream("KIF.jrxml");
 			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
@@ -54,11 +63,51 @@ public class ReportController {
 			List<ReportCatalog> reportCatalogList = getAllReportCatalogs(catalogReportDTO);
 			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(reportCatalogList);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "report1.pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "kif.pdf");
 			
 
 	}
 	
+	private void generateInvoiceReportMethod(Long id) throws FileNotFoundException, JRException{
+		InputStream inputStream = new FileInputStream("Faktura.jrxml");
+		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+		@SuppressWarnings("rawtypes")
+		HashMap parameters = new HashMap();
+		List<InvoiceReport> InvoiceReportList = getAllInvoiceReports(id);
+		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(InvoiceReportList);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "Invoice"+id+".pdf");
+	}
+	
+	private List<InvoiceReport> getAllInvoiceReports(Long id) {
+		Invoice invoice = invoiceService.findOne(id);
+		List<InvoiceReport> InvoiceReportList = new ArrayList<InvoiceReport>();
+		for(InvoiceItem invoiceItem : invoice.getInvoiceItems()){
+			InvoiceReport invoiceReport = new InvoiceReport();
+			invoiceReport.setInvoiceNum(invoice.getInvoiceNum());
+			invoiceReport.setBuyerName(invoice.getBuyer().getName());
+			invoiceReport.setCurrencyDate(invoice.getCurrencyDate());
+			invoiceReport.setDiscount(invoiceItem.getDiscount());
+			invoiceReport.setDiscountTotal(invoice.getDiscount());
+			invoiceReport.setGoodsTotal(invoice.getGoodsTotal());
+			invoiceReport.setInvoiceDate(invoice.getInvoiceDate());
+			invoiceReport.setInvoiceItemName(invoiceItem.getName());
+			invoiceReport.setInvoiceNum(invoice.getInvoiceNum());
+			invoiceReport.setItemAmount(invoiceItem.getAmount());
+			invoiceReport.setItemBase(invoiceItem.getItemBase());
+			invoiceReport.setPrice(invoiceItem.getPrice());
+			invoiceReport.setTax(invoiceItem.getTax());
+			invoiceReport.setTaxTotal(invoice.getTax());
+			invoiceReport.setTotal(invoice.getTotalAmount());
+			invoiceReport.setTotalAmount(invoiceItem.getTotalAmount());
+			invoiceReport.setValue(invoiceItem.getValue());
+			InvoiceReportList.add(invoiceReport);
+		}
+		return InvoiceReportList;
+	}
+
 	private List<ReportCatalog> getAllReportCatalogs(CatalogReportDTO catalogReportDTO) {
 		List<Invoice> invoiceList = invoiceService.findAll();
 		List<ReportCatalog> reportCatalogList = new ArrayList<ReportCatalog>();
@@ -81,5 +130,6 @@ public class ReportController {
 		
 		return reportCatalogList;
 	}
+	
 
 }

@@ -28,6 +28,9 @@ public class GroupConverter {
 		dto.setCompanyName(entity.getCompany().getName());
 		dto.setTaxRate(entity.getTax().getActiveTaxRate().getTaxRate());
 		dto.setTaxName(entity.getTax().getTaxName());
+		if(entity.getCatalog()!=null){
+			dto.setCatalogId(entity.getCatalog().getId());
+		}
 		return dto;
 	}
 

@@ -6,26 +6,7 @@
 <link rel="stylesheet" href="stylesheets/bootstrap.css">
 <title>HomePage</title>
 <script>
-	$(document).on("click", ".dodaj", function(event){
-		event.preventDefault();
 	
-		var formData = JSON.stringify({
-			startingDate:$("#startingDate").val(),
-			endingDate:$("#endingDate").val(),
-		});
-		$.ajax({
-			url: "/report/generateReportDate",
-			type: 'POST',
-			data: formData,
-			contentType: "application/json",
-			success: function(){
-				alert("Usralo me prvi put nema sanse.");
-				//window.location.href = "http://localhost:8080/viewPages/invoiceView.html";
-			}
-		});
-	});
-
-
 </script>
 </head>
 <body>	
@@ -48,31 +29,6 @@
 			<figcaption class="figure-caption text-center">Pregledaj</figcaption>
 			</figure>	
 		</a>
-	</div>	
-					<br/>
-	<div class="col-6 container col-md-4 mt-5">
-				<h1>Izvestaj</h1>
-				<br/>
-				<br/>
-				<form>
-				   <div class="form-group row">
-					    <label for="startingDate" class="col-sm-2 col-form-label">Od</label>
-					    <div class="col-sm-10">
-					      <input type="date" class="ml-2" id="startingDate">
-					    </div>
-					</div>
-					 <div class="form-group row">
-					    <label for="endingDate" class="col-sm-2 col-form-label">Do</label>
-					    <div class="col-sm-10">
-					      <input type="date" class="ml-2" id="endingDate">
-					    </div>
-					</div>
-				   <div class="form-group row">
-					    <div class="col-sm-10">
-			    			<input type="submit" value="Izvestavaj mmmm" class="btn btn-danger dodaj" />
-					    </div>
-				  	</div>
-				  </form>
-			</div>	
+	</div>		
 </body>
 </html>

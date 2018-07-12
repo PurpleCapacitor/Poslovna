@@ -12,8 +12,10 @@
 		}).then(
 				function(data) {
 					for (i = 0; i < data.length; i++) {
-						newOption = '<option id='+data[i].id+'>'+data[i].groupName+'</option>'
+						if(data[i].catalogId!=0){
+							newOption = '<option id='+data[i].id+'>'+data[i].groupName+'</option>'
 							$("#inputGroup").append(newOption);	
+						}
 					}
 					$("#inputGroup").prop("selectedIndex", -1);
 					

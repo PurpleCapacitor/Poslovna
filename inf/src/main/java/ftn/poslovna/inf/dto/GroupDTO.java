@@ -9,6 +9,7 @@ public class GroupDTO {
 	private long taxId;
 	private int taxRate;
 	private String taxName;
+	private long catalogId;
 	
 	public GroupDTO(){
 		
@@ -72,6 +73,14 @@ public class GroupDTO {
 
 	public void setTaxName(String taxName) {
 		this.taxName = taxName;
+	}
+
+	public long getCatalogId() {
+		return catalogId;
+	}
+
+	public void setCatalogId(long catalogId) {
+		this.catalogId = catalogId;
 	}
 	
 

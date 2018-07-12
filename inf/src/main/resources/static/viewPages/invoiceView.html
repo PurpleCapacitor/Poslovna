@@ -17,12 +17,14 @@
 						var exportXml="";
 						var deleteButton="";
 						var factureButton="";
+						var reportButton="";
 						if(data[i].invoiceType=="formating"){
 							editButton = '<td><button class="btn btn-danger edit" id="'+data[i].id+'">Izmeni</button></td>';
 							generateNote = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Generisi</button></td>';
 							exportXml= '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Exportuj</button></td>';	
 							deleteButton = '<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>';
 							factureButton = '<td><button class="btn btn-danger facture" id="'+data[i].id+'">Fakturisi</button></td>';
+							reportButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izvestaj</button></td>';
 						}
 						else if(data[i].invoiceType=="calculated"){
 							editButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izmeni</button></td>';
@@ -30,6 +32,7 @@
 							exportXml= '<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>';	
 							deleteButton = '<td><button class="btn btn-danger delete" id="'+data[i].id+'">Obrisi</button></td>';
 							factureButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Fakturisi</button></td>';
+							reportButton = '<td><button class="btn btn-danger report" id="'+data[i].id+'">Izvestaj</button></td>';
 						}
 						else{
 							editButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Izmeni</button></td>';
@@ -37,6 +40,7 @@
 							exportXml= '<td><button class="btn btn-danger export" id="'+data[i].id+'">Exportuj</button></td>';	
 							deleteButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Obrisi</button></td>';
 							factureButton = '<td><button class="btn btn-danger disabled" id="'+data[i].id+'">Fakturisi</button></td>';
+							reportButton = '<td><button class="btn btn-danger report" id="'+data[i].id+'">Izvestaj</button></td>';
 						}
 						var currencyDate;
 						var accountingDate;
@@ -101,6 +105,7 @@
 							+ factureButton
 							+ exportXml
 							+ generateNote
+							+ reportButton
 							+ editButton
 							+ deleteButton
 						+'</tr>';	
@@ -126,6 +131,11 @@
 		window.location.href = "http://localhost:8080/createPages/createInvoice.html";	
 	});
 	
+	$(document).on("click", ".kif", function(event){
+		event.preventDefault();
+		window.location.href = "http://localhost:8080/createPages/createKif.html";	
+	});
+	
 	$(document).on("click", ".facture", function(event){
 		event.preventDefault(); 
 		var id = $(this).attr("id");
@@ -135,6 +145,21 @@
         	success: function(){
 				alert("Uspesno fakturisanje otpremnice!");
 				window.location.href="http://localhost:8080/viewPages/invoiceView.html";
+	        },
+			error: function(request){
+				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
+			}
+		});
+	});
+	
+	$(document).on("click", ".report", function(event){
+		event.preventDefault(); 
+		var id = $(this).attr("id");
+		$.ajax({
+        	url: "/report/generateInvoiceReport/"+id,
+        	type: "POST",
+        	success: function(){
+				alert("Uspesno generisan izvestaj!");
 	        },
 			error: function(request){
 				//alert("Ne mozete obrisati ovu kategoriju jer se nalazi u nekom od smestaja!");
@@ -259,6 +284,7 @@
 								<th>Fakturisi</th>
 								<th>Export</th>
 								<th>Otpremnica</th>
+								<th>Izvestaj</th>
 								<th>Izmeni</th>
 								<th>Ukloni</th>
 							</tr>
@@ -269,6 +295,9 @@
 						<div class="form-group row ml-2">
 						    <div class="col-sm-10">
 				    			<input type="submit" value="Kreiraj fakturu" class="btn btn-danger dodaj" />
+				    			<br/>
+				    			<br/>
+				    			<input type="submit" value="Generisi KIF" class="btn btn-danger kif" />
 						    </div>
 				  		</div>
 			</div>
