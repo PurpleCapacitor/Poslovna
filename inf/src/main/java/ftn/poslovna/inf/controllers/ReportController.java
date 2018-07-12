@@ -86,6 +86,7 @@ public class ReportController {
 		List<InvoiceReport> InvoiceReportList = new ArrayList<InvoiceReport>();
 		for(InvoiceItem invoiceItem : invoice.getInvoiceItems()){
 			InvoiceReport invoiceReport = new InvoiceReport();
+			invoiceReport.setAccountNum(invoice.getAccountNum());
 			invoiceReport.setInvoiceNum(invoice.getInvoiceNum());
 			invoiceReport.setBuyerName(invoice.getBuyer().getName());
 			invoiceReport.setCurrencyDate(invoice.getCurrencyDate());
