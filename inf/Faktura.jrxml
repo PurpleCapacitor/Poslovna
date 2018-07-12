@@ -246,7 +246,7 @@
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{price}$F{price}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="239" y="3" width="56" height="30" uuid="efde7a37-146f-4d32-9bff-2e88f48422f3">
