@@ -62,13 +62,6 @@
 	<pageHeader>
 		<band height="55" splitType="Stretch">
 			<textField>
-				<reportElement x="230" y="12" width="100" height="30" uuid="eb6846d8-4e7e-48c4-b194-ed4f395691f3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression><![CDATA[Faktura]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="430" y="0" width="50" height="20" uuid="7c4e9a6f-12d1-4681-94e4-4e25c885c47b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
