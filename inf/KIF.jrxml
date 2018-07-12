@@ -3,54 +3,24 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KIF" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a4c4880f-848c-4a07-9666-1c9108fd9b20">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Baza"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<queryString>
-		<![CDATA[SELECT pi.invoice_num,
-	pi.invoice_date,
-	pi.total_amount,
-	bp1.name,
-	bp2.name
-FROM poslovna.invoice pi, poslovna.business_partner bp1, poslovna.business_partner  bp2
-where bp1.id = pi.buyer_id and bp2.id=pi.seller_id 
-and pi.invoice_date > '20180101' and pi.invoice_date < '20181212']]>
-	</queryString>
-	<field name="invoice_num" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="invoice_num"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
-	</field>
-	<field name="invoice_date" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.label" value="invoice_date"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
-	</field>
-	<field name="total_amount" class="java.lang.Float">
-		<property name="com.jaspersoft.studio.field.label" value="total_amount"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
-	</field>
-	<field name="name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="business_partner"/>
-	</field>
-	<field name="COLUMN_5" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="business_partner"/>
-	</field>
+	<field name="invoiceNum" class="java.lang.Integer"/>
+	<field name="invoiceDate" class="java.util.Date"/>
+	<field name="buyerName" class="java.lang.String"/>
+	<field name="sellerName" class="java.lang.String"/>
+	<field name="totalAmount" class="java.lang.String"/>
+	<field name="startDate" class="java.util.Date"/>
+	<field name="endDate" class="java.util.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="52" splitType="Stretch">
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="20" y="0" width="50" height="16" uuid="8d52399e-2dac-4213-b75a-534b16ed8423"/>
-				<textElement markup="rtf">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="-20" y="0" width="34" height="16" uuid="8c5196e7-8106-4ef3-9225-a73e4d4d6283"/>
-				<textElement>
+				<reportElement x="-19" y="0" width="20" height="16" uuid="8c5196e7-8106-4ef3-9225-a73e4d4d6283"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Datum]]></text>
+				<text><![CDATA[Od:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="170" y="11" width="220" height="30" uuid="bf87e6fe-2e93-4816-beb6-5442129ff6f7"/>
@@ -59,6 +29,21 @@ and pi.invoice_date > '20180101' and pi.invoice_date < '20181212']]>
 				</textElement>
 				<text><![CDATA[Katalog izlaznih faktura]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="-19" y="17" width="20" height="16" uuid="95104c0d-12e5-40ac-b11a-987f9fde013e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Do:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="1" width="78" height="16" uuid="71520dee-80de-4181-98d7-34b3302715c5"/>
+				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="17" width="78" height="16" uuid="9e52246d-b9a0-4c1d-a3d2-c08e8ac4e532"/>
+				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -67,38 +52,38 @@ and pi.invoice_date > '20180101' and pi.invoice_date < '20181212']]>
 				<reportElement x="-20" y="33" width="595" height="1" uuid="3e26cb87-030e-473b-a7fb-2ed6d0096455"/>
 			</line>
 			<staticText>
-				<reportElement x="116" y="16" width="40" height="16" uuid="7648bee6-a8ee-4bda-bc1e-3fbb8ff1fb63"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Datum]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="247" y="16" width="40" height="16" uuid="67c8906d-7e4c-4620-a1d2-a57e6ae06410"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Kupac]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-16" y="16" width="69" height="16" uuid="e9a24990-a704-40c0-a4c2-0763e8fb3820"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="10"/>
-				</textElement>
+				<reportElement x="-13" y="0" width="100" height="30" uuid="cd8756c4-9c3a-481c-9c2d-a7c94fb6feb0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86cfa88c-ce7e-471b-97fa-3025050dd694"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
 				<text><![CDATA[Broj fakture]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="362" y="16" width="54" height="16" uuid="204bbd51-3fc4-44c5-b5be-c9a4680fdaec"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="10"/>
-				</textElement>
+				<reportElement x="111" y="0" width="100" height="30" uuid="30e65883-dc56-408c-b9f4-313366723e45">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e4ac83d0-6b6d-467b-9ddb-4919aeedd987"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Datum fakture]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="0" width="100" height="30" uuid="96f61ad8-cb3c-4bb2-b50e-2fc1ba0717bd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fac4a6a0-0ad1-49b8-ab24-33ef3284bbf2"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Kupac]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="0" width="100" height="30" uuid="1983b263-0009-42d6-a40a-96a621f5b057">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be16b8c1-f7a2-4f78-9b81-f03a4f2a72bb"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
 				<text><![CDATA[Prodavac]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="477" y="16" width="40" height="16" uuid="1e68abb0-be44-466f-8a25-6fe3982967c0"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="10"/>
-				</textElement>
+				<reportElement x="466" y="0" width="100" height="30" uuid="13ebc436-a823-46eb-b379-71b06db39fce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="96439e76-95ef-4239-8b98-6b6b53587178"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
 				<text><![CDATA[Cena]]></text>
 			</staticText>
 		</band>
@@ -106,34 +91,34 @@ and pi.invoice_date > '20180101' and pi.invoice_date < '20181212']]>
 	<detail>
 		<band height="37" splitType="Stretch">
 			<textField>
-				<reportElement x="-16" y="3" width="100" height="16" uuid="22973542-1b80-4c2c-bfb2-e4fb79736e17">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6aa4a227-1828-48f6-bf59-a262083e7d9e"/>
+				<reportElement x="-13" y="3" width="100" height="30" uuid="3b70eb3e-6c78-4547-9c81-f7e60dd0c3ad">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86cfa88c-ce7e-471b-97fa-3025050dd694"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{invoice_num}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceNum}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="3" width="100" height="16" uuid="dcde36c4-7fa8-4d75-a120-640676b4ee3a">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1419ac24-bba7-4b41-9773-c9d41c73e407"/>
+				<reportElement x="111" y="3" width="100" height="30" uuid="2c68024e-b139-4212-8353-58d97d57c7c6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e4ac83d0-6b6d-467b-9ddb-4919aeedd987"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{invoice_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceDate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="248" y="2" width="100" height="16" uuid="87660f36-11c3-4c7d-9205-9cc059db8674">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b6b2292-ba42-4cad-bfe5-0f4aae890324"/>
+				<reportElement x="226" y="2" width="100" height="30" uuid="049e9dfa-6e2d-414a-87c0-50ec83b7ad99">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fac4a6a0-0ad1-49b8-ab24-33ef3284bbf2"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{buyer_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="3" width="80" height="16" uuid="c2350c12-f5a6-4354-9aa0-0816c7854568">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf1297c2-6d4c-4d7b-91bc-946f8d30aa06"/>
+				<reportElement x="342" y="1" width="100" height="30" uuid="6b9a46bd-5f75-45d2-8729-99506092ab86">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be16b8c1-f7a2-4f78-9b81-f03a4f2a72bb"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{seller_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sellerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="477" y="5" width="100" height="12" uuid="b17eb984-e0a7-43b7-b62b-c088bb88a423">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d3e39e2-22d1-4fa7-ba7c-3587a5b63d53"/>
+				<reportElement x="466" y="1" width="100" height="30" uuid="d87f4a15-30de-4c81-a58e-2b462b09ee96">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="96439e76-95ef-4239-8b98-6b6b53587178"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
